@@ -3,7 +3,7 @@ import { mountDictionary } from './community-ui.mjs';
 import { EditorModel } from './editor-model.mjs';
 const $ = selector => document.querySelector(selector);
 const editor = $('#editor');
-const baseWords = await (await fetch('./words.json')).json();
+const baseWords = await (await fetch(new URL('./words.json', import.meta.url))).json();
 let index = makeIndex(baseWords);
 const model = new EditorModel(index);
 const state = { auto: true, style: 'direct', shift: false, symbols: false, composing: false, completeInput:false, keyTimer: new Map(), suggestions: [] };
