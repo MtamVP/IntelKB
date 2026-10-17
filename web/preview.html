@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#171916">
+  <meta name="description" content="Thử IntelKB: bàn phím bung từ viết tắt thành lời. Gõ thử, chọn gợi ý và tự điền ngay trên web.">
+  <title>IntelKB — Gõ ngắn. Nói thẳng.</title>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
+:root{font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#edece5;background:#171916;font-synthesis:none;--lime:#d4f57a;--muted:#989c91;--line:#34382e}*{box-sizing:border-box}body{margin:0}button,a,textarea{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible,textarea:focus-visible{outline:3px solid #9b76e8;outline-offset:3px}a{color:inherit;text-decoration:none}.nav{max-width:1500px;margin:auto;padding:29px 58px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:11px;font-size:23px;font-weight:700;letter-spacing:-1px}.brand-icon{color:#171916;background:var(--lime);width:35px;height:35px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;position:relative}.brand-icon span{font-size:14px}.beta{margin-left:13px;font-size:10px;letter-spacing:1px;color:var(--muted);font-weight:500}.nav-link{font-size:12px;color:#c6c9bf;display:flex;gap:30px}.nav-link span{color:var(--lime)}main{max-width:1440px;margin:auto;display:grid;grid-template-columns:minmax(330px,1fr) 398px 222px;gap:48px;align-items:center;padding:47px 58px 41px}.eyebrow{font-size:9px;letter-spacing:1.5px;display:flex;gap:8px;align-items:center;color:#c1c6b5}.live-dot{display:inline-block;width:6px;height:6px;flex-shrink:0;background:var(--lime);border-radius:50%;box-shadow:0 0 0 3px #d4f57a13}h1{font-size:clamp(56px,6vw,87px);font-weight:800;letter-spacing:-5px;line-height:1.18;margin:32px 0 24px}.straight{color:var(--lime);position:relative;white-space:nowrap}.straight svg{position:absolute;left:0;bottom:-12px;width:100%;height:20px;stroke:var(--lime);stroke-width:2;fill:none}.period{color:var(--lime)}.lead{font-size:21px;line-height:1.6;letter-spacing:-.5px;margin-top:32px;margin-bottom:15px}.description{font-size:12px;line-height:1.95;color:var(--muted);max-width:330px}.try-label{font-size:9px;font-weight:600;letter-spacing:1.6px;margin-top:30px;margin-bottom:13px;color:#b8bfac}.try-label span{font-size:18px;margin-left:15px;color:var(--lime)}.examples{display:flex;flex-wrap:wrap;gap:8px;max-width:360px}.examples button{border:1px solid #444a3b;border-radius:6px;padding:11px 12px;color:#d6dacb;background:transparent;font-size:10px;transition:.2s}.examples button:hover{background:var(--lime);border-color:var(--lime);color:#171916}.examples span{margin-left:10px}.notes{font-size:10px;line-height:1.9;color:#c6cbbd;margin-top:30px;display:grid;gap:13px}.notes span:first-child{font-size:9px;color:var(--lime);margin-right:12px}.notes .indent{margin-left:27px;color:var(--muted)}.privacy{border-top:1px solid var(--line);margin-top:25px;padding-top:17px;font-size:9px;color:var(--muted);display:flex;gap:8px;align-items:center}.privacy>span{color:var(--lime)}.demo-caption{font-size:8px;letter-spacing:1.1px;display:flex;justify-content:space-between;margin:0 6px 14px;color:#9fa693}.demo-caption>span:first-child{color:var(--lime);display:flex;align-items:center;gap:8px}.demo-caption>span:last-child{letter-spacing:0}.phone{width:100%;border:6px solid #30352e;border-radius:41px;overflow:hidden;background:#f5f5ef;box-shadow:0 30px 90px #0004,0 0 0 1px #4a5043;color:#252c25;position:relative}.status-bar{height:41px;display:flex;justify-content:space-between;padding:10px 23px;font-size:11px;font-weight:700;position:relative}.island{position:absolute;top:8px;left:50%;transform:translateX(-50%);background:#20241f;border-radius:20px;width:90px;height:22px}.status-icons{font-size:9px;letter-spacing:1px}.status-icons span{font-size:15px;margin-left:3px}.chat-header{display:flex;align-items:center;gap:10px;padding:11px 16px 15px;border-bottom:1px solid #e3e5db}.back-arrow{font-size:30px;font-family:Arial;color:#66745b}.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#e5ebd9;font-size:16px;transform:rotate(-10deg)}.chat-header strong{display:block;font-size:12px}.chat-header div>span{display:block;font-size:8px;color:#8b9383;margin-top:4px}.chat-more{margin-left:auto;font-size:22px;color:#6b7563}.messages{height:190px;overflow:auto;padding:16px 18px;display:flex;flex-direction:column;gap:7px;scrollbar-width:thin}.date-tag{font-size:7px;letter-spacing:1px;color:#909783;text-align:center;margin:0 0 8px}.bubble{padding:10px 13px;font-size:11px;line-height:1.7;max-width:88%;white-space:pre-wrap;overflow-wrap:anywhere}.incoming{background:#e7eadf;border-radius:13px 13px 13px 3px;align-self:flex-start}.outgoing{background:#d9edaf;border-radius:13px 13px 3px 13px;align-self:flex-end}.system-note{font-size:8px;color:#909783;text-align:center;margin-top:8px;line-height:1.8}.typing-feedback{height:35px;font-size:9px;color:#6c765e;padding:7px 20px 5px;overflow:hidden;line-height:1.5}.composer{display:flex;align-items:center;padding:4px 14px 13px;gap:8px}.composer textarea{resize:none;border:1px solid #d9ddcf;border-radius:16px;background:white;padding:11px 12px;min-width:0;width:100%;font:11px/1.6 'Be Vietnam Pro',sans-serif;height:57px;color:#283024}.composer textarea::placeholder{color:#9ba18f}.composer>button{border:0;background:#303b25;color:var(--lime);border-radius:50%;height:32px;width:32px;flex-shrink:0;font-size:20px}.keyboard{background:#dfe4d5;border-top:1px solid #d2d9c6;padding:0 5px 4px}.kb-toolbar{height:33px;display:flex;align-items:center;gap:8px;padding:0 7px;font-size:8px;color:#6f7c61}.kb-wordmark{font-weight:800;color:#3c4f2c;font-size:17px;letter-spacing:-1px}.kb-wordmark span{font-size:11px}.kb-toolbar>button{margin-left:auto;border:0;background:none;font-size:13px;color:#43563a;padding:5px}.kb-toolbar>button span{font-size:8px}.kb-toolbar>button:disabled{opacity:.3;cursor:default}.suggestions{height:41px;display:flex;gap:3px;align-items:stretch;padding:0 1px 6px;overflow-x:auto;scrollbar-width:none}.suggestions button{border:0;border-right:1px solid #cad2bd;padding:4px 9px;min-width:88px;max-width:220px;flex:1 0 auto;font-size:10px;white-space:nowrap;color:#425435;background:none}.suggestions button:first-child{background:#f1f6e9;border-radius:7px;font-weight:600}.suggestions button:hover{background:#cfeb9e}.suggestions button small{display:block;font-size:7px;color:#8a977b}.suggestion-hint{margin:auto;font-size:9px;color:#829072}.key-row{display:flex;justify-content:center;gap:4px;margin-bottom:6px}.key{height:39px;min-width:0;flex:1;border:0;border-radius:6px;background:#fcfdf8;box-shadow:0 2px 0 #b7c1a8;color:#2a3424;font-family:inherit;font-size:17px;position:relative;touch-action:manipulation;user-select:none;transition:background .08s,transform .08s}.key.active,.key:active{background:#c3e88c;transform:translateY(2px);box-shadow:none}.key.active:after{content:attr(data-label);position:absolute;bottom:37px;left:50%;transform:translateX(-50%);min-width:40px;height:47px;padding:8px;background:#fcfdf8;color:#26371c;border-radius:8px;box-shadow:0 2px 9px #24381933;font-size:23px;z-index:5;pointer-events:none}.key.wide{flex:1.45;background:#c4cdb9;font-size:16px}.key.space{flex:4.5;font-size:10px}.key.return{background:#bdd691;font-size:11px;flex:1.9}.key.function{font-size:10px;background:#c4cdb9;flex:1.45}.key-row:nth-child(2){padding:0 16px}.key-row:nth-child(3){gap:5px}.tone-row{display:flex;align-items:center;justify-content:space-around;padding:4px 4px;color:#738263;gap:3px}.tone-row button{border:0;background:transparent;color:#435738;font-size:12px;padding:5px 8px;border-radius:5px}.tone-row button:active{background:#c2dca1}.tone-row>span{font-size:7px}.tone-row>span:last-child{font-size:6px;letter-spacing:.6px}.home-indicator{margin:6px auto 2px;width:105px;height:4px;background:#3c4732;border-radius:5px}.phone-under{display:flex;align-items:center;justify-content:center;gap:9px;font-size:8px;color:#8c9781;margin-top:17px}.phone-under .live-dot{width:4px;height:4px;box-shadow:none}.controls{padding-top:22px}.control-title{font-size:8px;letter-spacing:1.7px;color:var(--lime);font-weight:500}h2{font-size:25px;line-height:1.45;letter-spacing:-.8px;font-weight:500;margin:15px 0 28px}.setting{display:flex;align-items:center;justify-content:space-between;gap:9px;padding-bottom:22px;border-bottom:1px solid var(--line)}.setting strong,.setting-block>strong{font-size:11px;font-weight:500}.setting p,.setting-block>p{font-size:9px;color:var(--muted);line-height:1.7;margin:6px 0 0}.switch{width:34px;height:20px;border:0;border-radius:20px;padding:3px;background:#41483a;flex-shrink:0}.switch>span{display:block;background:#bbc2b1;height:14px;width:14px;border-radius:50%;transition:transform .2s}.switch[aria-checked=true]{background:var(--lime)}.switch[aria-checked=true]>span{background:#253219;transform:translateX(14px)}.setting-block{margin-top:24px}.segmented{display:flex;background:#242920;border:1px solid #384030;border-radius:7px;margin-top:12px;padding:3px;gap:3px}.segmented button{flex:1;white-space:nowrap;border:0;background:none;color:#a3ad96;font-size:9px;border-radius:4px;padding:9px 4px}.segmented button[aria-pressed=true]{background:var(--lime);color:#28331e}.word-demo{border:1px solid #414b35;border-radius:9px;margin-top:26px;overflow:hidden;background:linear-gradient(130deg,#262d20,#1c2119)}.word-demo>span{display:block;font-size:7px;letter-spacing:1px;padding:12px 14px;border-bottom:1px solid #36402d;color:#9fae8d}.word-demo>div{display:flex;flex-direction:column;padding:14px;gap:7px}.word-demo small{font-size:13px;color:#9ca68f}.word-demo div>span{color:#6f7d60}.word-demo strong{color:var(--lime);font-size:17px;font-weight:500;overflow-wrap:anywhere}.ambiguity-note{font-size:10px;color:#8e9a82;line-height:1.9;margin:20px 0}.ambiguity-note b{color:#bdc8ae;font-weight:500}.reset{padding:8px 0;border:0;background:none;color:#b6c1aa;font-size:10px}.reset:hover{color:var(--lime)}footer{max-width:1384px;margin:auto;border-top:1px solid var(--line);padding:21px 0 25px;font-size:9px;color:#8f9885;display:flex;justify-content:space-between}.footer-slash{color:var(--lime);margin:0 10px}.tiny-dot{display:inline-block;width:3px;height:3px;background:var(--lime);border-radius:50%;margin:0 8px}@media(min-width:1500px){main{gap:65px;grid-template-columns:1fr 415px 230px;padding-top:60px;padding-bottom:55px}.messages{height:220px}.key{height:42px}}@media(max-width:1190px){main{padding:36px 30px;gap:28px;grid-template-columns:1fr 370px}.controls{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;padding:20px 0 0;border-top:1px solid var(--line)}.controls .control-title,.controls h2,.controls .word-demo{display:none}.setting{border:0;justify-content:flex-start;gap:30px}.setting-block{margin:0}.ambiguity-note{margin:0}.reset{grid-column:3;justify-self:start}.nav{padding:24px 30px}footer{margin:0 30px}}@media(max-width:760px){.nav{padding:20px}.nav-link{font-size:9px;gap:12px}.beta{display:none}main{grid-template-columns:1fr;padding:30px 20px;gap:30px}.intro{max-width:450px;margin:auto;width:100%}.eyebrow{font-size:7px}h1{font-size:62px;letter-spacing:-3px;margin:22px 0 20px}.lead{font-size:17px;margin-top:26px}.description{font-size:11px}.try-label{margin-top:20px}.notes,.privacy{display:none}.demo{max-width:398px;width:100%;margin:auto}.controls{max-width:398px;grid-template-columns:1fr 1fr;width:100%;margin:auto;gap:22px}.ambiguity-note{grid-column:1/-1}.reset{grid-column:1/-1}.setting{gap:12px;align-items:center}.setting-block>strong,.setting strong{font-size:10px}.segmented button{font-size:8px}.setting-block{align-self:center}.messages{height:185px}footer{margin:0 20px;gap:16px;line-height:1.8;flex-direction:column}.phone{border-width:5px}.key{height:40px}.phone-under{font-size:7px}.examples{max-width:none}.examples button{font-size:9px}.description{max-width:100%}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.editor-actions{display:flex;align-items:center;gap:6px;padding:4px 15px 7px;color:#748267;font-size:8px}.editor-actions button{border:1px solid #d9dfd0;background:#edf1e6;border-radius:6px;font-size:8px;color:#435637;padding:5px 7px}.editor-actions>span{margin-left:auto;white-space:nowrap}.editor-actions button:disabled{opacity:.4;cursor:default}.history-actions{display:flex;margin-left:auto;gap:5px}.history-actions button{border:0;background:none;color:#435637;font-size:9px;padding:6px 3px}.history-actions button:disabled{opacity:.3;cursor:default}.conversion-status{text-align:center;font-size:9px;color:#b1bda1;margin:10px 0}.conversion-report{border:1px solid #3d4734;border-radius:9px;padding:12px 14px;font-size:10px;color:#c0cbb3;margin-top:12px;overflow-wrap:anywhere}.conversion-report[hidden]{display:none}.conversion-report summary{cursor:pointer;color:var(--lime)}.conversion-report p{font-size:8px;text-transform:uppercase;letter-spacing:1px;color:#8b987e;margin:15px 0 7px}#conversion-source{white-space:pre-wrap;max-height:140px;overflow:auto;line-height:1.8}#conversion-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}#conversion-list span{padding:5px 8px;background:#293121;border-radius:5px;font-size:9px;line-height:1.6}.composer textarea{max-height:160px;height:76px;overflow:auto}.pending-toolbar{padding:0 5px 5px}.suggestions{min-height:44px;height:auto;max-height:70px}.suggestions button{white-space:normal;max-width:210px}.messages .bubble{white-space:pre-wrap}
+</style>
+  <style>.pending-toolbar{display:flex;align-items:center;gap:5px;padding:0 5px 5px;min-height:25px}.pending-toolbar>div{display:flex;gap:4px;overflow:auto;flex:1;scrollbar-width:thin}.pending-toolbar button{border:1px solid #b8c8a3;border-radius:5px;background:#eef5e3;color:#405331;font-size:8px;padding:4px 6px;white-space:nowrap}.pending-toolbar>button{background:#cedfb5;flex-shrink:0}.pending-toolbar>button:disabled{opacity:.4;cursor:default}.dictionary-open{display:block;width:100%;padding:13px 10px;background:#2b3423;color:var(--lime);border:1px solid #4b5b3c;border-radius:8px;margin-top:14px;text-align:left;font-size:10px}.dictionary-open span{float:right;color:#a3b392;font-size:9px}.dictionary-open:hover{border-color:var(--lime)}dialog{background:#1d221a;color:#e4e9db;border:1px solid #48583a;border-radius:20px;padding:27px;width:min(740px,calc(100% - 26px));max-height:90dvh;overflow:auto;box-shadow:0 30px 120px #0008;font-size:12px}dialog::backdrop{background:#080d09bf;backdrop-filter:blur(5px)}.dictionary-top{display:flex;justify-content:space-between;align-items:flex-start}.dictionary-top h2{margin:10px 0;font-size:29px}.dictionary-top>button{background:#343e2b;border:0;border-radius:50%;width:30px;height:30px;color:#becbae;font-size:20px}.dictionary-intro{color:#a7b39b;line-height:1.8;margin:0 0 20px}.cloud-box{background:#293320;border:1px solid #3b4a2e;border-radius:9px;padding:14px;display:flex;align-items:center;flex-wrap:wrap;gap:10px}.cloud-box>div{flex:1;min-width:200px}.cloud-box strong{font-size:11px}.cloud-box p{font-size:10px;color:#a0b18e;line-height:1.7;margin:5px 0 0}.cloud-box button{font-size:10px;padding:9px;border:1px solid #5c7148;border-radius:5px;background:#35452a;color:#d4edac}dialog label{font-size:10px;color:#aebda0;display:flex;flex-direction:column;gap:8px}dialog input:not([type=checkbox]),dialog select{font:12px 'Be Vietnam Pro',sans-serif;border:1px solid #46563a;background:#151b11;color:#e6eddd;border-radius:7px;padding:11px;width:100%;min-width:0}dialog input::placeholder{color:#6e805f}dialog input:focus,dialog select:focus{outline:2px solid #92b75b;outline-offset:1px}.entry-fields{display:grid;grid-template-columns:1fr 1.6fr;gap:13px}.entry-options{display:flex;gap:20px;align-items:center;margin:15px 0}.entry-options>label:first-child{min-width:145px}.entry-options .check-label{display:flex;flex-direction:row;align-items:center;gap:8px;font-size:10px;line-height:1.6}.check-label input{accent-color:#b3e263;width:16px;height:16px}.form-actions{display:flex;gap:10px;flex-wrap:wrap}.form-actions button{font-size:11px;border:0;border-radius:6px;background:var(--lime);color:#27361b;padding:11px 15px}.form-actions button:not(:first-child){background:#35452b;color:#c8d9b6}.form-actions button:disabled{opacity:.5;cursor:wait}#dictionary-status{font-size:11px;line-height:1.8;white-space:pre-line;color:var(--lime);min-height:20px;margin:12px 0}#dictionary-status.error{color:#f4b7a0}.setup-guide{border:1px solid #39482e;border-radius:7px;padding:11px;margin:0 0 20px;font-size:10px;color:#9eaf8e;line-height:1.9}.setup-guide summary{cursor:pointer;color:#c3d8ad}.setup-guide a{color:var(--lime);text-decoration:underline}#dictionary-form{border-top:1px solid #39472f;padding-top:22px}#auth-form{padding:17px;border:1px solid #405134;border-radius:8px;margin-top:12px}#auth-form>label{margin-bottom:13px}#auth-form>p{font-size:9px;line-height:1.9;color:#94a384}.dictionary-list-header{display:flex;gap:15px;align-items:center;justify-content:space-between;margin-top:25px}.dictionary-list-header h3{font-size:12px;white-space:nowrap}.dictionary-list-header input{max-width:240px}.library-tabs{display:flex;gap:8px;border-bottom:1px solid #39472f;padding-bottom:13px;margin-top:12px}.library-tabs button{background:none;color:#a8b99a;border:1px solid #405134;font-size:10px;padding:7px 10px;border-radius:5px}.library-tabs button[aria-pressed=true]{color:#233416;background:#c6e88b;border-color:#c6e88b}.dictionary-row{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid #323e2a}.dictionary-row>div:first-child{flex:1;min-width:0}.dictionary-row strong{font-size:12px;color:#d2ebaa;overflow-wrap:anywhere}.dictionary-row p{font-size:12px;margin:6px 0;overflow-wrap:anywhere;line-height:1.6}.dictionary-row small{font-size:9px;color:#889c76}.dictionary-row button{border:1px solid #435637;color:#bdcfae;background:none;font-size:10px;border-radius:5px;padding:7px}.dictionary-empty{padding:25px 5px;color:#8ea07c;font-size:11px;line-height:1.9}dialog [hidden],.cloud-box [hidden]{display:none!important}@media(max-width:760px){.dictionary-open{grid-column:1/-1;margin-top:0}.entry-fields{grid-template-columns:1fr}.entry-options{flex-wrap:wrap;gap:12px}dialog{padding:20px 16px;border-radius:14px}.dictionary-top h2{font-size:24px}.dictionary-list-header{flex-wrap:wrap}.dictionary-list-header input{max-width:none}.pending-toolbar{min-height:27px}}
+</style>
+  <style>dialog textarea,.admin-review textarea{font:12px/1.8 'Be Vietnam Pro',sans-serif;border:1px solid #46563a;background:#151b11;color:#e6eddd;border-radius:7px;padding:11px;resize:vertical;width:100%}.contributor-label{margin:14px 0;max-width:360px}.catalogue-pager{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px}.catalogue-pager button,.admin-controls button{font:10px 'Be Vietnam Pro',sans-serif;background:#35452b;color:#d2e2c2;border:1px solid #4b613a;padding:9px 12px;border-radius:6px}.catalogue-pager span{font-size:10px;color:#94a780}.catalogue-pager button:disabled{opacity:.4;cursor:default}#dictionary-form>h3{font-size:13px;color:#cce5ab;margin-top:0}#entry-trigger[readonly]{opacity:.65}#proposal-drafts:empty{display:none}.admin-shell{display:block;max-width:1050px;padding:36px 28px;min-height:70vh}.admin-shell h1{font-size:42px;letter-spacing:-2px;margin:16px 0}.admin-shell h2{margin:10px 0;font-size:22px}.admin-subtitle{color:#a6b598;font-size:12px;line-height:1.9}.admin-login{max-width:440px;margin:40px auto;padding:25px;border:1px solid #475b37;border-radius:12px;background:#202a19}.admin-login label,.admin-review label{display:flex;flex-direction:column;gap:7px;font-size:11px;color:#b4c4a3;margin:12px 0}.admin-login input,.admin-review input,.admin-review select,.admin-controls select{font:12px 'Be Vietnam Pro',sans-serif;background:#141b10;color:#e3eed8;border:1px solid #485d37;border-radius:6px;padding:10px;min-width:0}.admin-login button,.admin-review>button{background:#d4f57a;color:#243016;border:0;border-radius:6px;padding:11px 16px;font:11px 'Be Vietnam Pro',sans-serif;margin-right:9px}.admin-message{font-size:12px;color:#cadfb6;line-height:1.9;white-space:pre-line}.admin-message.error{color:#f1b7a4}.admin-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:25px 0 15px}.queue-card{border:1px solid #3e5030;border-radius:10px;padding:17px;margin:10px 0;background:#20271b}.queue-card>button{font:12px 'Be Vietnam Pro',sans-serif;background:none;color:#d3edb3;border:0;padding:0;text-align:left;width:100%;cursor:pointer}.queue-card p{font-size:12px;line-height:1.7;color:#c0ceb2;overflow-wrap:anywhere}.queue-card small{font-size:9px;color:#8fa779}.queue-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.review-panel{border:1px solid #536b3e;background:#25311c;border-radius:12px;padding:22px;margin-top:24px}.review-panel .check-label{flex-direction:row;align-items:center}.review-panel .reject{background:#604437;color:#f6ded1}.review-panel .cancel{background:#3b4a2e;color:#c5d7b4}.review-original{font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;border-bottom:1px solid #405333;padding-bottom:14px;margin-bottom:15px}body [hidden]{display:none!important}@media(max-width:650px){.queue-grid{grid-template-columns:1fr}.admin-shell{padding:25px 17px}.admin-shell h1{font-size:32px}.dictionary-row{flex-wrap:wrap}.dictionary-row>div:first-child{flex-basis:100%}.dictionary-row button{font-size:10px}.catalogue-pager{gap:6px}.catalogue-pager span{font-size:8px}}
+</style>
+</head>
+<body>
+  <header class="nav"><a href="./" class="brand" aria-label="IntelKB trang chủ"><span class="brand-icon">iK<span>↗</span></span> IntelKB<span class="beta">LAB / 01</span></a><a href="#playground" class="nav-link">Bàn phím thử nghiệm <span>↗</span></a></header>
+  <main id="playground">
+    <section class="intro">
+      <div class="eyebrow"><span class="live-dot"></span> BÀN PHÍM CHO NHỮNG LỜI CHƯA VIẾT HẾT</div>
+      <h1>Gõ ngắn.<br>Nói <span class="straight">thẳng<svg viewBox="0 0 330 20" aria-hidden="true"><path d="M3 13 Q140 0 325 9 M16 18 Q180 7 302 15"/></svg></span><span class="period">.</span></h1>
+      <p class="lead">Ngón tay thích viết tắt.<br>Bàn phím thì thích nói cho rõ.</p>
+      <p class="description">Thử gõ vài chữ bên cạnh. IntelKB sẽ bung những từ viết tắt thành lời — kể cả những lời hơi… thẳng.</p>
+      <div class="try-label">CHỌN MỘT CÂU ĐỂ THỬ <span>↘</span></div>
+      <div class="examples"><button data-sample="hnay đi chơi k">Hẹn hội bạn <span>↗</span></button><button data-sample="đcmm lag vcl">Mất chuỗi thắng <span>↗</span></button><button data-sample="xl nha t đến muộn" data-meanings='{"xl":"xin lỗi","t":"tôi"}'>Một lời xin lỗi <span>↗</span></button></div>
+      <div class="notes"><div><span>01</span> Gõ, dán một đoạn hoặc chọn câu mẫu.<br><span class="indent">Từ rõ nghĩa được bung ngay.</span></div><div><span>02</span> Từ nhiều nghĩa? Bạn chọn ở hàng gợi ý.<br><span class="indent">Ctrl + Space chọn gợi ý đầu tiên.</span></div></div>
+      <div class="privacy"><span>◉</span> Nội dung bạn gõ được xử lý ngay trên thiết bị.</div>
+    </section>
+    <section class="demo" aria-label="Khu vực thử bàn phím">
+      <div class="demo-caption"><span><span class="live-dot"></span> LIVE PLAYGROUND</span><span>Không cần tải app</span></div>
+      <div class="phone">
+        <div class="status-bar"><span>9:41</span><div class="island"></div><span class="status-icons">▂▄▆ <span>▰</span></span></div>
+        <div class="chat-header"><span class="back-arrow" aria-hidden="true">‹</span><div class="avatar">:)</div><div><strong>Hội bạn thân</strong><span>Cuộc trò chuyện mô phỏng</span></div><span class="chat-more" aria-hidden="true">···</span></div>
+        <div class="messages" id="messages" aria-label="Tin nhắn thử" aria-live="polite"><div class="date-tag">HÔM NAY, 9:41</div><div class="bubble incoming">Ê, bàn phím mới hả? 👀</div><div class="bubble incoming">Gõ thử một câu xem nào.</div><div class="system-note">Tin nhắn chỉ xuất hiện trong bản thử này.</div></div>
+        <div class="typing-feedback" id="feedback" aria-live="polite">Gõ ngắn thôi. Để IntelKB lo phần còn lại.</div>
+        <div class="editor-actions"><button id="paste-text">Dán văn bản</button><button id="copy-result" disabled>Sao chép</button><button id="clear-text" disabled>Xóa</button><span id="text-count">0 ký tự</span></div>
+        <div class="composer"><textarea id="editor" rows="2" aria-label="Nhập tin nhắn thử" placeholder="Gõ hoặc dán: hnay dc k" autocomplete="off" spellcheck="false"></textarea><button id="send" aria-label="Gửi tin nhắn thử">↑</button></div>
+        <div class="keyboard">
+          <div class="kb-toolbar"><span class="kb-wordmark">iK<span>↗</span></span><span id="mode-label">Tự bung đang bật</span><div class="history-actions"><button id="undo" aria-label="Hoàn tác" title="Ctrl+Z" disabled>↶ Hoàn tác</button><button id="redo" aria-label="Làm lại" title="Ctrl+Shift+Z" disabled>↷</button></div></div>
+          <div class="pending-toolbar"><div id="pending-words" aria-label="Từ viết tắt trong câu"></div><button id="expand-all">Bung cả câu ↗</button></div>
+          <div class="suggestions" id="suggestions" aria-label="Gợi ý bung từ"><span class="suggestion-hint">Gõ một từ viết tắt để xem gợi ý</span></div>
+          <div id="keys" class="keys" aria-label="Bàn phím ảo"></div>
+          <div class="tone-row" aria-label="Dấu tiếng Việt"><span>Dấu</span><button data-tone="s" aria-label="Dấu sắc">á</button><button data-tone="f" aria-label="Dấu huyền">à</button><button data-tone="r" aria-label="Dấu hỏi">ả</button><button data-tone="x" aria-label="Dấu ngã">ã</button><button data-tone="j" aria-label="Dấu nặng">ạ</button><button data-tone="z" aria-label="Bỏ dấu thanh">a</button><span>VI · TELEX</span></div>
+          <div class="home-indicator"></div>
+        </div>
+      </div>
+      <div class="phone-under"><span class="live-dot"></span> Bản thử tương tác <span>·</span> Chưa phải bàn phím hệ thống</div>
+      <div class="conversion-status" id="pending-count" role="status">Không còn từ chờ chọn</div>
+      <details class="conversion-report" id="conversion-report" hidden><summary>Xem lần bung gần nhất</summary><p>Chữ gốc</p><div id="conversion-source"></div><div id="conversion-list"></div></details>
+    </section>
+    <aside class="controls" aria-label="Tùy chỉnh bàn phím">
+      <div class="control-title">BẠN CẦM LÁI.</div><h2>Bàn phím<br>theo ý bạn.</h2>
+      <div class="setting"><div><strong>Tự bung khi gõ</strong><p>Nhấn cách hoặc dấu câu.<br>Dán và câu mẫu luôn được bung.</p></div><button class="switch" id="auto" role="switch" aria-checked="true" aria-label="Tự bung từ"><span></span></button></div>
+      <div class="setting-block"><strong>Cách nói</strong><div class="segmented" aria-label="Cách nói"><button id="direct" aria-pressed="true">Nói thẳng ↗</button><button id="gentle" aria-pressed="false">Nói nhẹ ☁</button></div><p id="style-help">Hiện nguyên nghĩa, kể cả từ tục.</p></div>
+      <div class="word-demo"><span>VÍ DỤ VỚI “VCL”</span><div><small>vcl</small><span>↓</span><strong id="vcl-demo">vãi cả lồn</strong></div></div>
+      <p class="ambiguity-note">Từ có nhiều nghĩa như <b>“xl”</b>? Bạn chọn nghĩa. IntelKB sẽ không tự đoán.</p>
+      <button id="reset" class="reset">↺ Bắt đầu lại</button>
+      <button id="open-dictionary" class="dictionary-open">＋ Từ điển & đóng góp <span id="custom-count">0 từ</span></button>
+    </aside>
+  </main>
+  <dialog id="dictionary-dialog" aria-labelledby="dictionary-heading">
+    <div class="dictionary-top"><div><span class="control-title">CÙNG NHAU VIẾT CHO RÕ</span><h2 id="dictionary-heading">Từ điển cộng đồng.</h2></div><button id="close-dictionary" aria-label="Đóng từ điển">×</button></div>
+    <p class="dictionary-intro">Xem mọi nghĩa, góp thêm cách dùng. Không cần tài khoản — chủ trang duyệt trước khi công bố.</p>
+    <div class="cloud-box"><div><strong id="catalogue-source">Đang tải từ điển…</strong><p>Đề xuất mới không thay đổi trực tiếp từ điển đang dùng.</p></div><button id="reload-catalogue">Tải lại</button></div>
+    <p id="dictionary-status" role="status" aria-live="polite"></p>
+    <div id="proposal-drafts" aria-label="Các đóng góp chưa gửi"></div>
+    <form id="dictionary-form"><h3 id="proposal-kind">Đề xuất từ mới</h3><div class="entry-fields"><label>Từ viết tắt<input id="entry-trigger" maxlength="48" required placeholder="vd: hem" autocomplete="off"></label><label>Nghĩa đầy đủ<input id="entry-expansion" maxlength="240" required placeholder="vd: không" autocomplete="off"></label></div><div class="entry-options"><label>Nhóm từ<select id="entry-category"><option value="chat">Nhắn tin</option><option value="profanity">Từ tục</option><option value="euphemism">Nói nhẹ</option><option value="english">Tiếng Anh</option><option value="game">Game</option></select></label><label class="check-label"><input id="entry-auto" type="checkbox"> Đề nghị cho phép tự bung</label></div><label>Giải thích / ví dụ sử dụng<textarea id="entry-explanation" maxlength="1000" rows="2" placeholder="Từ này dùng trong tình huống nào? Vì sao nghĩa cũ cần sửa?"></textarea></label><label class="contributor-label">Tên hiển thị (không bắt buộc)<input id="contributor-name" maxlength="60" placeholder="Ẩn danh nếu để trống" autocomplete="off"></label><div class="form-actions"><button id="save-entry" type="submit">Gửi đề xuất</button><button id="cancel-edit" type="button" hidden>Hủy sửa</button></div></form>
+    <div class="dictionary-list-header"><h3>Toàn bộ từ điển</h3><input id="dictionary-search" type="search" placeholder="Tìm từ hoặc nghĩa…" aria-label="Tìm trong từ điển"></div>
+    <div id="dictionary-list"></div><div class="catalogue-pager"><button id="catalogue-prev">← Trước</button><span id="catalogue-page"></span><button id="catalogue-next">Sau →</button></div>
+  </dialog>
+  <footer><span>IntelKB <span class="footer-slash">/</span> Ít ký tự hơn. Đủ ý hơn.</span><span>Đang thử nghiệm <span class="tiny-dot"></span> Made for tiếng Việt.</span></footer>
+  <script type="module">
+const normalize = s => s.normalize('NFC').toLocaleLowerCase('vi');
+const ordinaryAuto = new Set('ko k k0 kh hk hông hong hok kô khum đc dc bik bít bjt j ji z zậy r rùi òi oy òy cx cũg đag vs bth hnay hqua baoh bgio ntn ntnao nthe tnào tsao chs kbt ksao nch mng mngười ngta nta ny ngyeu nyc ae mik mjh dth dthw tks thx sr sorry sry in4 info sđt sdt stk klq cmsn hpbd bsvv đr dr cty đcmm dcmm đcm dcm cmm clmm đhs dhs tđn tdn đbh dbh'.split(' '));
+const styleTriggers = new Set(['vcl', 'sml']);
+
+// Common chat spellings in the bundled demo. Published rows still obey the
+// moderator's auto_replace flag, and multi-meaning entries still need a choice.
+for (const trigger of ['ms','nhg','nhưg','nhìu','nhiu','thui','thoy','hoy','wa','wá','qá',
+  'thíck','dthuong','dthương','đz','đzai','dz','dzai','hphuc','hphúc','qtam','qtâm',
+  'qtrong','qtr','cgắng','ktra','btap','btvn','hkì','trhoc','vdu','vde','vđề',
+  'nchung','lquan','khieu','k hiểu','nữaa','cừi','bùn','đii','dii','đou','dou',
+  'đei','dei','zô','zo','zề','ze','tvi','helo']) ordinaryAuto.add(trigger);
+
+function makeIndex(rows) {
+  const index = new Map();
+  for (const row of rows) {
+    const trigger = normalize(row.trigger);
+    if (!index.has(trigger)) index.set(trigger, []);
+    const existing = index.get(trigger).findIndex(x => normalize(x.expansion) === normalize(row.expansion));
+    if (existing < 0) index.get(trigger).push(row);
+    else if (row.custom) index.get(trigger)[existing] = row;
+  }
+  return index;
+}
+
+function optionsFor(trigger, index, style = 'direct') {
+  const all = index.get(normalize(trigger)) || [];
+  return [...all].filter(row => style !== 'gentle' || row.category !== 'profanity').sort((a, b) => {
+    const rank = row => style === 'direct' ? (row.category === 'profanity' ? 0 : row.category === 'euphemism' ? 2 : 1) : (row.category === 'euphemism' ? 0 : 1);
+    return rank(a) - rank(b);
+  });
+}
+
+function activeToken(text, caret, index) {
+  if (protectedTextRanges(text).some(r => r.start < caret && r.end >= caret)) return null;
+  const containing = [...text.matchAll(/[\p{L}\p{M}\p{N}]+/gu)].find(m => m.index < caret && m.index + m[0].length >= caret);
+  if (containing && containing.index + containing[0].length > caret) {
+    return {start: containing.index, end: containing.index + containing[0].length, trigger: normalize(containing[0])};
+  }
+  const before = text.slice(0, caret);
+  // Preserve native JS UTF-16 offsets for textarea selections.
+  const last = before.match(/[\p{L}\p{M}\p{N}]+\s*$/u);
+  if (!last) return null;
+  const trimmed = last[0].trimEnd();
+  let result = { start: last.index, end: last.index + trimmed.length, trigger: normalize(trimmed) };
+  // A phrase may cross whitespace but never punctuation or newlines.
+  const tail = before.slice(0, result.end).match(/(?:[\p{L}\p{M}\p{N}]+[ \t]+){0,3}[\p{L}\p{M}\p{N}]+$/u);
+  if (tail) {
+    for (const trigger of index.keys()) {
+      if (!trigger.includes(' ')) continue;
+      const escaped = trigger.split(' ').map(part => part.replace(/[.*+?^$()|[\]{}\\]/g, '\\$&')).join('[ \\t]+');
+      const pattern = new RegExp('(?:^|[^\\p{L}\\p{N}_])(' + escaped + ')$', 'iu');
+      const match = before.slice(0, result.end).match(pattern);
+      if (match && match[1].length > result.end - result.start) result = { start: result.end - match[1].length, end: result.end, trigger };
+    }
+  }
+  return protectedTextRanges(text).some(r => result.start < r.end && result.end > r.start) ? null : result;
+}
+
+// These regions are literal content, never abbreviations.
+function protectedTextRanges(text) {
+  const tick = String.fromCharCode(96);
+  const patterns = [new RegExp(tick.repeat(3) + '[\\s\\S]*?(?:' + tick.repeat(3) + '|$)', 'g'),
+    new RegExp(tick + '[^' + tick + '\\n]*(?:' + tick + '|$)', 'g'),
+    /(?:https?:\/\/|www\.)[^\s<>]+/giu,
+    /[\p{L}\p{N}._%+-]+@[\p{L}\p{N}.-]+\.[\p{L}]{2,}/gu,
+    /(?<![\p{L}\p{M}\p{N}_])[@#][\p{L}\p{M}\p{N}_]+/gu,
+    /[\p{L}\p{M}\p{N}]+(?:_[\p{L}\p{M}\p{N}]+)+/gu];
+  // Preserve milliseconds in measurements such as 20 ms or 1.5 ms.
+  patterns.push(/\b\d+(?:[.,]\d+)?[ \t]*ms\b/giu);
+  return patterns.flatMap(pattern => [...text.matchAll(pattern)].map(m => ({start:m.index,end:m.index+m[0].length})));
+}
+
+function pendingWords(text, index, style, excluded = []) {
+  const protectedRanges = [...protectedTextRanges(text), ...excluded];
+  const tokens = [...text.matchAll(/[\p{L}\p{M}\p{N}]+/gu)];
+  const max = Math.max(1, ...[...index.keys()].map(k => k.split(' ').length));
+  const result = [];
+  for (let i = 0; i < tokens.length; i++) {
+    for (let n = Math.min(max, tokens.length - i); n >= 1; n--) {
+      const slice = tokens.slice(i, i + n);
+      if (slice.some((t, j) => j && !/^[ \t]+$/.test(text.slice(slice[j - 1].index + slice[j - 1][0].length, t.index)))) continue;
+      const trigger = normalize(slice.map(t => t[0]).join(' '));
+      const start = slice[0].index, end = slice.at(-1).index + slice.at(-1)[0].length;
+      if (protectedRanges.some(r => start < r.end && end > r.start)) continue;
+      const options = optionsFor(trigger, index, style);
+      if (options.length) {
+        result.push({trigger, start: slice[0].index, end: slice.at(-1).index + slice.at(-1)[0].length, options});
+        i += n - 1; break;
+      }
+    }
+  }
+  return result;
+}
+
+function suggestionsFor(text, caret, index, style, excluded = [], completeInput = false) {
+  if (protectedTextRanges(text).some(r => r.start < caret && r.end >= caret)) return [];
+  let token = activeToken(text, caret, index);
+  if (token && excluded.some(r => token.start < r.end && token.end > r.start)) token = null;
+  const exact = token ? optionsFor(token.trigger, index, style) : [];
+  if (exact.length) return exact.map(row => ({ ...row, ...token, exact: true }));
+  const result = [];
+  if (!completeInput && token?.trigger.length >= 2) {
+    for (const trigger of index.keys()) {
+      if (trigger.startsWith(token.trigger)) result.push(...optionsFor(trigger, index, style).map(row => ({ ...row, start: token.start, end: token.end, exact: false })));
+      if (result.length >= 8) break;
+    }
+  }
+  if (!result.length) {
+    const pending = pendingWords(text,index,style,excluded);
+    token = pending.filter(t=>t.end<=caret).at(-1) || pending.find(t=>t.start>=caret);
+    if (token) return token.options.map(row=>({...row,...token,exact:true}));
+  }
+  return result.slice(0, 8);
+}
+
+function autoCandidate(text, caret, index, style) {
+  if (!/[\s.,!?;:]/u.test(text[caret - 1] || '')) return null;
+  const token = activeToken(text, caret, index);
+  if (!token) return null;
+  const options = optionsFor(token.trigger, index, style);
+  const all = index.get(token.trigger) || [];
+  if (!options.length) return null;
+  const managed = options[0].custom || options[0].status === 'approved';
+  if (styleTriggers.has(token.trigger) && (!managed || options[0].auto_replace)) return { ...options[0], ...token };
+  // Ambiguous entries remain manual even if a style hides one of the meanings.
+  if (!(managed ? options[0].auto_replace : ordinaryAuto.has(token.trigger)) || all.length !== 1) return null;
+  return { ...options[0], ...token };
+}
+
+function expandText(text, caret, index, style, completeLast = false, excluded = [], meanings = {}) {
+  const changes = [];
+  for (const token of pendingWords(text, index, style, excluded)) {
+    if (token.end > caret || (!completeLast && token.end === caret)) continue;
+    const all = index.get(token.trigger) || [];
+    // A labelled sample can explicitly choose a meaning; pasted text never supplies this map.
+    const chosen = token.options.find(row => row.expansion === meanings[token.trigger]);
+    const first = chosen || token.options[0];
+    const managed = first.custom || first.status === 'approved';
+    if (!chosen && !(styleTriggers.has(token.trigger) && (!managed || first.auto_replace)) && (all.length !== 1 || !(managed ? first.auto_replace : ordinaryAuto.has(token.trigger)))) continue;
+    const item = {...first, ...token};
+    const replacement = caseExpansion(text.slice(item.start,item.end),item.expansion);
+    changes.push({...item, replacement});
+  }
+  let result = text;
+  for (const item of [...changes].reverse()) result = result.slice(0, item.start) + item.replacement + result.slice(item.end);
+  const offset = changes.reduce((n, c) => n + c.replacement.length - (c.end - c.start), 0);
+  return {text:result, caret:caret + offset, changes};
+}
+
+function replaceSuggestion(text, item) {
+  const typed = text.slice(item.start, item.end);
+  const replacement = caseExpansion(typed,item.expansion);
+  const suffix = text.slice(item.end);
+  const space = suffix.length === 0 ? ' ' : '';
+  return { text: text.slice(0, item.start) + replacement + space + suffix, caret: item.start + replacement.length + space.length };
+}
+
+function caseExpansion(typed,expansion) {
+  let replacement = expansion;
+  if (typed === typed.toLocaleUpperCase('vi') && typed.length > 1) replacement = replacement.toLocaleUpperCase('vi');
+  else if (/^\p{Lu}/u.test(typed)) replacement = replacement[0].toLocaleUpperCase('vi') + replacement.slice(1);
+  return replacement;
+}
+
+const vowelRows = ['aàáảãạ', 'ăằắẳẵặ', 'âầấẩẫậ', 'eèéẻẽẹ', 'êềếểễệ', 'iìíỉĩị', 'oòóỏõọ', 'ôồốổỗộ', 'ơờớởỡợ', 'uùúủũụ', 'ưừứửữự', 'yỳýỷỹỵ'];
+const toneNumber = { f: 1, s: 2, r: 3, x: 4, j: 5, z: 0 };
+const base = ch => { const row = vowelRows.find(r => r.includes(ch.toLowerCase())); return row ? row[0] : ch.toLowerCase(); };
+
+function applyTone(word, tone) {
+  if (!(tone in toneNumber)) return word;
+  const chars = [...word.normalize('NFC')];
+  let positions = chars.map((ch, i) => vowelRows.some(r => r.includes(ch.toLowerCase())) ? i : -1).filter(i => i >= 0);
+  if (positions.length > 1 && positions[0] === 1 && ((base(chars[0]) === 'q' && base(chars[1]) === 'u') || (base(chars[0]) === 'g' && base(chars[1]) === 'i'))) positions.shift();
+  if (!positions.length) return word;
+  let target = positions.findLast(i => ['ê', 'ơ'].includes(base(chars[i])));
+  if (target === undefined) {
+    const cluster = positions.map(i => base(chars[i])).join('');
+    if (positions.length >= 3) target = positions[1];
+    else if (positions.length === 2 && (positions.at(-1) < chars.length - 1 || ['oa', 'oe', 'uy'].includes(cluster))) target = positions[1];
+    else target = positions[0];
+  }
+  for (const i of positions) {
+    const row = vowelRows.find(r => r.includes(chars[i].toLowerCase()));
+    const value = row[i === target ? toneNumber[tone] : 0];
+    chars[i] = chars[i] === chars[i].toUpperCase() ? value.toUpperCase() : value;
+  }
+  return chars.join('');
+}
+
+function telexWord(word, key) {
+  const k = key.toLowerCase();
+  if (k in toneNumber && /[aeiouyăâêôơư]/iu.test(word)) return applyTone(word, k);
+  const combos = { aa: 'â', aw: 'ă', ee: 'ê', oo: 'ô', ow: 'ơ', uw: 'ư', dd: 'đ' };
+  if (k === 'w' && /uo$/iu.test(word)) return word.slice(0, -2) + 'ươ';
+  const last = word.at(-1) || '';
+  const replacement = combos[base(last) + k];
+  if (replacement) {
+    const row = vowelRows.find(r => r.includes(last.toLowerCase()));
+    const tone = row ? row.indexOf(last.toLowerCase()) : 0;
+    const newRow = vowelRows.find(r => r[0] === replacement);
+    let changed = newRow ? newRow[tone] : replacement;
+    if (last === last.toUpperCase()) changed = changed.toUpperCase();
+    return word.slice(0, -1) + changed;
+  }
+  // Common Vietnamese uow sequence: uo + w → ươ.
+  return word + key;
+}
+
+
+// All offsets use textarea UTF-16 units, including emoji and combining marks.
+function mapPosition(position, changes) {
+  let offset = 0;
+  for (const c of changes) {
+    if (position < c.start) break;
+    if (position <= c.end) return c.start + offset + (position === c.start ? 0 : c.replacement.length);
+    offset += c.replacement.length - (c.end - c.start);
+  }
+  return position + offset;
+}
+
+function moveRanges(ranges, start, end, insertedLength) {
+  const delta = insertedLength - (end - start);
+  return ranges.flatMap(r => {
+    if (r.end <= start) return [r];
+    if (r.start >= end) return [{start:r.start+delta,end:r.end+delta}];
+    // Editing a generated word makes that word ordinary editable content again.
+    return [];
+  });
+}
+
+class EditorModel {
+  constructor(index) {
+    this.index = index; this.style = 'direct';
+    this.current = {text:'',start:0,end:0,ranges:[],report:null};
+    this.past = []; this.future = [];
+    this.typingAt = 0;
+  }
+  get text() { return this.current.text; }
+  get ranges() { return this.current.ranges; }
+  select(start, end = start) {
+    if (start !== this.current.start || end !== this.current.end) this.typingAt = 0;
+    this.current = {...this.current,start,end};
+  }
+  commit(next, mergeTyping = false) {
+    if (next.text === this.text) { this.current = next; return; }
+    if (!mergeTyping) this.past.push(this.current);
+    if (this.past.length > 200) this.past.shift();
+    this.current = next; this.future = [];
+    this.typingAt = 0;
+  }
+  edit(text, start, end = start, groupTyping = false) {
+    if (text === this.text) { this.select(start,end); return; }
+    const old = this.text;
+    let a = 0, b = old.length, c = text.length;
+    while (a < b && a < c && old[a] === text[a]) a++;
+    while (b > a && c > a && old[b-1] === text[c-1]) { b--; c--; }
+    const now = Date.now();
+    const canGroup = groupTyping && start===end && this.current.start===this.current.end && a===this.current.start && b===a;
+    const merge = canGroup && this.typingAt && now-this.typingAt<900 && this.past.length>0;
+    this.commit({text,start,end,ranges:moveRanges(this.ranges,a,b,c-a),report:this.current.report},merge);
+    this.typingAt = canGroup ? now : 0;
+  }
+  load(text, meanings = {}) {
+    this.commit({text,start:text.length,end:text.length,ranges:[],report:null});
+    const {next,changes} = this.transformed(this.current,true,meanings);
+    if (changes.length) this.commit(next);
+    return changes;
+  }
+  transformed(current, completeLast, meanings = {}) {
+    const limit = completeLast ? current.text.length : current.start;
+    const result = expandText(current.text,limit,this.index,this.style,completeLast,current.ranges,meanings);
+    if (!result.changes.length) return {next:current,changes:[]};
+    const ranges = current.ranges.map(r=>({start:mapPosition(r.start,result.changes),end:mapPosition(r.end,result.changes)}));
+    let delta = 0;
+    for (const c of result.changes) {
+      ranges.push({start:c.start+delta,end:c.start+delta+c.replacement.length});
+      delta += c.replacement.length-(c.end-c.start);
+    }
+    return {changes:result.changes,next:{text:result.text,start:mapPosition(current.start,result.changes),end:mapPosition(current.end,result.changes),
+      ranges,report:{source:current.text,changes:result.changes.map(c=>({from:current.text.slice(c.start,c.end),to:c.replacement}))}}};
+  }
+  transform(completeLast = false) {
+    const {next,changes} = this.transformed(this.current,completeLast);
+    if (changes.length) this.commit(next);
+    return changes;
+  }
+  choose(item) {
+    const before = this.current;
+    const out = replaceSuggestion(before.text,item);
+    const added = out.text.length-before.text.length+(item.end-item.start);
+    const replacement = out.text.slice(item.start,item.start+added);
+    const change = {start:item.start,end:item.end,replacement};
+    const keepCaret = before.start > item.end;
+    const next = {text:out.text,start:keepCaret?mapPosition(before.start,[change]):out.caret,
+      end:keepCaret?mapPosition(before.end,[change]):out.caret,
+      ranges:[...moveRanges(before.ranges,item.start,item.end,added),{start:item.start,end:item.start+added}],
+      report:{source:before.text,changes:[{from:before.text.slice(item.start,item.end),to:replacement.trimEnd()}]}};
+    const transformed = this.transformed(next,true);
+    transformed.next.report = {source:before.text,changes:[...next.report.changes,...transformed.changes.map(c=>({from:next.text.slice(c.start,c.end),to:c.replacement}))]};
+    this.commit(transformed.next);
+    return this.current.report.changes;
+  }
+  undo() {
+    if (!this.past.length) return false;
+    this.typingAt = 0;
+    this.future.push(this.current); this.current = this.past.pop(); return true;
+  }
+  redo() {
+    if (!this.future.length) return false;
+    this.typingAt = 0;
+    this.past.push(this.current); this.current = this.future.pop(); return true;
+  }
+  clear() { this.commit({text:'',start:0,end:0,ranges:[],report:null}); }
+}
+
+// Public browser configuration. This is NOT a service-role / secret key.
+const SUPABASE_CONFIG = {
+  url: 'https://unkrjkhqzzksqqpqygwp.supabase.co',
+  publishableKey: 'sb_publishable_W9Lmtx_N7V8_Fekqqe5O4A_Ko0gOokU',
+};
+
+
+const DICTIONARY_CATEGORIES = ['chat', 'profanity', 'euphemism', 'english', 'game'];
+function validateEntry(input) {
+  const trigger = String(input.trigger || '').normalize('NFC').trim().toLocaleLowerCase('vi').replace(/\s+/g, ' ');
+  const expansion = String(input.expansion || '').normalize('NFC').trim().replace(/\s+/g, ' ');
+  if (!trigger || trigger.length > 48 || !/^[\p{L}\p{M}\p{N}]+(?: [\p{L}\p{M}\p{N}]+)*$/u.test(trigger)) throw new Error('Từ viết tắt cần 1–48 ký tự chữ/số, có thể có dấu cách.');
+  if (!expansion || expansion.length > 240) throw new Error('Nghĩa đầy đủ cần 1–240 ký tự.');
+  if (trigger === expansion.toLocaleLowerCase('vi')) throw new Error('Nghĩa đầy đủ cần khác từ viết tắt.');
+  if (!DICTIONARY_CATEGORIES.includes(input.category)) throw new Error('Hãy chọn nhóm từ hợp lệ.');
+  return {trigger, expansion, category: input.category, auto_replace: Boolean(input.auto_replace)};
+}
+
+class SupabaseClient {
+  constructor({storage = localStorage, fetcher = fetch, config = SUPABASE_CONFIG} = {}) {
+    this.storage = storage; this.fetcher = fetcher.bind(globalThis); this.config = config;
+    this.sessionKey = `intelkb.session.${config.url}`;
+    this.session = this.read(this.sessionKey, null);
+    this.onChange = () => {}; this.syncing = null;
+  }
+  read(key, fallback) {
+    try { const value = this.storage.getItem(key); return value ? JSON.parse(value) : fallback; } catch { return fallback; }
+  }
+  async request(path, {method='GET', body, token, headers={}} = {}) {
+    const response = await this.fetcher(this.config.url + path, {
+      method, headers:{apikey:this.config.publishableKey, 'Content-Type':'application/json', ...(token ? {Authorization:`Bearer ${token}`} : {}), ...headers},
+      ...(body !== undefined ? {body:JSON.stringify(body)} : {}), signal:AbortSignal.timeout(15000),
+    });
+    const raw = await response.text(); let data; try { data = raw ? JSON.parse(raw) : null; } catch { data = null; }
+    if (!response.ok) {
+      if (['PGRST205','PGRST202'].includes(data?.code)) throw new Error('Chưa thiết lập database cộng đồng. Chủ trang cần chạy SQL mới trong Supabase SQL Editor.');
+      if (response.status === 401) throw new Error('Phiên đăng nhập hoặc cấu hình API chưa hợp lệ. Hãy đăng nhập lại.');
+      if (response.status === 403) throw new Error('Supabase từ chối quyền truy cập. Kiểm tra SQL và chính sách RLS.');
+      throw new Error(data?.msg || data?.message || data?.error_description || `Supabase trả lỗi ${response.status}.`);
+    }
+    return data;
+  }
+  setSession(session) {
+    const next = {...session, expires_at:session.expires_at || Math.floor(Date.now()/1000) + session.expires_in};
+    this.storage.setItem(this.sessionKey, JSON.stringify(next)); this.session = next; this.onChange();
+  }
+  async signIn(email, password) {
+    const data = await this.request('/auth/v1/token?grant_type=password', {method:'POST', body:{email,password}});
+    this.setSession(data);
+  }
+  async signOut() {
+    if (this.session?.access_token) await this.request('/auth/v1/logout', {method:'POST', token:this.session.access_token}).catch(() => {});
+    this.storage.removeItem(this.sessionKey); this.session = null; this.onChange();
+  }
+  async accessToken() {
+    if (!this.session?.user?.id) throw new Error('Đăng nhập quản trị để tiếp tục.');
+    if (this.session.expires_at <= Math.floor(Date.now()/1000) + 60) {
+      const data = await this.request('/auth/v1/token?grant_type=refresh_token', {method:'POST', body:{refresh_token:this.session.refresh_token}});
+      this.setSession(data);
+    }
+    return this.session.access_token;
+  }
+}
+
+
+// Reuse the Auth/HTTP transport only; proposals never enter the keyboard index.
+class CommunityStore extends SupabaseClient {
+  constructor(options={}) {
+    super(options); this.draftKey='intelkb.community.drafts.v1';
+    this.cacheKey=`intelkb.community.approved.${this.config.url}`;
+  }
+  get drafts() {return this.read(this.draftKey,[]);}
+  saveDrafts(rows) {this.storage.setItem(this.draftKey,JSON.stringify(rows));}
+  discardDraft(receipt) {this.saveDrafts(this.drafts.filter(row=>row.receipt!==receipt));}
+  async loadCatalogue() {
+    const rows=[];
+    for(let offset=0;;offset+=1000) {
+      // Deliberately anonymous, even if this browser has an admin session.
+      const page=await this.request(`/rest/v1/intelkb_dictionary?status=eq.approved&select=id,trigger,expansion,category,auto_replace,revision,status,source&order=id&limit=1000&offset=${offset}`);
+      rows.push(...page);if(page.length<1000)break;
+    }
+    this.storage.setItem(this.cacheKey,JSON.stringify(rows));return rows;
+  }
+  cachedCatalogue() {return this.read(this.cacheKey,null);}
+  async submit(input,context={}) {
+    const word=validateEntry(input), action=context.action || 'new';
+    if(!['new','add_meaning','edit'].includes(action))throw new Error('Loại đóng góp không hợp lệ.');
+    const target=context.target;
+    if(action!=='new' && (!target?.id || !Number.isInteger(target.revision)))throw new Error('Hãy chọn một mục đã công bố trước khi đề xuất sửa.');
+    const explanation=String(context.explanation||'').trim(),name=String(context.name||'').trim();
+    if(explanation.length>1000 || name.length>60)throw new Error('Ghi chú tối đa 1000 ký tự, tên tối đa 60 ký tự.');
+    const draft={...word,action,target:action==='new'?null:{id:target.id,revision:target.revision},explanation,name,receipt:context.receipt||crypto.randomUUID()};
+    const drafts=this.drafts.filter(row=>row.receipt!==draft.receipt);drafts.push(draft);this.saveDrafts(drafts);
+    const payload={p_receipt:draft.receipt,p_action:action,p_trigger:word.trigger,p_expansion:word.expansion,p_category:word.category,
+      p_auto_replace:word.auto_replace,p_target_id:draft.target?.id||null,p_base_revision:draft.target?.revision||null,p_explanation:explanation,p_contributor_name:name};
+    const response=await this.request('/rest/v1/rpc/intelkb_submit_proposal',{method:'POST',body:payload});
+    this.discardDraft(draft.receipt);return response;
+  }
+  async isAdmin() {
+    const token=await this.accessToken();
+    return (await this.request('/rest/v1/rpc/intelkb_is_admin',{method:'POST',token,body:{}}))===true;
+  }
+  async adminRows(kind,status,offset=0) {
+    const token=await this.accessToken();
+    const table=kind==='seeds'?'intelkb_dictionary':'intelkb_proposals';
+    const filter=kind==='seeds'?'&source=eq.bootstrap':'';
+    return this.request(`/rest/v1/${table}?select=*&status=eq.${encodeURIComponent(status)}${filter}&order=created_at,id&limit=51&offset=${offset}`,{token});
+  }
+  async target(id) {
+    const token=await this.accessToken();
+    const rows=await this.request(`/rest/v1/intelkb_dictionary?id=eq.${encodeURIComponent(id)}&select=*`,{token});return rows[0]||null;
+  }
+  async review(row,kind,decision,note,override) {
+    const token=await this.accessToken();
+    if(kind==='seeds')return this.request('/rest/v1/rpc/intelkb_review_seed',{method:'POST',token,body:{p_id:row.id,p_decision:decision,p_revision:row.revision,p_override:override}});
+    return this.request('/rest/v1/rpc/intelkb_review_proposal',{method:'POST',token,body:{p_id:row.id,p_decision:decision,p_note:note,p_override:override}});
+  }
+}
+
+
+function mountDictionary(baseWords,onChange) {
+  const get=id=>document.getElementById(id), store=new CommunityStore();
+  let catalogue=baseWords.map((row,i)=>({...row,id:`sample-${i}`,sample:true})), mode='sample',page=0,target=null,action='new',draftReceipt=null;
+  const pageSize=40,names={chat:'Nhắn tin',profanity:'Từ tục',euphemism:'Nói nhẹ',english:'Tiếng Anh',game:'Game'};
+  function status(text,error=false){get('dictionary-status').textContent=text;get('dictionary-status').classList.toggle('error',error);}
+  function publicError(error){
+    if(/Từ viết tắt|Nghĩa đầy đủ|Hãy chọn nhóm|cần khác|Ghi chú tối đa/.test(error.message))return error.message;
+    if(error.message.includes('database cộng đồng'))return 'Từ điển cộng đồng chưa được kích hoạt.';
+    if(error.message.includes('identical proposal')||error.message.includes('intelkb_pending_proposal_unique'))return 'Đã có một đóng góp giống như vậy đang chờ duyệt.';
+    if(error.message.includes('Entry changed')||error.message.includes('Target no longer'))return 'Mục từ đã thay đổi. Tải lại danh sách và góp ý trên bản mới nhé.';
+    return 'Chưa kết nối được hệ thống đóng góp. Hãy thử lại sau.';
+  }
+  function resetForm(){get('dictionary-form').reset();target=null;action='new';draftReceipt=null;get('entry-trigger').readOnly=false;get('proposal-kind').textContent='Đề xuất từ mới';get('cancel-edit').hidden=true;get('save-entry').textContent='Gửi đề xuất';}
+  function startProposal(row,type){
+    resetForm();target=row.sample?null:row;action=row.sample?'new':type;
+    get('entry-trigger').value=row.trigger;get('entry-trigger').readOnly=Boolean(target);
+    get('entry-expansion').value=type==='edit'?row.expansion:'';get('entry-category').value=row.category;
+    get('entry-auto').checked=row.auto_replace||false;
+    get('proposal-kind').textContent=row.sample?'Đóng góp cho từ trong bộ mẫu':type==='edit'?'Đề xuất chỉnh nghĩa':'Bổ sung một nghĩa khác';
+    get('cancel-edit').hidden=false;get('entry-expansion').focus();status('Đóng góp chỉ được đưa vào từ điển sau khi chủ trang duyệt.');
+  }
+  function renderDrafts(){
+    const host=get('proposal-drafts');host.replaceChildren();
+    for(const row of store.drafts){
+      const box=document.createElement('div');box.className='dictionary-row';const copy=document.createElement('div');
+      const text=document.createElement('p');text.textContent=`Chưa gửi: ${row.trigger} → ${row.expansion}`;copy.append(text);box.append(copy);
+      const retry=document.createElement('button');retry.textContent='Gửi lại';retry.onclick=async()=>{try{await store.submit(row,{...row});renderDrafts();status('Đã gửi vào hàng chờ duyệt.');}catch(error){status(publicError(error),true);}};
+      const discard=document.createElement('button');discard.textContent='Bỏ nháp';discard.onclick=()=>{store.discardDraft(row.receipt);renderDrafts();};box.append(retry,discard);host.append(box);
+    }
+  }
+  function render(){
+    const query=get('dictionary-search').value.trim().toLocaleLowerCase('vi');
+    const rows=catalogue.filter(row=>`${row.trigger} ${row.expansion}`.toLocaleLowerCase('vi').includes(query));
+    page=Math.max(0,Math.min(page,Math.ceil(rows.length/pageSize)-1));
+    get('custom-count').textContent=`${catalogue.length} nghĩa`;
+    get('catalogue-source').textContent=mode==='live'?'Từ điển chung · chỉ các nghĩa đã duyệt':mode==='cache'?'Bản đã duyệt lưu trên máy · chưa tải được bản mới':'Bộ mẫu ngoại tuyến · chưa phải danh sách đã duyệt';
+    const host=get('dictionary-list');host.replaceChildren();
+    for(const row of rows.slice(page*pageSize,(page+1)*pageSize)){
+      const box=document.createElement('div');box.className='dictionary-row';
+      const copy=document.createElement('div'),trigger=document.createElement('strong'),meaning=document.createElement('p'),meta=document.createElement('small');
+      trigger.textContent=row.trigger;meaning.textContent=row.expansion;meta.textContent=`${names[row.category]||row.category} · ${row.sample?'Mẫu chưa kiểm duyệt':'Đã duyệt'}`;
+      copy.append(trigger,meaning,meta);box.append(copy);
+      const add=document.createElement('button');add.textContent='＋ Nghĩa';add.setAttribute('aria-label',`Bổ sung nghĩa cho ${row.trigger}`);add.onclick=()=>startProposal(row,'add_meaning');
+      const edit=document.createElement('button');edit.textContent='Góp ý sửa';edit.setAttribute('aria-label',`Đề xuất sửa nghĩa ${row.trigger}: ${row.expansion}`);edit.onclick=()=>startProposal(row,'edit');box.append(add,edit);host.append(box);
+    }
+    if(!rows.length){const p=document.createElement('p');p.className='dictionary-empty';p.textContent=query?'Không có kết quả. Bạn có thể đề xuất từ mới ở trên.':'Chưa có nghĩa nào được công bố. Hãy gửi từ đầu tiên để chủ trang duyệt.';host.append(p);}
+    get('catalogue-page').textContent=`Trang ${page+1}/${Math.max(1,Math.ceil(rows.length/pageSize))} · ${rows.length} nghĩa`;
+    get('catalogue-prev').disabled=page===0;get('catalogue-next').disabled=(page+1)*pageSize>=rows.length;
+    onChange(catalogue);renderDrafts();
+  }
+  async function load(){
+    get('reload-catalogue').disabled=true;
+    try{catalogue=await store.loadCatalogue();mode='live';page=0;render();status('Đã tải danh sách được chủ trang duyệt.');}
+    catch(error){const cached=store.cachedCatalogue();if(cached){catalogue=cached;mode='cache';}render();status(`${publicError(error)} Hiện đang xem ${mode==='sample'?'bộ mẫu ngoại tuyến':'bản lưu trên máy'}; đóng góp mới không tự công bố.`,true);}
+    finally{get('reload-catalogue').disabled=false;}
+  }
+  get('open-dictionary').onclick=()=>{get('dictionary-dialog').showModal();render();};
+  get('close-dictionary').onclick=()=>get('dictionary-dialog').close();get('cancel-edit').onclick=resetForm;
+  get('dictionary-search').oninput=()=>{page=0;render();};get('catalogue-prev').onclick=()=>{page--;render();};get('catalogue-next').onclick=()=>{page++;render();};get('reload-catalogue').onclick=load;
+  get('dictionary-form').onsubmit=async event=>{
+    event.preventDefault();get('save-entry').disabled=true;
+    try{
+      draftReceipt ||= crypto.randomUUID();
+      const result=await store.submit({trigger:get('entry-trigger').value,expansion:get('entry-expansion').value,category:get('entry-category').value,auto_replace:get('entry-auto').checked},
+        {action,target,receipt:draftReceipt,explanation:get('entry-explanation').value,name:get('contributor-name').value});
+      resetForm();status(`Đã nhận đề xuất ${result.id.slice(0,8)}. Chủ trang sẽ kiểm tra trước khi công bố.`);
+    }catch(error){const saved=store.drafts.some(row=>row.receipt===draftReceipt);status(`${publicError(error)} ${saved?'Đề xuất chưa được xác nhận gửi; bản nháp đã được giữ trên máy.':'Hãy kiểm tra lại nội dung trước khi gửi.'}`,true);}
+    finally{get('save-entry').disabled=false;renderDrafts();}
+  };
+  get('dictionary-form').addEventListener('input',()=>{draftReceipt=null;});
+  resetForm();render();load();return store;
+}
+
+const $ = selector => document.querySelector(selector);
+const editor = $('#editor');
+const baseWords = [{"trigger":"ae","expansion":"anh em","category":"chat"},{"trigger":"asap","expansion":"as soon as possible","category":"english"},{"trigger":"b","expansion":"bạn","category":"chat"},{"trigger":"baoh","expansion":"bao giờ","category":"chat"},{"trigger":"bb","expansion":"bạn bè","category":"chat"},{"trigger":"bb","expansion":"tạm biệt","category":"chat"},{"trigger":"bg","expansion":"bây giờ","category":"chat"},{"trigger":"bgio","expansion":"bây giờ","category":"chat"},{"trigger":"bh","expansion":"bao giờ","category":"chat"},{"trigger":"bh","expansion":"bây giờ","category":"chat"},{"trigger":"bik","expansion":"biết","category":"chat"},{"trigger":"bjt","expansion":"biết","category":"chat"},{"trigger":"bn","expansion":"bao nhiêu","category":"chat"},{"trigger":"bn","expansion":"bạn","category":"chat"},{"trigger":"bsvv","expansion":"buổi sáng vui vẻ","category":"chat"},{"trigger":"bt","expansion":"bình thường","category":"chat"},{"trigger":"bth","expansion":"bình thường","category":"chat"},{"trigger":"btw","expansion":"by the way","category":"english"},{"trigger":"bít","expansion":"biết","category":"chat"},{"trigger":"camon","expansion":"cảm ơn","category":"chat"},{"trigger":"chs","expansion":"chẳng hiểu sao","category":"chat"},{"trigger":"ck","expansion":"chồng","category":"chat"},{"trigger":"clmm","expansion":"cái lồn mẹ mày","category":"profanity"},{"trigger":"cmm","expansion":"con mẹ mày","category":"profanity"},{"trigger":"cmn","expansion":"con mẹ nó","category":"profanity"},{"trigger":"cmnr","expansion":"chuẩn mẹ nó rồi","category":"profanity"},{"trigger":"cmnr","expansion":"con mẹ nó rồi","category":"profanity"},{"trigger":"cmsn","expansion":"chúc mừng sinh nhật","category":"chat"},{"trigger":"cty","expansion":"công ty","category":"chat"},{"trigger":"cv","expansion":"công việc","category":"chat"},{"trigger":"cx","expansion":"cũng","category":"chat"},{"trigger":"cám ơn","expansion":"cảm ơn","category":"chat"},{"trigger":"cũg","expansion":"cũng","category":"chat"},{"trigger":"dbh","expansion":"đéo bao giờ","category":"profanity"},{"trigger":"dc","expansion":"được","category":"chat"},{"trigger":"dcm","expansion":"địt con mẹ","category":"profanity"},{"trigger":"dcmm","expansion":"địt con mẹ mày","category":"profanity"},{"trigger":"dhs","expansion":"đéo hiểu sao","category":"profanity"},{"trigger":"dk","expansion":"được","category":"chat"},{"trigger":"dm","expansion":"địt mẹ","category":"profanity"},{"trigger":"dm","expansion":"đụ má","category":"profanity"},{"trigger":"dmm","expansion":"địt mẹ","category":"profanity"},{"trigger":"dmm","expansion":"địt mẹ mày","category":"profanity"},{"trigger":"dr","expansion":"đúng rồi","category":"chat"},{"trigger":"dt","expansion":"dễ thương","category":"chat"},{"trigger":"dt","expansion":"điện thoại","category":"chat"},{"trigger":"dth","expansion":"dễ thương","category":"chat"},{"trigger":"dthw","expansion":"dễ thương","category":"chat"},{"trigger":"dị","expansion":"vậy","category":"chat"},{"trigger":"fyi","expansion":"for your information","category":"english"},{"trigger":"hgl","expansion":"hẹn gặp lại","category":"chat"},{"trigger":"hk","expansion":"không","category":"chat"},{"trigger":"hn","expansion":"hôm nay","category":"chat"},{"trigger":"hnay","expansion":"hôm nay","category":"chat"},{"trigger":"hok","expansion":"không","category":"chat"},{"trigger":"hong","expansion":"không","category":"chat"},{"trigger":"hpbd","expansion":"chúc mừng sinh nhật","category":"chat"},{"trigger":"hq","expansion":"hôm qua","category":"chat"},{"trigger":"hqua","expansion":"hôm qua","category":"chat"},{"trigger":"hs","expansion":"học sinh","category":"chat"},{"trigger":"hông","expansion":"không","category":"chat"},{"trigger":"in4","expansion":"thông tin","category":"chat"},{"trigger":"info","expansion":"thông tin","category":"chat"},{"trigger":"iu","expansion":"yêu","category":"chat"},{"trigger":"j","expansion":"gì","category":"chat"},{"trigger":"ji","expansion":"gì","category":"chat"},{"trigger":"k","expansion":"không","category":"chat"},{"trigger":"k sao","expansion":"không sao","category":"chat"},{"trigger":"k0","expansion":"không","category":"chat"},{"trigger":"kb","expansion":"không biết","category":"chat"},{"trigger":"kb","expansion":"kết bạn","category":"chat"},{"trigger":"kbt","expansion":"không biết","category":"chat"},{"trigger":"kh","expansion":"không","category":"chat"},{"trigger":"khum","expansion":"không","category":"chat"},{"trigger":"klq","expansion":"không liên quan","category":"chat"},{"trigger":"ko","expansion":"không","category":"chat"},{"trigger":"ks","expansion":"không sao","category":"chat"},{"trigger":"ksao","expansion":"không sao","category":"chat"},{"trigger":"kô","expansion":"không","category":"chat"},{"trigger":"lmht","expansion":"liên minh huyền thoại","category":"game"},{"trigger":"lol","expansion":"League of Legends","category":"game"},{"trigger":"lol","expansion":"laughing out loud","category":"english"},{"trigger":"lol","expansion":"lồn","category":"profanity"},{"trigger":"loz","expansion":"lồn","category":"profanity"},{"trigger":"lozz","expansion":"lồn","category":"profanity"},{"trigger":"lq","expansion":"liên quân","category":"game"},{"trigger":"lz","expansion":"lồn","category":"profanity"},{"trigger":"m","expansion":"mày","category":"chat"},{"trigger":"mik","expansion":"mình","category":"chat"},{"trigger":"mjh","expansion":"mình","category":"chat"},{"trigger":"mk","expansion":"mình","category":"chat"},{"trigger":"mk","expansion":"mật khẩu","category":"chat"},{"trigger":"mn","expansion":"mọi người","category":"chat"},{"trigger":"mng","expansion":"mọi người","category":"chat"},{"trigger":"mngười","expansion":"mọi người","category":"chat"},{"trigger":"nc","expansion":"nói chuyện","category":"chat"},{"trigger":"nch","expansion":"nói chuyện","category":"chat"},{"trigger":"ngta","expansion":"người ta","category":"chat"},{"trigger":"ngyeu","expansion":"người yêu","category":"chat"},{"trigger":"nt","expansion":"nhắn tin","category":"chat"},{"trigger":"nt","expansion":"nói thật","category":"chat"},{"trigger":"nta","expansion":"người ta","category":"chat"},{"trigger":"nthe","expansion":"như thế","category":"chat"},{"trigger":"ntn","expansion":"như thế nào","category":"chat"},{"trigger":"ntnao","expansion":"như thế nào","category":"chat"},{"trigger":"ny","expansion":"người yêu","category":"chat"},{"trigger":"nyc","expansion":"người yêu cũ","category":"chat"},{"trigger":"ok","expansion":"đồng ý","category":"chat"},{"trigger":"oke","expansion":"đồng ý","category":"chat"},{"trigger":"okela","expansion":"đồng ý","category":"chat"},{"trigger":"oki","expansion":"đồng ý","category":"chat"},{"trigger":"okie","expansion":"đồng ý","category":"chat"},{"trigger":"omg","expansion":"oh my god","category":"english"},{"trigger":"oy","expansion":"rồi","category":"chat"},{"trigger":"pp","expansion":"tạm biệt","category":"chat"},{"trigger":"r","expansion":"rồi","category":"chat"},{"trigger":"rùi","expansion":"rồi","category":"chat"},{"trigger":"sdt","expansion":"số điện thoại","category":"chat"},{"trigger":"sml","expansion":"sấp mặt luôn","category":"euphemism"},{"trigger":"sml","expansion":"sấp mặt lồn","category":"profanity"},{"trigger":"sorry","expansion":"xin lỗi","category":"chat"},{"trigger":"sr","expansion":"xin lỗi","category":"chat"},{"trigger":"sry","expansion":"xin lỗi","category":"chat"},{"trigger":"stk","expansion":"số tài khoản","category":"chat"},{"trigger":"sv","expansion":"sinh viên","category":"chat"},{"trigger":"sđt","expansion":"số điện thoại","category":"chat"},{"trigger":"t","expansion":"tao","category":"chat"},{"trigger":"t","expansion":"tôi","category":"chat"},{"trigger":"t","expansion":"tớ","category":"chat"},{"trigger":"tdn","expansion":"thế đéo nào","category":"profanity"},{"trigger":"thank","expansion":"cảm ơn","category":"chat"},{"trigger":"thanks","expansion":"cảm ơn","category":"chat"},{"trigger":"thik","expansion":"thích","category":"chat"},{"trigger":"thjk","expansion":"thích","category":"chat"},{"trigger":"thx","expansion":"cảm ơn","category":"chat"},{"trigger":"tks","expansion":"cảm ơn","category":"chat"},{"trigger":"tl","expansion":"trả lời","category":"chat"},{"trigger":"tn","expansion":"thế nào","category":"chat"},{"trigger":"tnào","expansion":"thế nào","category":"chat"},{"trigger":"ts","expansion":"tại sao","category":"chat"},{"trigger":"tsao","expansion":"tại sao","category":"chat"},{"trigger":"tv","expansion":"tại vì","category":"chat"},{"trigger":"tđn","expansion":"thế đéo nào","category":"profanity"},{"trigger":"v","expansion":"vậy","category":"chat"},{"trigger":"vc","expansion":"vãi chưởng","category":"euphemism"},{"trigger":"vc","expansion":"vợ chồng","category":"chat"},{"trigger":"vcc","expansion":"vãi cả cặc","category":"profanity"},{"trigger":"vcd","expansion":"vãi cả đái","category":"profanity"},{"trigger":"vch","expansion":"vãi chưởng","category":"euphemism"},{"trigger":"vchg","expansion":"vãi chưởng","category":"euphemism"},{"trigger":"vcl","expansion":"vãi cả lúa","category":"euphemism"},{"trigger":"vcl","expansion":"vãi cả lồn","category":"profanity"},{"trigger":"vcđ","expansion":"vãi cả đái","category":"profanity"},{"trigger":"vd","expansion":"vãi đái","category":"profanity"},{"trigger":"vk","expansion":"vợ","category":"chat"},{"trigger":"vkl","expansion":"vãi cả lồn","category":"profanity"},{"trigger":"vkll","expansion":"vãi cả lồn","category":"profanity"},{"trigger":"vl","expansion":"vãi lồn","category":"profanity"},{"trigger":"vll","expansion":"vãi lồn","category":"profanity"},{"trigger":"vs","expansion":"với","category":"chat"},{"trigger":"vđ","expansion":"vãi đái","category":"profanity"},{"trigger":"wtf","expansion":"what the fuck","category":"english"},{"trigger":"xl","expansion":"xin lỗi","category":"chat"},{"trigger":"xl","expansion":"xạo lồn","category":"profanity"},{"trigger":"xlone","expansion":"xạo lồn","category":"profanity"},{"trigger":"z","expansion":"vậy","category":"chat"},{"trigger":"zi","expansion":"vậy","category":"chat"},{"trigger":"zậy","expansion":"vậy","category":"chat"},{"trigger":"òi","expansion":"rồi","category":"chat"},{"trigger":"òy","expansion":"rồi","category":"chat"},{"trigger":"đag","expansion":"đang","category":"chat"},{"trigger":"đbh","expansion":"đéo bao giờ","category":"profanity"},{"trigger":"đc","expansion":"được","category":"chat"},{"trigger":"đcm","expansion":"địt con mẹ","category":"profanity"},{"trigger":"đcmm","expansion":"địt con mẹ mày","category":"profanity"},{"trigger":"đhs","expansion":"đéo hiểu sao","category":"profanity"},{"trigger":"đk","expansion":"được","category":"chat"},{"trigger":"đm","expansion":"địt mẹ","category":"profanity"},{"trigger":"đm","expansion":"đụ má","category":"profanity"},{"trigger":"đmm","expansion":"địt mẹ","category":"profanity"},{"trigger":"đmm","expansion":"địt mẹ mày","category":"profanity"},{"trigger":"đr","expansion":"đúng rồi","category":"chat"},{"trigger":"đt","expansion":"điện thoại","category":"chat"},{"trigger":"hem","expansion":"không","category":"chat"},{"trigger":"hăm","expansion":"không","category":"chat"},{"trigger":"khg","expansion":"không","category":"chat"},{"trigger":"khôg","expansion":"không","category":"chat"},{"trigger":"khong","expansion":"không","category":"chat"},{"trigger":"khôngg","expansion":"không","category":"chat"},{"trigger":"kphai","expansion":"không phải","category":"chat"},{"trigger":"kph","expansion":"không phải","category":"chat"},{"trigger":"k phải","expansion":"không phải","category":"chat"},{"trigger":"kco","expansion":"không có","category":"chat"},{"trigger":"k có","expansion":"không có","category":"chat"},{"trigger":"khbt","expansion":"không biết","category":"chat"},{"trigger":"kbiet","expansion":"không biết","category":"chat"},{"trigger":"k biết","expansion":"không biết","category":"chat"},{"trigger":"ch","expansion":"chưa","category":"chat"},{"trigger":"ckua","expansion":"chưa","category":"chat"},{"trigger":"chbt","expansion":"chưa biết","category":"chat"},{"trigger":"cbt","expansion":"chưa biết","category":"chat"},{"trigger":"đx","expansion":"được","category":"chat"},{"trigger":"duoc","expansion":"được","category":"chat"},{"trigger":"biet","expansion":"biết","category":"chat"},{"trigger":"bík","expansion":"biết","category":"chat"},{"trigger":"vay","expansion":"vậy","category":"chat"},{"trigger":"dậy","expansion":"vậy","category":"chat"},{"trigger":"ròi","expansion":"rồi","category":"chat"},{"trigger":"roii","expansion":"rồi","category":"chat"},{"trigger":"ròii","expansion":"rồi","category":"chat"},{"trigger":"gi","expansion":"gì","category":"chat"},{"trigger":"jz","expansion":"gì","category":"chat"},{"trigger":"cgì","expansion":"cái gì","category":"chat"},{"trigger":"cj","expansion":"cái gì","category":"chat"},{"trigger":"cgi","expansion":"cái gì","category":"chat"},{"trigger":"lgi","expansion":"làm gì","category":"chat"},{"trigger":"lmgi","expansion":"làm gì","category":"chat"},{"trigger":"lmj","expansion":"làm gì","category":"chat"},{"trigger":"lsao","expansion":"làm sao","category":"chat"},{"trigger":"lmsao","expansion":"làm sao","category":"chat"},{"trigger":"tg","expansion":"thế giới","category":"chat"},{"trigger":"tg","expansion":"thời gian","category":"chat"},{"trigger":"tgian","expansion":"thời gian","category":"chat"},{"trigger":"thgian","expansion":"thời gian","category":"chat"},{"trigger":"bnh","expansion":"bao nhiêu","category":"chat"},{"trigger":"bnhiu","expansion":"bao nhiêu","category":"chat"},{"trigger":"bgiờ","expansion":"bao giờ","category":"chat"},{"trigger":"bjo","expansion":"bây giờ","category":"chat"},{"trigger":"bgiờ","expansion":"bây giờ","category":"chat"},{"trigger":"lnao","expansion":"lúc nào","category":"chat"},{"trigger":"ngmai","expansion":"ngày mai","category":"chat"},{"trigger":"nmai","expansion":"ngày mai","category":"chat"},{"trigger":"nghqua","expansion":"ngày hôm qua","category":"chat"},{"trigger":"homnay","expansion":"hôm nay","category":"chat"},{"trigger":"homqua","expansion":"hôm qua","category":"chat"},{"trigger":"tsau","expansion":"tuần sau","category":"chat"},{"trigger":"ttrc","expansion":"tuần trước","category":"chat"},{"trigger":"trc","expansion":"trước","category":"chat"},{"trigger":"trướcc","expansion":"trước","category":"chat"},{"trigger":"sauu","expansion":"sau","category":"chat"},{"trigger":"xg","expansion":"xong","category":"chat"},{"trigger":"xog","expansion":"xong","category":"chat"},{"trigger":"xg","expansion":"xuống","category":"chat"},{"trigger":"tht","expansion":"thật","category":"chat"},{"trigger":"thậtt","expansion":"thật","category":"chat"},{"trigger":"ths","expansion":"thật sự","category":"chat"},{"trigger":"thsu","expansion":"thật sự","category":"chat"},{"trigger":"thra","expansion":"thật ra","category":"chat"},{"trigger":"nthật","expansion":"nói thật","category":"chat"},{"trigger":"đko","expansion":"đúng không","category":"chat"},{"trigger":"dko","expansion":"đúng không","category":"chat"},{"trigger":"đk","expansion":"đúng không","category":"chat"},{"trigger":"dk","expansion":"đúng không","category":"chat"},{"trigger":"đv","expansion":"đúng vậy","category":"chat"},{"trigger":"dv","expansion":"đúng vậy","category":"chat"},{"trigger":"đk","expansion":"đăng ký","category":"chat"},{"trigger":"dk","expansion":"đăng ký","category":"chat"},{"trigger":"dky","expansion":"đăng ký","category":"chat"},{"trigger":"đky","expansion":"đăng ký","category":"chat"},{"trigger":"bl","expansion":"bình luận","category":"chat"},{"trigger":"cmt","expansion":"bình luận","category":"chat"},{"trigger":"tn","expansion":"tin nhắn","category":"chat"},{"trigger":"ntin","expansion":"nhắn tin","category":"chat"},{"trigger":"nhantin","expansion":"nhắn tin","category":"chat"},{"trigger":"ib","expansion":"nhắn tin riêng","category":"chat"},{"trigger":"inbox","expansion":"nhắn tin riêng","category":"chat"},{"trigger":"ibx","expansion":"nhắn tin riêng","category":"chat"},{"trigger":"trloi","expansion":"trả lời","category":"chat"},{"trigger":"rep","expansion":"trả lời","category":"chat"},{"trigger":"tk","expansion":"tài khoản","category":"chat"},{"trigger":"ng","expansion":"người","category":"chat"},{"trigger":"ngừi","expansion":"người","category":"chat"},{"trigger":"ngấy","expansion":"người ấy","category":"chat"},{"trigger":"ngiu","expansion":"người yêu","category":"chat"},{"trigger":"btrai","expansion":"bạn trai","category":"chat"},{"trigger":"bf","expansion":"bạn trai","category":"chat"},{"trigger":"bgai","expansion":"bạn gái","category":"chat"},{"trigger":"bgái","expansion":"bạn gái","category":"chat"},{"trigger":"gf","expansion":"bạn gái","category":"chat"},{"trigger":"atrai","expansion":"anh trai","category":"chat"},{"trigger":"cgai","expansion":"chị gái","category":"chat"},{"trigger":"egai","expansion":"em gái","category":"chat"},{"trigger":"bme","expansion":"bố mẹ","category":"chat"},{"trigger":"bm","expansion":"bố mẹ","category":"chat"},{"trigger":"cnha","expansion":"cả nhà","category":"chat"},{"trigger":"c2","expansion":"cả hai","category":"chat"},{"trigger":"cả 2","expansion":"cả hai","category":"chat"},{"trigger":"cb","expansion":"các bạn","category":"chat"},{"trigger":"mọi ng","expansion":"mọi người","category":"chat"},{"trigger":"cta","expansion":"chúng ta","category":"chat"},{"trigger":"chta","expansion":"chúng ta","category":"chat"},{"trigger":"cmik","expansion":"chúng mình","category":"chat"},{"trigger":"aye","expansion":"anh yêu em","category":"chat"},{"trigger":"eya","expansion":"em yêu anh","category":"chat"},{"trigger":"dthuong","expansion":"dễ thương","category":"chat"},{"trigger":"dthương","expansion":"dễ thương","category":"chat"},{"trigger":"đz","expansion":"đẹp trai","category":"chat"},{"trigger":"đzai","expansion":"đẹp trai","category":"chat"},{"trigger":"dz","expansion":"đẹp trai","category":"chat"},{"trigger":"dzai","expansion":"đẹp trai","category":"chat"},{"trigger":"dy","expansion":"đáng yêu","category":"chat"},{"trigger":"đy","expansion":"đáng yêu","category":"chat"},{"trigger":"vv","expansion":"vui vẻ","category":"chat"},{"trigger":"hp","expansion":"hạnh phúc","category":"chat"},{"trigger":"hphuc","expansion":"hạnh phúc","category":"chat"},{"trigger":"hphúc","expansion":"hạnh phúc","category":"chat"},{"trigger":"qt","expansion":"quan tâm","category":"chat"},{"trigger":"qtam","expansion":"quan tâm","category":"chat"},{"trigger":"qtâm","expansion":"quan tâm","category":"chat"},{"trigger":"qtrong","expansion":"quan trọng","category":"chat"},{"trigger":"qtr","expansion":"quan trọng","category":"chat"},{"trigger":"cg","expansion":"cố gắng","category":"chat"},{"trigger":"cgắng","expansion":"cố gắng","category":"chat"},{"trigger":"ktra","expansion":"kiểm tra","category":"chat"},{"trigger":"kt","expansion":"kiểm tra","category":"chat"},{"trigger":"bt","expansion":"bài tập","category":"chat"},{"trigger":"btap","expansion":"bài tập","category":"chat"},{"trigger":"btvn","expansion":"bài tập về nhà","category":"chat"},{"trigger":"hb","expansion":"học bài","category":"chat"},{"trigger":"hk","expansion":"học kỳ","category":"chat"},{"trigger":"hkì","expansion":"học kỳ","category":"chat"},{"trigger":"gv","expansion":"giáo viên","category":"chat"},{"trigger":"trhoc","expansion":"trường học","category":"chat"},{"trigger":"đh","expansion":"đại học","category":"chat"},{"trigger":"dh","expansion":"đại học","category":"chat"},{"trigger":"thpt","expansion":"trung học phổ thông","category":"chat"},{"trigger":"thcs","expansion":"trung học cơ sở","category":"chat"},{"trigger":"cntt","expansion":"công nghệ thông tin","category":"chat"},{"trigger":"pv","expansion":"phỏng vấn","category":"chat"},{"trigger":"lv","expansion":"làm việc","category":"chat"},{"trigger":"nv","expansion":"nhân viên","category":"chat"},{"trigger":"kh","expansion":"khách hàng","category":"chat"},{"trigger":"sp","expansion":"sản phẩm","category":"chat"},{"trigger":"dv","expansion":"dịch vụ","category":"chat"},{"trigger":"hđ","expansion":"hợp đồng","category":"chat"},{"trigger":"hd","expansion":"hợp đồng","category":"chat"},{"trigger":"hd","expansion":"hướng dẫn","category":"chat"},{"trigger":"tb","expansion":"thông báo","category":"chat"},{"trigger":"vd","expansion":"ví dụ","category":"chat"},{"trigger":"vdu","expansion":"ví dụ","category":"chat"},{"trigger":"vđ","expansion":"vấn đề","category":"chat"},{"trigger":"vde","expansion":"vấn đề","category":"chat"},{"trigger":"vđề","expansion":"vấn đề","category":"chat"},{"trigger":"bv","expansion":"bởi vì","category":"chat"},{"trigger":"vv","expansion":"vì vậy","category":"chat"},{"trigger":"tn","expansion":"tuy nhiên","category":"chat"},{"trigger":"nc","expansion":"nói chung","category":"chat"},{"trigger":"nchung","expansion":"nói chung","category":"chat"},{"trigger":"lq","expansion":"liên quan","category":"chat"},{"trigger":"lquan","expansion":"liên quan","category":"chat"},{"trigger":"khieu","expansion":"không hiểu","category":"chat"},{"trigger":"k hiểu","expansion":"không hiểu","category":"chat"},{"trigger":"đy","expansion":"đồng ý","category":"chat"},{"trigger":"dy","expansion":"đồng ý","category":"chat"},{"trigger":"tt","expansion":"từ từ","category":"chat"},{"trigger":"tt","expansion":"trung tâm","category":"chat"},{"trigger":"lun","expansion":"liền","category":"chat"},{"trigger":"lun","expansion":"luôn","category":"chat"},{"trigger":"luon","expansion":"luôn","category":"chat"},{"trigger":"nx","expansion":"nữa","category":"chat"},{"trigger":"nữaa","expansion":"nữa","category":"chat"},{"trigger":"cừi","expansion":"cười","category":"chat"},{"trigger":"bùn","expansion":"buồn","category":"chat"},{"trigger":"thui","expansion":"thôi","category":"chat"},{"trigger":"thoy","expansion":"thôi","category":"chat"},{"trigger":"thoi","expansion":"thôi","category":"chat"},{"trigger":"hoy","expansion":"thôi","category":"chat"},{"trigger":"đii","expansion":"đi","category":"chat"},{"trigger":"dii","expansion":"đi","category":"chat"},{"trigger":"đou","expansion":"đâu","category":"chat"},{"trigger":"dou","expansion":"đâu","category":"chat"},{"trigger":"đei","expansion":"đây","category":"chat"},{"trigger":"dei","expansion":"đây","category":"chat"},{"trigger":"zô","expansion":"vào","category":"chat"},{"trigger":"zo","expansion":"vào","category":"chat"},{"trigger":"zề","expansion":"về","category":"chat"},{"trigger":"ze","expansion":"về","category":"chat"},{"trigger":"ms","expansion":"mới","category":"chat"},{"trigger":"thíck","expansion":"thích","category":"chat"},{"trigger":"thich","expansion":"thích","category":"chat"},{"trigger":"nhg","expansion":"nhưng","category":"chat"},{"trigger":"nhưg","expansion":"nhưng","category":"chat"},{"trigger":"nhìu","expansion":"nhiều","category":"chat"},{"trigger":"nhiu","expansion":"nhiều","category":"chat"},{"trigger":"wa","expansion":"quá","category":"chat"},{"trigger":"wá","expansion":"quá","category":"chat"},{"trigger":"qá","expansion":"quá","category":"chat"},{"trigger":"rấtt","expansion":"rất","category":"chat"},{"trigger":"tvi","expansion":"tại vì","category":"chat"},{"trigger":"helo","expansion":"xin chào","category":"chat"},{"trigger":"hello","expansion":"xin chào","category":"chat"},{"trigger":"tbh","expansion":"to be honest","category":"english"},{"trigger":"imo","expansion":"in my opinion","category":"english"},{"trigger":"idk","expansion":"I do not know","category":"english"},{"trigger":"brb","expansion":"be right back","category":"english"},{"trigger":"dm","expansion":"direct message","category":"english"},{"trigger":"pm","expansion":"private message","category":"english"},{"trigger":"gg","expansion":"good game","category":"english"},{"trigger":"gn","expansion":"good night","category":"english"},{"trigger":"g9","expansion":"good night","category":"english"},{"trigger":"gl","expansion":"good luck","category":"english"},{"trigger":"đkm","expansion":"địt mẹ","category":"profanity"},{"trigger":"dkm","expansion":"địt mẹ","category":"profanity"},{"trigger":"dume","expansion":"địt mẹ","category":"profanity"},{"trigger":"cl","expansion":"cái lồn","category":"profanity"},{"trigger":"cc","expansion":"cái cặc","category":"profanity"},{"trigger":"éo","expansion":"đéo","category":"profanity"},{"trigger":"deo","expansion":"đéo","category":"profanity"},{"trigger":"del","expansion":"đéo","category":"profanity"},{"trigger":"dell","expansion":"đéo","category":"profanity"},{"trigger":"đhieu","expansion":"đéo hiểu","category":"profanity"},{"trigger":"deohieu","expansion":"đéo hiểu","category":"profanity"},{"trigger":"clm","expansion":"cái lồn mẹ","category":"profanity"},{"trigger":"đuma","expansion":"đụ má","category":"profanity"},{"trigger":"duma","expansion":"đụ má","category":"profanity"},{"trigger":"vler","expansion":"vãi lồn","category":"profanity"},{"trigger":"vchưởng","expansion":"vãi chưởng","category":"euphemism"},{"trigger":"lqm","expansion":"liên quân mobile","category":"game"},{"trigger":"dtcl","expansion":"đấu trường chân lý","category":"game"}];
+let index = makeIndex(baseWords);
+const model = new EditorModel(index);
+const state = { auto: true, style: 'direct', shift: false, symbols: false, composing: false, completeInput:false, keyTimer: new Map(), suggestions: [] };
+const hint = 'Gõ ngắn thôi. Để IntelKB lo phần còn lại.';
+let feedbackTimer;
+function feedback(text) { $('#feedback').textContent = text; clearTimeout(feedbackTimer); feedbackTimer = setTimeout(() => { $('#feedback').textContent = hint; }, 4500); }
+function focusAt(caret) { editor.focus({ preventScroll: true }); editor.setSelectionRange(caret, caret); }
+function syncSelection() { model.select(editor.selectionStart,editor.selectionEnd); }
+function draw(focus = false) {
+  const {text,start,end} = model.current;
+  if (editor.value !== text) editor.value = text;
+  if (focus) editor.focus({preventScroll:true});
+  editor.setSelectionRange(start,end); refresh();
+}
+function changed(completeLast = false, force = false, deleting = false, groupTyping = false) {
+  state.completeInput=completeLast;
+  model.edit(editor.value,editor.selectionStart,editor.selectionEnd,groupTyping);
+  const changes = !deleting && (force || state.auto) ? model.transform(completeLast) : [];
+  draw();
+  if (changes.length) feedback('Đã bung '+changes.length+' từ · Hoàn tác để lấy lại chữ gốc.');
+}
+function refresh() {
+  state.suggestions = suggestionsFor(editor.value, editor.selectionStart, index, state.style, model.ranges,state.completeInput);
+  const area = $('#suggestions'); area.replaceChildren();
+  if (!state.suggestions.length) {
+    const span = document.createElement('span'); span.className = 'suggestion-hint'; span.textContent = 'Gõ một từ viết tắt để xem gợi ý'; area.append(span);
+  }
+  for (const [i, item] of state.suggestions.entries()) {
+    const btn = document.createElement('button'); btn.type = 'button'; btn.textContent = item.expansion;
+    btn.setAttribute('aria-label', `Thay ${editor.value.slice(item.start, item.end)} bằng ${item.expansion}`);
+    const detail = document.createElement('small'); detail.textContent = item.exact ? item.trigger : `Gợi ý từ ${item.trigger}`; btn.append(detail);
+    btn.addEventListener('pointerdown', event => event.preventDefault());
+    btn.addEventListener('click', () => accept(i)); area.append(btn);
+  }
+  $('#send').disabled = !editor.value.trim();
+  const pending = pendingWords(editor.value,index,state.style,model.ranges);
+  $('#pending-words').replaceChildren();
+  for (const item of pending) {
+    const button=document.createElement('button'); button.textContent=editor.value.slice(item.start,item.end); button.setAttribute('aria-label',`Xem nghĩa ${button.textContent} trong câu`);
+    button.addEventListener('pointerdown',event=>event.preventDefault());
+    button.onclick=()=>{focusAt(item.end);syncSelection();refresh();}; $('#pending-words').append(button);
+  }
+  $('#expand-all').disabled=!expandText(editor.value,editor.value.length,index,state.style,true,model.ranges).changes.length;
+  $('#undo').disabled=!model.past.length; $('#redo').disabled=!model.future.length;
+  $('#copy-result').disabled=!editor.value.trim(); $('#clear-text').disabled=!editor.value;
+  $('#text-count').textContent = [...editor.value].length+' ký tự';
+  $('#pending-count').textContent = pending.length ? pending.length+' từ chưa bung · chạm gợi ý để chọn' : 'Không còn từ chờ chọn';
+  const report=model.current.report;
+  $('#conversion-report').hidden=!report;
+  $('#conversion-source').textContent=report?.source || '';
+  $('#conversion-list').replaceChildren();
+  for (const item of report?.changes || []) {
+    const chip=document.createElement('span');chip.textContent=item.from+' → '+item.to;$('#conversion-list').append(chip);
+  }
+}
+function accept(i) {
+  const item = typeof i === 'object' ? i : state.suggestions[i]; if (!item) return;
+  state.completeInput=true;syncSelection(); const changes=model.choose(item); draw(true);
+  feedback('Đã chọn nghĩa và bung '+changes.length+' từ trong câu.');
+}
+function expand(completeLast=false) {
+  state.completeInput=completeLast;
+  syncSelection(); const changes=model.transform(completeLast);draw(true);
+  feedback(changes.length ? 'Đã bung '+changes.length+' từ. Từ nhiều nghĩa vẫn để bạn chọn.' : 'Chọn nghĩa cho các từ còn lại ở hàng gợi ý.');
+}
+function insert(value, telex = false) {
+  const start = editor.selectionStart, end = editor.selectionEnd;
+  if (telex && /[a-z]/i.test(value)) {
+    const match = editor.value.slice(0, start).match(/[\p{L}]+$/u);
+    if (match) {
+      const word = telexWord(match[0], value); editor.setRangeText(word, match.index, end, 'end');
+    } else editor.setRangeText(value, start, end, 'end');
+  } else editor.setRangeText(value, start, end, 'end');
+  focusAt(editor.selectionEnd); changed(false,false,false,true);
+}
+function erase() {
+  let a = editor.selectionStart, b = editor.selectionEnd;
+  if (a === b && a > 0) {
+    const segments=[...new Intl.Segmenter('vi',{granularity:'grapheme'}).segment(editor.value.slice(0,a))];
+    a=segments.at(-1)?.index ?? 0;
+  }
+  editor.setRangeText('', a, b, 'end'); focusAt(a); changed(false,false,true);
+}
+function undo() {
+  if (model.undo()) { state.completeInput=true;draw(true);feedback('Đã hoàn tác · Ctrl+Shift+Z để làm lại.'); }
+}
+function redo() { if (model.redo()) {state.completeInput=true;draw(true);feedback('Đã làm lại.');} }
+function send() {
+  if (state.auto) {syncSelection();model.transform(true);draw();}
+  const value = editor.value.trim(); if (!value) return;
+  const bubble = document.createElement('div'); bubble.className = 'bubble outgoing'; bubble.textContent = value;
+  $('#messages').append(bubble); $('#messages').scrollTop = $('#messages').scrollHeight;
+  model.clear();draw(true);feedback('Đã gửi vào cuộc trò chuyện mô phỏng.');
+}
+function flash(key) {
+  const button = [...document.querySelectorAll('.key')].find(b => b.dataset.key.toLowerCase() === key.toLowerCase());
+  if (!button) return;
+  button.classList.add('active'); clearTimeout(state.keyTimer.get(key));
+  state.keyTimer.set(key, setTimeout(() => button.classList.remove('active'), 130));
+}
+function press(key) {
+  flash(key);
+  if (key === 'Backspace') erase();
+  else if (key === 'Shift') { state.shift = !state.shift; renderKeys(); }
+  else if (key === 'Symbols') { state.symbols = !state.symbols; renderKeys(); }
+  else if (key === 'Enter') send();
+  else if (key === ' ') insert(' ');
+  else { insert(state.shift ? key.toUpperCase() : key, !state.symbols); if (state.shift) { state.shift = false; renderKeys(); } }
+}
+function renderKeys() {
+  const layouts = state.symbols ? ['1234567890', '-/:;()₫&@"', '.,?!\''] : ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+  const host = $('#keys'); host.replaceChildren();
+  const add = (row, key, label = key, cls = '') => {
+    const button = document.createElement('button'); button.type = 'button'; button.className = `key ${cls}`;
+    button.dataset.key = key; button.dataset.label = label; button.textContent = label;
+    button.setAttribute('aria-label', { Backspace: 'Xóa ký tự', Shift: 'Chữ hoa', Symbols: 'Đổi chữ và số', Enter: 'Gửi tin nhắn thử', ' ': 'Dấu cách' }[key] || `Phím ${label}`);
+    if (key === 'Shift') button.setAttribute('aria-pressed', state.shift);
+    button.addEventListener('pointerdown', e => { e.preventDefault(); flash(key); });
+    button.addEventListener('click', () => press(key)); row.append(button);
+  };
+  layouts.forEach((letters, i) => {
+    const row = document.createElement('div'); row.className = 'key-row';
+    if (i === 2) add(row, 'Shift', state.shift ? '⇧ •' : '⇧', 'wide');
+    for (const letter of letters) add(row, letter, state.shift ? letter.toUpperCase() : letter);
+    if (i === 2) add(row, 'Backspace', '⌫', 'wide'); host.append(row);
+  });
+  const last = document.createElement('div'); last.className = 'key-row';
+  add(last, 'Symbols', state.symbols ? 'ABC' : '123', 'function'); add(last, ',', ',', 'function');
+  add(last, ' ', 'dấu cách', 'space'); add(last, '.', '.', 'function'); add(last, 'Enter', 'gửi ↗', 'return'); host.append(last);
+}
+editor.addEventListener('beforeinput',event=>{
+  if (state.composing || event.isComposing) return;
+  if (event.inputType==='historyUndo' || event.inputType==='historyRedo') {
+    event.preventDefault();event.inputType==='historyUndo'?undo():redo();
+  }
+});
+editor.addEventListener('input', event => {
+  if (!event.isComposing && !state.composing) {
+    const complete=['insertFromPaste','insertFromDrop'].includes(event.inputType);
+    changed(complete,complete,event.inputType?.startsWith('delete'),event.inputType==='insertText');
+  }
+});
+editor.addEventListener('paste',event=>{
+  if (!event.clipboardData) return;
+  event.preventDefault();pasteText(event.clipboardData.getData('text/plain'));
+});
+function pasteText(text) {
+  if (!text) {feedback('Clipboard chưa có văn bản.');return;}
+  editor.setRangeText(text,editor.selectionStart,editor.selectionEnd,'end');
+  changed(true,true);editor.focus({preventScroll:true});
+}
+editor.addEventListener('compositionstart', () => { syncSelection();state.composing = true; });
+editor.addEventListener('compositionend', () => { state.composing = false; changed(); });
+for (const name of ['click','select','keyup']) editor.addEventListener(name,()=>{
+  if(!state.composing){
+    if (editor.selectionStart!==model.current.start || editor.selectionEnd!==model.current.end) state.completeInput=false;
+    syncSelection();refresh();
+  }
+});
+editor.addEventListener('keydown', event => {
+  if (event.isComposing || state.composing || event.keyCode===229) return;
+  flash(event.key);
+  if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); send(); }
+  if (event.ctrlKey || event.metaKey) {
+    const key=event.key.toLowerCase();
+    if (key==='z') {event.preventDefault();event.shiftKey?redo():undo();}
+    if (key==='y') {event.preventDefault();redo();}
+    if (event.code==='Space') {event.preventDefault();accept(0);}
+  }
+});
+$('#send').addEventListener('click', send); $('#undo').addEventListener('click', undo);
+$('#redo').addEventListener('click',redo);
+$('#clear-text').addEventListener('click',()=>{syncSelection();model.clear();draw(true);feedback('Đã xóa ô nhập. Có thể hoàn tác.');});
+$('#paste-text').addEventListener('pointerdown',e=>e.preventDefault());
+$('#paste-text').addEventListener('click',async()=>{
+  try {pasteText(await navigator.clipboard.readText());}
+  catch {editor.focus({preventScroll:true});feedback('Trình duyệt chưa cho đọc clipboard. Bấm Ctrl+V hoặc giữ ô nhập để dán.');}
+});
+$('#copy-result').addEventListener('click',async()=>{
+  if (state.auto) {syncSelection();model.transform(true);draw();}
+  try {await navigator.clipboard.writeText(editor.value);feedback('Đã sao chép nội dung trong ô nhập.');}
+  catch {editor.focus({preventScroll:true});editor.select();feedback('Đã chọn văn bản. Bấm Ctrl+C để sao chép.');}
+});
+$('#expand-all').addEventListener('pointerdown',e=>e.preventDefault());
+$('#expand-all').addEventListener('click',()=>expand(true));
+$('#auto').addEventListener('click', () => {
+  state.auto = !state.auto; $('#auto').setAttribute('aria-checked', state.auto); $('#mode-label').textContent = state.auto ? 'Tự bung đang bật' : 'Chọn nghĩa thủ công';
+  if (state.auto) expand(true);
+  feedback(state.auto ? 'Đã bật tự bung. Gõ hnay rồi nhấn cách để thử.' : 'Chế độ gợi ý: chạm một nghĩa để chọn.');
+});
+function setStyle(style) {
+  model.style=style;
+  state.style = style; $('#direct').setAttribute('aria-pressed', style === 'direct'); $('#gentle').setAttribute('aria-pressed', style === 'gentle');
+  $('#style-help').textContent = style === 'direct' ? 'Hiện nguyên nghĩa, kể cả từ tục.' : 'Ưu tiên cách nói nhẹ, ẩn gợi ý tục.';
+  $('#vcl-demo').textContent = style === 'direct' ? 'vãi cả lồn' : 'vãi cả lúa'; refresh();
+}
+$('#direct').addEventListener('click', () => setStyle('direct')); $('#gentle').addEventListener('click', () => setStyle('gentle'));
+document.querySelectorAll('[data-sample]').forEach(button => button.addEventListener('click', () => {
+  state.completeInput=true;syncSelection();
+  const changes=model.load(button.dataset.sample,JSON.parse(button.dataset.meanings || '{}'));draw(true);
+  const remaining=pendingWords(model.text,index,state.style,model.ranges).length;
+  feedback(changes.length ? 'Câu mẫu đã bung '+changes.length+' từ.'+(remaining ? ' Chọn nghĩa cho từ còn lại.' : ' Bạn có thể gõ tiếp hoặc sao chép.') : 'Đã điền câu mẫu. Chạm từ viết tắt bên dưới để chọn nghĩa nếu có.');
+  if (window.innerWidth < 760) $('.demo').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}));
+document.querySelectorAll('[data-tone]').forEach(button => {
+  button.addEventListener('pointerdown', e => e.preventDefault());
+  button.addEventListener('click', () => {
+    const match = editor.value.slice(0, editor.selectionStart).match(/[\p{L}]+$/u); if (!match) return;
+    const word = applyTone(match[0], button.dataset.tone); editor.setRangeText(word, match.index, editor.selectionStart, 'end'); focusAt(editor.selectionEnd); changed();
+  });
+});
+$('#reset').addEventListener('click', () => {
+  model.clear();draw();
+  $('#messages').querySelectorAll('.outgoing').forEach(el => el.remove()); refresh(); feedback('Bắt đầu lại. Thử một câu mới nhé.');
+});
+mountDictionary(baseWords, entries=>{index=makeIndex(entries);model.index=index;refresh();});
+renderKeys(); refresh();
+
+</script>
+</body>
+</html>

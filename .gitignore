@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+web-deploy.tar.gz
+.env
+.env.*
+!.env.example
+.openai/
+web/.git-sites-backup/
+data/raw/
+data/processed/
+data/compiled/

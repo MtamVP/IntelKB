@@ -1,0 +1,168 @@
+{
+  "collected_at": "2026-10-17T09:54:29.269930+00:00",
+  "sources": [
+    {
+      "id": "blue-eyes-vn__vietnamese-offensive-words",
+      "url": "https://github.com/blue-eyes-vn/vietnamese-offensive-words",
+      "revision": "684b568e4d54ce47b743d7c564447e29a02cc260",
+      "license": "MIT",
+      "files": [
+        {
+          "path": "data/raw/blue-eyes-vn__vietnamese-offensive-words/README.md",
+          "url": "https://raw.githubusercontent.com/blue-eyes-vn/vietnamese-offensive-words/684b568e4d54ce47b743d7c564447e29a02cc260/README.md",
+          "bytes": 2954,
+          "sha256": "0c4bb4b4df63688b66d5488acaa0d057eab16144238164a70658c93890cad759"
+        },
+        {
+          "path": "data/raw/blue-eyes-vn__vietnamese-offensive-words/README_vn.md",
+          "url": "https://raw.githubusercontent.com/blue-eyes-vn/vietnamese-offensive-words/684b568e4d54ce47b743d7c564447e29a02cc260/README_vn.md",
+          "bytes": 4237,
+          "sha256": "450f476b002a3209f7c510fd49f162773a03fda205c65c2329b530cd76dfe8ea"
+        },
+        {
+          "path": "data/raw/blue-eyes-vn__vietnamese-offensive-words/LICENSE.md",
+          "url": "https://raw.githubusercontent.com/blue-eyes-vn/vietnamese-offensive-words/684b568e4d54ce47b743d7c564447e29a02cc260/LICENSE.md",
+          "bytes": 1066,
+          "sha256": "617a6e974eb91d7dd50388e0d2fa05eabfe8a6d65640b4dd31d34fd272d798c3"
+        },
+        {
+          "path": "data/raw/blue-eyes-vn__vietnamese-offensive-words/vn_offensive_words.txt",
+          "url": "https://raw.githubusercontent.com/blue-eyes-vn/vietnamese-offensive-words/684b568e4d54ce47b743d7c564447e29a02cc260/vn_offensive_words.txt",
+          "bytes": 4426,
+          "sha256": "9e5fd21803717edfeb579d6e72b56f302008958adb178ffde2f25e021d91cdf6"
+        }
+      ]
+    },
+    {
+      "id": "behitek__vietnam-sensitive-words",
+      "url": "https://github.com/behitek/vietnam-sensitive-words",
+      "revision": "5e1af6e340b25996398d1d70bda6eb4de7141521",
+      "license": "UNVERIFIED",
+      "files": [
+        {
+          "path": "data/raw/behitek__vietnam-sensitive-words/README.md",
+          "url": "https://raw.githubusercontent.com/behitek/vietnam-sensitive-words/5e1af6e340b25996398d1d70bda6eb4de7141521/README.md",
+          "bytes": 239,
+          "sha256": "cf76e820ba62c5c4935c4784cd0aeef1683e8d1f8fc53182fccb70d603ff596b"
+        },
+        {
+          "path": "data/raw/behitek__vietnam-sensitive-words/bad_words.json",
+          "url": "https://raw.githubusercontent.com/behitek/vietnam-sensitive-words/5e1af6e340b25996398d1d70bda6eb4de7141521/bad_words.json",
+          "bytes": 71746,
+          "sha256": "26e0026974fb65918a53cbef49fea42ad92b3e977fe23645c18421c9650e5d71"
+        },
+        {
+          "path": "data/raw/behitek__vietnam-sensitive-words/bad_words_22082018.json",
+          "url": "https://raw.githubusercontent.com/behitek/vietnam-sensitive-words/5e1af6e340b25996398d1d70bda6eb4de7141521/bad_words_22082018.json",
+          "bytes": 317755,
+          "sha256": "ae73d3d796601f47ec9a92e201d8abc8c16e0167a108b35f568280ef94238159"
+        },
+        {
+          "path": "data/raw/behitek__vietnam-sensitive-words/hide.txt",
+          "url": "https://raw.githubusercontent.com/behitek/vietnam-sensitive-words/5e1af6e340b25996398d1d70bda6eb4de7141521/hide.txt",
+          "bytes": 242,
+          "sha256": "ed725d04db4a80c77917294cbe7116724204c2134f04fd6c9ea379ef5d429d64"
+        }
+      ]
+    },
+    {
+      "id": "ngxtnhi__ViLexNorm",
+      "url": "https://github.com/ngxtnhi/ViLexNorm",
+      "revision": "1070c6b9b00830fad278f48d9797df9ae1c942ac",
+      "license": "UNVERIFIED",
+      "files": [
+        {
+          "path": "data/raw/ngxtnhi__ViLexNorm/README.md",
+          "url": "https://raw.githubusercontent.com/ngxtnhi/ViLexNorm/1070c6b9b00830fad278f48d9797df9ae1c942ac/README.md",
+          "bytes": 3094,
+          "sha256": "2080dd1180d680b7e652402947cae0da1f8c1c60b16c0024b5c36b3735590036"
+        },
+        {
+          "path": "data/raw/ngxtnhi__ViLexNorm/data/train.csv",
+          "url": "https://raw.githubusercontent.com/ngxtnhi/ViLexNorm/1070c6b9b00830fad278f48d9797df9ae1c942ac/data/train.csv",
+          "bytes": 1164631,
+          "sha256": "616757088b9103d6f39ea2f790e9469bde5c39f13cfcf0f676aaf840916fc8b1"
+        },
+        {
+          "path": "data/raw/ngxtnhi__ViLexNorm/data/dev.csv",
+          "url": "https://raw.githubusercontent.com/ngxtnhi/ViLexNorm/1070c6b9b00830fad278f48d9797df9ae1c942ac/data/dev.csv",
+          "bytes": 155357,
+          "sha256": "c19c8334b903852ae0c549116a518ca8430a39b3042b6292a32b664dedd020d2"
+        },
+        {
+          "path": "data/raw/ngxtnhi__ViLexNorm/data/test.csv",
+          "url": "https://raw.githubusercontent.com/ngxtnhi/ViLexNorm/1070c6b9b00830fad278f48d9797df9ae1c942ac/data/test.csv",
+          "bytes": 149943,
+          "sha256": "a631e9a346e9de6144d87e6388b3a037830b63adf176d2ade187381f07df85bb"
+        }
+      ]
+    },
+    {
+      "id": "AnhHoang0529__ViSoLex-Resources",
+      "url": "https://github.com/AnhHoang0529/ViSoLex-Resources",
+      "revision": "25fa52ff5ae320721eca94984c4aae162e34ee13",
+      "license": "UNVERIFIED",
+      "files": [
+        {
+          "path": "data/raw/AnhHoang0529__ViSoLex-Resources/README.md",
+          "url": "https://raw.githubusercontent.com/AnhHoang0529/ViSoLex-Resources/25fa52ff5ae320721eca94984c4aae162e34ee13/README.md",
+          "bytes": 5474,
+          "sha256": "8632f2822afd7aee789e9439be914a9359426129c9940f0976560ca0d043eaf9"
+        },
+        {
+          "path": "data/raw/AnhHoang0529__ViSoLex-Resources/raw_data/ViLexNorm/dictionary/LexNorm_dict_syllable.json",
+          "url": "https://raw.githubusercontent.com/AnhHoang0529/ViSoLex-Resources/25fa52ff5ae320721eca94984c4aae162e34ee13/raw_data/ViLexNorm/dictionary/LexNorm_dict_syllable.json",
+          "bytes": 66908,
+          "sha256": "afcfa70524b315e085eaafebc0853af848a09418b5c25e9ec3925543bb46eb20"
+        },
+        {
+          "path": "data/raw/AnhHoang0529__ViSoLex-Resources/raw_data/ViLexNorm/dictionary/LexNorm_dict_segment.json",
+          "url": "https://raw.githubusercontent.com/AnhHoang0529/ViSoLex-Resources/25fa52ff5ae320721eca94984c4aae162e34ee13/raw_data/ViLexNorm/dictionary/LexNorm_dict_segment.json",
+          "bytes": 88290,
+          "sha256": "4a4da67f5d6bf993b78abeda982882cc107123b8cdd8ebd40c92e7a1ebf4ecf3"
+        }
+      ]
+    },
+    {
+      "id": "VFND__VMDS-vietnamese-misspell-dataset-from-Social-media",
+      "url": "https://github.com/VFND/VMDS-vietnamese-misspell-dataset-from-Social-media",
+      "revision": "12bf8c930d46354bddf19d5dde922713705f5105",
+      "license": "GPL-3.0",
+      "files": [
+        {
+          "path": "data/raw/VFND__VMDS-vietnamese-misspell-dataset-from-Social-media/README.md",
+          "url": "https://raw.githubusercontent.com/VFND/VMDS-vietnamese-misspell-dataset-from-Social-media/12bf8c930d46354bddf19d5dde922713705f5105/README.md",
+          "bytes": 4250,
+          "sha256": "160f498eb4b3099522206c0bdc6ccedb841c4246ffb82b5a9c6447fb1df2a4b3"
+        },
+        {
+          "path": "data/raw/VFND__VMDS-vietnamese-misspell-dataset-from-Social-media/LICENSE",
+          "url": "https://raw.githubusercontent.com/VFND/VMDS-vietnamese-misspell-dataset-from-Social-media/12bf8c930d46354bddf19d5dde922713705f5105/LICENSE",
+          "bytes": 35149,
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        },
+        {
+          "path": "data/raw/VFND__VMDS-vietnamese-misspell-dataset-from-Social-media/Dataset/dataset.csv",
+          "url": "https://raw.githubusercontent.com/VFND/VMDS-vietnamese-misspell-dataset-from-Social-media/12bf8c930d46354bddf19d5dde922713705f5105/Dataset/dataset.csv",
+          "bytes": 1236343,
+          "sha256": "7f09356c916edaa304489fb87c74a0a80e18d95907487c912b0c5251a9e5c9fe"
+        }
+      ]
+    },
+    {
+      "id": "behitek__teencode",
+      "url": "https://gist.github.com/behitek/7d9441c10b3c2739499fc5a4d9ea06fb",
+      "revision": "db0b7e2f1b27c68fcdc596e2049deac23777219b",
+      "license": "UNVERIFIED",
+      "files": [
+        {
+          "path": "data/raw/behitek__teencode/teencode.txt",
+          "url": "https://gist.githubusercontent.com/behitek/7d9441c10b3c2739499fc5a4d9ea06fb/raw/947c150b1350edb44f9a3b59a66c596fde8ccc25/teencode.txt",
+          "bytes": 5656,
+          "sha256": "cde544d84e5c6d5dc4514879d48400c308c028ad9a1579832fd57369177e5e63"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

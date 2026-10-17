@@ -1,0 +1,9 @@
+{
+  "source_count": 6,
+  "expansion_pairs": 4760,
+  "unique_triggers": 4342,
+  "ambiguous_triggers": 318,
+  "sentence_pairs": 20340,
+  "offensive_variants": 430,
+  "download_errors": []
+}
