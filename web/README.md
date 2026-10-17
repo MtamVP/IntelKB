@@ -21,9 +21,9 @@ Bản gộp mở trực tiếp: `web/preview.html`. Sau khi sửa source, từ t
 
 ## Đóng góp công khai
 
-Nút Từ điển & đóng góp cho xem toàn bộ danh sách có phân trang/tìm kiếm. Bất kỳ ai cũng được gửi từ mới, thêm nghĩa và góp ý sửa mà không có tài khoản. Có trường giải thích/ví dụ và tên tùy chọn. Đề xuất không sửa bản chính thức hay đưa ngay vào bàn phím; cần chủ trang duyệt.
+Tab Từ điển & đóng góp (`#dictionary`) tách riêng khỏi tab Thử bàn phím (`#playground`). Bảng từ có phân trang, tìm kiếm có/không dấu, lọc nhóm và trạng thái. Bất kỳ ai cũng được gửi từ mới, thêm nghĩa và góp ý sửa từ từng hàng mà không có tài khoản. Có trường giải thích/ví dụ và tên tùy chọn. Đề xuất không sửa bản chính thức hay đưa ngay vào bàn phím; cần chủ trang duyệt.
 
-Khi Supabase chưa sẵn sàng, danh sách chỉ là 419 mẫu có nhãn chưa duyệt. Khi kết nối thật, chỉ đọc các mục approved từ server. Nội dung tin nhắn không rời thiết bị, chỉ các đề xuất được người dùng bấm gửi mới được gửi lên Supabase.
+Tab tra cứu luôn có 419 mẫu công khai gắn nhãn Tham khảo, kể cả khi chưa duyệt bộ seed. Khi kết nối Supabase, các nghĩa approved thay thế mẫu trùng và bổ sung mục mới vào bảng. Nhãn Tham khảo không phản ánh dữ liệu draft riêng trong database; không tải hàng chờ hay bản nháp của người khác. Bàn phím kết nối thật chỉ dùng các mục approved từ server, không dùng bộ mẫu tham khảo để vượt kiểm duyệt. Nội dung tin nhắn không rời thiết bị, chỉ các đề xuất được người dùng bấm gửi mới được gửi lên Supabase.
 
 ## Quản trị
 

@@ -1,8 +1,9 @@
 import { CommunityStore } from './community-store.mjs';
+import { publicCatalogue, filterCatalogue } from './catalogue.mjs';
 
 export function mountDictionary(baseWords,onChange) {
   const get=id=>document.getElementById(id), store=new CommunityStore();
-  let catalogue=baseWords.map((row,i)=>({...row,id:`sample-${i}`,sample:true})), mode='sample',page=0,target=null,action='new',draftReceipt=null;
+  let catalogue=publicCatalogue(baseWords,[]), mode='sample',page=0,target=null,action='new',draftReceipt=null;
   const pageSize=40,names={chat:'Nhắn tin',profanity:'Từ tục',euphemism:'Nói nhẹ',english:'Tiếng Anh',game:'Game'};
   function status(text,error=false){get('dictionary-status').textContent=text;get('dictionary-status').classList.toggle('error',error);}
   function publicError(error){
@@ -19,7 +20,7 @@ export function mountDictionary(baseWords,onChange) {
     get('entry-expansion').value=type==='edit'?row.expansion:'';get('entry-category').value=row.category;
     get('entry-auto').checked=row.auto_replace||false;
     get('proposal-kind').textContent=row.sample?'Đóng góp cho từ trong bộ mẫu':type==='edit'?'Đề xuất chỉnh nghĩa':'Bổ sung một nghĩa khác';
-    get('cancel-edit').hidden=false;get('entry-expansion').focus();status('Đóng góp chỉ được đưa vào từ điển sau khi chủ trang duyệt.');
+    get('cancel-edit').hidden=false;get('dictionary-form').scrollIntoView({behavior:'smooth',block:'center'});get('entry-expansion').focus({preventScroll:true});status('Đóng góp chỉ được đưa vào từ điển sau khi chủ trang duyệt.');
   }
   function renderDrafts(){
     const host=get('proposal-drafts');host.replaceChildren();
@@ -31,33 +32,49 @@ export function mountDictionary(baseWords,onChange) {
     }
   }
   function render(){
-    const query=get('dictionary-search').value.trim().toLocaleLowerCase('vi');
-    const rows=catalogue.filter(row=>`${row.trigger} ${row.expansion}`.toLocaleLowerCase('vi').includes(query));
+    const query=get('dictionary-search').value.trim();
+    const rows=filterCatalogue(catalogue,{query,category:get('catalogue-category').value,status:get('catalogue-status').value});
     page=Math.max(0,Math.min(page,Math.ceil(rows.length/pageSize)-1));
     get('custom-count').textContent=`${catalogue.length} nghĩa`;
-    get('catalogue-source').textContent=mode==='live'?'Từ điển chung · chỉ các nghĩa đã duyệt':mode==='cache'?'Bản đã duyệt lưu trên máy · chưa tải được bản mới':'Bộ mẫu ngoại tuyến · chưa phải danh sách đã duyệt';
+    const approved=catalogue.filter(row=>!row.sample).length;
+    get('catalogue-total').textContent=catalogue.length;
+    get('catalogue-approved').textContent=approved;
+    get('catalogue-source').textContent=mode==='live'?'Đã kết nối từ điển cộng đồng':mode==='cache'?'Đang xem bản đã lưu · chưa tải được bản mới':'Đang xem bộ mẫu tham khảo';
     const host=get('dictionary-list');host.replaceChildren();
     for(const row of rows.slice(page*pageSize,(page+1)*pageSize)){
-      const box=document.createElement('div');box.className='dictionary-row';
-      const copy=document.createElement('div'),trigger=document.createElement('strong'),meaning=document.createElement('p'),meta=document.createElement('small');
-      trigger.textContent=row.trigger;meaning.textContent=row.expansion;meta.textContent=`${names[row.category]||row.category} · ${row.sample?'Mẫu chưa kiểm duyệt':'Đã duyệt'}`;
-      copy.append(trigger,meaning,meta);box.append(copy);
+      const box=document.createElement('tr');
+      for (const value of [row.trigger,row.expansion,names[row.category]||row.category]) {const cell=document.createElement('td');cell.textContent=value;box.append(cell);}
+      const stateCell=document.createElement('td'),badge=document.createElement('span');badge.className=row.sample?'catalogue-badge sample':'catalogue-badge approved';badge.textContent=row.sample?'Tham khảo':'Đã duyệt';stateCell.append(badge);box.append(stateCell);
+      const actions=document.createElement('td');actions.className='catalogue-actions';
       const add=document.createElement('button');add.textContent='＋ Nghĩa';add.setAttribute('aria-label',`Bổ sung nghĩa cho ${row.trigger}`);add.onclick=()=>startProposal(row,'add_meaning');
-      const edit=document.createElement('button');edit.textContent='Góp ý sửa';edit.setAttribute('aria-label',`Đề xuất sửa nghĩa ${row.trigger}: ${row.expansion}`);edit.onclick=()=>startProposal(row,'edit');box.append(add,edit);host.append(box);
+      const edit=document.createElement('button');edit.textContent='Góp ý sửa';edit.setAttribute('aria-label',`Đề xuất sửa nghĩa ${row.trigger}: ${row.expansion}`);edit.onclick=()=>startProposal(row,'edit');actions.append(add,edit);box.append(actions);host.append(box);
     }
-    if(!rows.length){const p=document.createElement('p');p.className='dictionary-empty';p.textContent=query?'Không có kết quả. Bạn có thể đề xuất từ mới ở trên.':'Chưa có nghĩa nào được công bố. Hãy gửi từ đầu tiên để chủ trang duyệt.';host.append(p);}
+    if(!rows.length){const tr=document.createElement('tr'),cell=document.createElement('td');cell.colSpan=5;cell.className='dictionary-empty';cell.textContent='Chưa có kết quả cho bộ lọc này. Bạn có thể gửi đề xuất từ mới.';tr.append(cell);host.append(tr);}
     get('catalogue-page').textContent=`Trang ${page+1}/${Math.max(1,Math.ceil(rows.length/pageSize))} · ${rows.length} nghĩa`;
     get('catalogue-prev').disabled=page===0;get('catalogue-next').disabled=(page+1)*pageSize>=rows.length;
-    onChange(catalogue);renderDrafts();
+    renderDrafts();
   }
   async function load(){
     get('reload-catalogue').disabled=true;
-    try{catalogue=await store.loadCatalogue();mode='live';page=0;render();status('Đã tải danh sách được chủ trang duyệt.');}
-    catch(error){const cached=store.cachedCatalogue();if(cached){catalogue=cached;mode='cache';}render();status(`${publicError(error)} Hiện đang xem ${mode==='sample'?'bộ mẫu ngoại tuyến':'bản lưu trên máy'}; đóng góp mới không tự công bố.`,true);}
+    try{const approved=await store.loadCatalogue();catalogue=publicCatalogue(baseWords,approved);onChange(approved);mode='live';page=0;render();status('Đã tải dữ liệu. Mẫu tham khảo dùng để tra cứu và góp ý; chỉ nghĩa đã duyệt được đưa vào bàn phím.');}
+    catch(error){const cached=store.cachedCatalogue();if(cached){catalogue=publicCatalogue(baseWords,cached);onChange(cached);mode='cache';}render();status(`${publicError(error)} Hiện đang xem ${mode==='sample'?'bộ mẫu ngoại tuyến':'bản lưu trên máy'}; đóng góp mới không tự công bố.`,true);}
     finally{get('reload-catalogue').disabled=false;}
   }
-  get('open-dictionary').onclick=()=>{get('dictionary-dialog').showModal();render();};
-  get('close-dictionary').onclick=()=>get('dictionary-dialog').close();get('cancel-edit').onclick=resetForm;
+  function route(event){
+    const dictionary=location.hash==='#dictionary';
+    get('playground').hidden=dictionary;get('dictionary-page').hidden=!dictionary;
+    for(const name of ['playground','dictionary']){const active=(name==='dictionary')===dictionary;get('tab-'+name).setAttribute('aria-selected',active);get('tab-'+name).tabIndex=active?0:-1;}
+    if(event)window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',route);
+  const tabs=[get('tab-playground'),get('tab-dictionary')];
+  for(const tab of tabs)tab.onkeydown=event=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+    event.preventDefault();const next=event.key==='Home'?tabs[0]:event.key==='End'?tabs[1]:tabs.find(item=>item!==tab);next.click();next.focus();
+  };
+  get('new-proposal').onclick=()=>{resetForm();get('dictionary-form').scrollIntoView({behavior:'smooth',block:'center'});get('entry-trigger').focus({preventScroll:true});};
+  get('cancel-edit').onclick=resetForm;
+  for(const id of ['catalogue-category','catalogue-status'])get(id).onchange=()=>{page=0;render();};
   get('dictionary-search').oninput=()=>{page=0;render();};get('catalogue-prev').onclick=()=>{page--;render();};get('catalogue-next').onclick=()=>{page++;render();};get('reload-catalogue').onclick=load;
   get('dictionary-form').onsubmit=async event=>{
     event.preventDefault();get('save-entry').disabled=true;
@@ -70,5 +87,5 @@ export function mountDictionary(baseWords,onChange) {
     finally{get('save-entry').disabled=false;renderDrafts();}
   };
   get('dictionary-form').addEventListener('input',()=>{draftReceipt=null;});
-  resetForm();render();load();return store;
+  resetForm();render();route();onChange(baseWords);load();return store;
 }

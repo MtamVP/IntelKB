@@ -8,10 +8,11 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="dictionary.css">
   <link rel="stylesheet" href="community.css">
+  <link rel="stylesheet" href="catalogue.css">
 </head>
 <body>
-  <header class="nav"><a href="./" class="brand" aria-label="IntelKB trang chủ"><span class="brand-icon">iK<span>↗</span></span> IntelKB<span class="beta">LAB / 01</span></a><a href="#playground" class="nav-link">Bàn phím thử nghiệm <span>↗</span></a></header>
-  <main id="playground">
+  <header class="nav"><a href="#playground" class="brand" aria-label="IntelKB trang chủ"><span class="brand-icon">iK<span>↗</span></span> IntelKB<span class="beta">LAB / 01</span></a><nav class="site-tabs" role="tablist" aria-label="Khám phá IntelKB"><a id="tab-playground" role="tab" href="#playground" aria-controls="playground" aria-selected="true">Thử bàn phím</a><a id="tab-dictionary" role="tab" href="#dictionary" aria-controls="dictionary-page" aria-selected="false" tabindex="-1">Từ điển & đóng góp <span id="custom-count">0 nghĩa</span></a></nav></header>
+  <main id="playground" role="tabpanel" aria-labelledby="tab-playground">
     <section class="intro">
       <div class="eyebrow"><span class="live-dot"></span> BÀN PHÍM CHO NHỮNG LỜI CHƯA VIẾT HẾT</div>
       <h1>Gõ ngắn.<br>Nói <span class="straight">thẳng<svg viewBox="0 0 330 20" aria-hidden="true"><path d="M3 13 Q140 0 325 9 M16 18 Q180 7 302 15"/></svg></span><span class="period">.</span></h1>
@@ -51,19 +52,22 @@
       <div class="word-demo"><span>VÍ DỤ VỚI “VCL”</span><div><small>vcl</small><span>↓</span><strong id="vcl-demo">vãi cả lồn</strong></div></div>
       <p class="ambiguity-note">Từ có nhiều nghĩa như <b>“xl”</b>? Bạn chọn nghĩa. IntelKB sẽ không tự đoán.</p>
       <button id="reset" class="reset">↺ Bắt đầu lại</button>
-      <button id="open-dictionary" class="dictionary-open">＋ Từ điển & đóng góp <span id="custom-count">0 từ</span></button>
     </aside>
   </main>
-  <dialog id="dictionary-dialog" aria-labelledby="dictionary-heading">
-    <div class="dictionary-top"><div><span class="control-title">CÙNG NHAU VIẾT CHO RÕ</span><h2 id="dictionary-heading">Từ điển cộng đồng.</h2></div><button id="close-dictionary" aria-label="Đóng từ điển">×</button></div>
-    <p class="dictionary-intro">Xem mọi nghĩa, góp thêm cách dùng. Không cần tài khoản — chủ trang duyệt trước khi công bố.</p>
-    <div class="cloud-box"><div><strong id="catalogue-source">Đang tải từ điển…</strong><p>Đề xuất mới không thay đổi trực tiếp từ điển đang dùng.</p></div><button id="reload-catalogue">Tải lại</button></div>
+  <section id="dictionary-page" class="dictionary-page" role="tabpanel" aria-labelledby="tab-dictionary" hidden>
+    <div class="catalogue-heading"><div><span class="control-title">KHO TỪ CỦA CHÚNG MÌNH</span><h1>Từ ngắn. Nghĩa dài.</h1><p>Tra cứu cách dùng, bổ sung nghĩa còn thiếu. Cùng viết một từ điển tiếng Việt sống động hơn.</p></div><button id="new-proposal">＋ Đóng góp từ mới</button></div>
+    <div class="catalogue-metrics"><div><strong id="catalogue-total">0</strong><span>nghĩa có thể tra cứu</span></div><div><strong id="catalogue-approved">0</strong><span>nghĩa đã duyệt</span></div><div><strong>Ai cũng góp được.</strong><span>Không cần tài khoản · Chủ trang duyệt trước khi công bố.</span></div></div>
+    <div class="cloud-box"><div><strong id="catalogue-source">Đang tải từ điển…</strong><p>Nhãn “Tham khảo” là bộ mẫu chưa kiểm duyệt. Đóng góp mới luôn vào hàng chờ, không thay đổi ngay từ điển.</p></div><button id="reload-catalogue">Tải lại</button></div>
     <p id="dictionary-status" role="status" aria-live="polite"></p>
-    <div id="proposal-drafts" aria-label="Các đóng góp chưa gửi"></div>
+    <div class="catalogue-layout"><div class="catalogue-browser">
+      <div class="dictionary-list-header"><h2>Toàn bộ từ điển</h2><input id="dictionary-search" type="search" placeholder="Tìm từ hoặc nghĩa, có dấu hay không đều được…" aria-label="Tìm trong từ điển"></div>
+      <div class="catalogue-filters"><label>Nhóm từ<select id="catalogue-category"><option value="">Tất cả nhóm</option><option value="chat">Nhắn tin</option><option value="profanity">Từ tục</option><option value="euphemism">Nói nhẹ</option><option value="english">Tiếng Anh</option><option value="game">Game</option></select></label><label>Trạng thái<select id="catalogue-status"><option value="">Tất cả dữ liệu</option><option value="approved">Đã duyệt</option><option value="sample">Tham khảo</option></select></label></div>
+      <div class="catalogue-table-wrap" tabindex="0" role="region" aria-label="Bảng từ điển, có thể cuộn ngang"><table class="catalogue-table"><caption class="visually-hidden">Danh sách từ viết tắt và nghĩa đầy đủ</caption><thead><tr><th scope="col">Từ viết tắt</th><th scope="col">Nghĩa đầy đủ</th><th scope="col">Nhóm</th><th scope="col">Trạng thái</th><th scope="col">Đóng góp</th></tr></thead><tbody id="dictionary-list"></tbody></table></div>
+      <div class="catalogue-pager"><button id="catalogue-prev">← Trước</button><span id="catalogue-page"></span><button id="catalogue-next">Sau →</button></div>
+    </div><aside class="contribution-panel" aria-label="Gửi đóng góp"><span class="control-title">MỖI NGHĨA ĐÚNG ĐỀU CÓ ÍCH</span><p class="dictionary-intro">Thêm từ mới hoặc chọn “Góp ý sửa” trong bảng. Bạn gửi, chủ trang kiểm tra.</p><div id="proposal-drafts" aria-label="Các đóng góp chưa gửi"></div>
     <form id="dictionary-form"><h3 id="proposal-kind">Đề xuất từ mới</h3><div class="entry-fields"><label>Từ viết tắt<input id="entry-trigger" maxlength="48" required placeholder="vd: hem" autocomplete="off"></label><label>Nghĩa đầy đủ<input id="entry-expansion" maxlength="240" required placeholder="vd: không" autocomplete="off"></label></div><div class="entry-options"><label>Nhóm từ<select id="entry-category"><option value="chat">Nhắn tin</option><option value="profanity">Từ tục</option><option value="euphemism">Nói nhẹ</option><option value="english">Tiếng Anh</option><option value="game">Game</option></select></label><label class="check-label"><input id="entry-auto" type="checkbox"> Đề nghị cho phép tự bung</label></div><label>Giải thích / ví dụ sử dụng<textarea id="entry-explanation" maxlength="1000" rows="2" placeholder="Từ này dùng trong tình huống nào? Vì sao nghĩa cũ cần sửa?"></textarea></label><label class="contributor-label">Tên hiển thị (không bắt buộc)<input id="contributor-name" maxlength="60" placeholder="Ẩn danh nếu để trống" autocomplete="off"></label><div class="form-actions"><button id="save-entry" type="submit">Gửi đề xuất</button><button id="cancel-edit" type="button" hidden>Hủy sửa</button></div></form>
-    <div class="dictionary-list-header"><h3>Toàn bộ từ điển</h3><input id="dictionary-search" type="search" placeholder="Tìm từ hoặc nghĩa…" aria-label="Tìm trong từ điển"></div>
-    <div id="dictionary-list"></div><div class="catalogue-pager"><button id="catalogue-prev">← Trước</button><span id="catalogue-page"></span><button id="catalogue-next">Sau →</button></div>
-  </dialog>
+    <p class="contribution-note">Không cần đăng nhập. Chỉ nội dung bạn bấm gửi ở biểu mẫu này được gửi lên hệ thống.</p></aside></div>
+  </section>
   <footer><span>IntelKB <span class="footer-slash">/</span> Ít ký tự hơn. Đủ ý hơn.</span><span>Đang thử nghiệm <span class="tiny-dot"></span> Made for tiếng Việt.</span></footer>
   <script type="module" src="app.js"></script>
 </body>

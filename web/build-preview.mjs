@@ -6,7 +6,7 @@ let html = read('index.html');
 const css = read('style.css');
 const engine = read('engine.mjs').replace(/^export /gm, '');
 const stripModule = script => script.replace(/^import .*\n/gm, '').replace(/^export /gm, '');
-const cloud = stripModule(read('config.mjs')) + '\n' + stripModule(read('dictionary-store.mjs')) + '\n' + stripModule(read('community-store.mjs')) + '\n' + stripModule(read('community-ui.mjs'));
+const cloud = stripModule(read('config.mjs')) + '\n' + stripModule(read('dictionary-store.mjs')) + '\n' + stripModule(read('community-store.mjs')) + '\n' + stripModule(read('catalogue.mjs')) + '\n' + stripModule(read('community-ui.mjs'));
 const words = JSON.stringify(JSON.parse(read('words.json'))).replaceAll('<', '\\u003c');
 const app = read('app.js').replace(/^import .*\n/gm, '').replace("await (await fetch('./words.json')).json()", () => words);
 // Callback replacements preserve literal JS sequences such as $' and $&.
@@ -14,6 +14,7 @@ const app = read('app.js').replace(/^import .*\n/gm, '').replace("await (await f
 html = html.replace('<link rel="stylesheet" href="style.css">', () => '<style>' + css + '</style>');
 html = html.replace('<link rel="stylesheet" href="dictionary.css">', () => '<style>' + read('dictionary.css') + '</style>');
 html = html.replace('<link rel="stylesheet" href="community.css">', () => '<style>' + read('community.css') + '</style>');
+html = html.replace('<link rel="stylesheet" href="catalogue.css">', () => '<style>' + read('catalogue.css') + '</style>');
 const inlineScript = (engine + '\n' + stripModule(read('editor-model.mjs')) + '\n' + cloud + '\n' + app).replace(/<\/script/gi, '<\\/script');
 html = html.replace('<script type="module" src="app.js"></script>', () => '<script type="module">\n' + inlineScript + '\n</script>');
 fs.writeFileSync(new URL('./preview.html', import.meta.url), html);
