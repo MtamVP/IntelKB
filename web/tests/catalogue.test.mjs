@@ -21,6 +21,20 @@ test('dictionary search supports unaccented Vietnamese and combined category/sta
   assert.equal(filterCatalogue(rows,{query:'xin loi',category:'chat',status:'sample'})[0].trigger,'xl');
   assert.equal(filterCatalogue(rows,{query:'xin loi',category:'game'}).length,0);
 });
+test('duplicate pairs differing only in case, whitespace or Unicode appear once across both sources',()=>{
+  const duplicates=[{trigger:' MS ',expansion:' mới ',category:'chat'},
+    {trigger:'ms',expansion:'mới'.normalize('NFD'),category:'chat'},
+    {trigger:'ms',expansion:'một nghĩa khác',category:'chat'}];
+  const remote=[{id:'old',trigger:'ms',expansion:'mới',status:'approved',revision:1,auto_replace:true},
+    {id:'current',trigger:'MS',expansion:'  mới ',status:'approved',revision:2,auto_replace:false}];
+  const visible=publicCatalogue(duplicates,remote);
+  assert.equal(visible.length,2);assert.equal(visible.find(row=>!row.sample).id,'current');
+  const keyboard=keyboardDictionary(duplicates,remote);
+  assert.equal(keyboard.length,1);assert.equal(keyboard[0].id,'current');
+  const index=makeIndex(duplicates);
+  assert.equal(index.get('ms').length,2);
+  assert.equal(suggestionsFor('ms',2,index,'direct').length,2);
+});
 const bundled=JSON.parse(fs.readFileSync(new URL('../dist/words.json',import.meta.url)));
 test('successful empty Supabase response keeps broad keyboard suggestions and autocomplete working',()=>{
   const rows=keyboardDictionary(bundled,[]),index=makeIndex(rows);

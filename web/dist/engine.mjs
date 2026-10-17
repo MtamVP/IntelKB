@@ -1,4 +1,4 @@
-export const normalize = s => s.normalize('NFC').toLocaleLowerCase('vi');
+export const normalize = s => s.normalize('NFC').trim().replace(/\s+/gu,' ').toLocaleLowerCase('vi');
 const ordinaryAuto = new Set('ko k k0 kh hk hông hong hok kô khum đc dc bik bít bjt j ji z zậy r rùi òi oy òy cx cũg đag vs bth hnay hqua baoh bgio ntn ntnao nthe tnào tsao chs kbt ksao nch mng mngười ngta nta ny ngyeu nyc ae mik mjh dth dthw tks thx sr sorry sry in4 info sđt sdt stk klq cmsn hpbd bsvv đr dr cty đcmm dcmm đcm dcm cmm clmm đhs dhs tđn tdn đbh dbh'.split(' '));
 const styleTriggers = new Set(['vcl', 'sml']);
 
