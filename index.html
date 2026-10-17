@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>IntelKB — Gõ ngắn. Nói thẳng.</title>
+  <script>
+    const destination = new URL('./web/dist/', location.href);
+    destination.search = location.search;
+    destination.hash = location.hash;
+    location.replace(destination.href);
+  </script>
+  <meta http-equiv="refresh" content="0;url=./web/dist/">
+</head>
+<body><p>Đang mở IntelKB… <a href="./web/dist/">Mở bàn phím và từ điển</a></p></body>
+</html>
