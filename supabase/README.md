@@ -21,7 +21,7 @@ Trang công khai không có nút/liên kết đến trang quản trị. Đườn
 
 ## Khi database chưa được thiết lập
 
-Tab tra cứu hiển thị bộ mẫu công khai với nhãn Tham khảo, kết hợp các mục approved từ server và phân biệt rõ trạng thái. Đây không phải quyền đọc draft hay hàng chờ của database. Đóng góp gửi lỗi chỉ nằm ở bản nháp trên trình duyệt, không được báo là đã gửi và không vào bàn phím. Khi kết nối database thành công, bàn phím chỉ dùng nguồn approved từ server; bộ mẫu không tự trộn vào bàn phím. Chưa có mục được duyệt thì bộ từ chính thức cho bàn phím rỗng, nhưng người dùng vẫn tra cứu và góp ý trên bộ mẫu được.
+Tab tra cứu hiển thị bộ mẫu công khai với nhãn Tham khảo, kết hợp các mục approved từ server và phân biệt rõ trạng thái. Đây không phải quyền đọc draft hay hàng chờ của database. Đóng góp gửi lỗi chỉ nằm ở bản nháp trên trình duyệt, không được báo là đã gửi và không vào bàn phím. Bàn phím giữ bộ mẫu thử đóng gói sẵn và kết hợp nguồn approved từ server để luôn dùng được khi chưa duyệt hết seed. Khi server có bản duyệt cho một trigger, toàn bộ nghĩa mẫu của trigger đó được thay bởi các nghĩa đã duyệt và tuân theo cờ auto_replace. Các đề xuất pending/draft từ database không bao giờ được đưa vào bàn phím. Số nghĩa mẫu và số nghĩa đã duyệt được ghi riêng dưới bàn phím.
 
 Bản nháp và cache phụ thuộc origin. localhost:5050, 127.0.0.1:5050 và cổng 5500 có kho lưu riêng. Bản nháp có nút Gửi lại/Bỏ nháp. Không tự gửi nội dung đang nhập khi mạng trở lại.
 

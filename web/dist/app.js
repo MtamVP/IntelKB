@@ -219,5 +219,10 @@ $('#reset').addEventListener('click', () => {
   model.clear();draw();
   $('#messages').querySelectorAll('.outgoing').forEach(el => el.remove()); refresh(); feedback('Bắt đầu lại. Thử một câu mới nhé.');
 });
-mountDictionary(baseWords, entries=>{index=makeIndex(entries);model.index=index;refresh();});
+mountDictionary(baseWords, entries=>{
+  index=makeIndex(entries);model.index=index;
+  const demo=entries.filter(row=>row.demo).length,approved=entries.length-demo;
+  $('#keyboard-source').textContent=`${demo} nghĩa mẫu thử · ${approved} nghĩa đã duyệt`;
+  refresh();
+});
 renderKeys(); refresh();

@@ -1,5 +1,5 @@
 import { CommunityStore } from './community-store.mjs';
-import { publicCatalogue, filterCatalogue } from './catalogue.mjs';
+import { publicCatalogue, filterCatalogue, keyboardDictionary } from './catalogue.mjs';
 
 export function mountDictionary(baseWords,onChange) {
   const get=id=>document.getElementById(id), store=new CommunityStore();
@@ -56,8 +56,8 @@ export function mountDictionary(baseWords,onChange) {
   }
   async function load(){
     get('reload-catalogue').disabled=true;
-    try{const approved=await store.loadCatalogue();catalogue=publicCatalogue(baseWords,approved);onChange(approved);mode='live';page=0;render();status('Đã tải dữ liệu. Mẫu tham khảo dùng để tra cứu và góp ý; chỉ nghĩa đã duyệt được đưa vào bàn phím.');}
-    catch(error){const cached=store.cachedCatalogue();if(cached){catalogue=publicCatalogue(baseWords,cached);onChange(cached);mode='cache';}render();status(`${publicError(error)} Hiện đang xem ${mode==='sample'?'bộ mẫu ngoại tuyến':'bản lưu trên máy'}; đóng góp mới không tự công bố.`,true);}
+    try{const approved=await store.loadCatalogue();catalogue=publicCatalogue(baseWords,approved);onChange(keyboardDictionary(baseWords,approved));mode='live';page=0;render();status('Đã tải dữ liệu. Bàn phím dùng bộ mẫu thử và dữ liệu đã duyệt; bản duyệt được ưu tiên cho cùng từ viết tắt. Đề xuất đang chờ chưa được sử dụng.');}
+    catch(error){const cached=store.cachedCatalogue();if(cached){catalogue=publicCatalogue(baseWords,cached);onChange(keyboardDictionary(baseWords,cached));mode='cache';}render();status(`${publicError(error)} Hiện đang xem ${mode==='sample'?'bộ mẫu ngoại tuyến':'bản lưu trên máy'}; đóng góp mới không tự công bố.`,true);}
     finally{get('reload-catalogue').disabled=false;}
   }
   function route(event){
@@ -87,5 +87,5 @@ export function mountDictionary(baseWords,onChange) {
     finally{get('save-entry').disabled=false;renderDrafts();}
   };
   get('dictionary-form').addEventListener('input',()=>{draftReceipt=null;});
-  resetForm();render();route();onChange(baseWords);load();return store;
+  resetForm();render();route();onChange(keyboardDictionary(baseWords));load();return store;
 }

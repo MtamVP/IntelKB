@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {publicCatalogue,filterCatalogue} from '../dist/catalogue.mjs';
+import {publicCatalogue,filterCatalogue,keyboardDictionary} from '../dist/catalogue.mjs';
+import {makeIndex,expandText,suggestionsFor} from '../dist/engine.mjs';
+import fs from 'node:fs';
 const samples=[{trigger:'ms',expansion:'mới',category:'chat'},{trigger:'xl',expansion:'xin lỗi',category:'chat'}];
 test('public reference list remains browsable before seeds are approved',()=>{
   const rows=publicCatalogue(samples,[]);
@@ -18,4 +20,26 @@ test('dictionary search supports unaccented Vietnamese and combined category/sta
   const rows=publicCatalogue(samples,[]);
   assert.equal(filterCatalogue(rows,{query:'xin loi',category:'chat',status:'sample'})[0].trigger,'xl');
   assert.equal(filterCatalogue(rows,{query:'xin loi',category:'game'}).length,0);
+});
+const bundled=JSON.parse(fs.readFileSync(new URL('../dist/words.json',import.meta.url)));
+test('successful empty Supabase response keeps broad keyboard suggestions and autocomplete working',()=>{
+  const rows=keyboardDictionary(bundled,[]),index=makeIndex(rows);
+  assert.equal(rows.length,bundled.length);
+  const text='hnay ms dc k, nhg nhiu thui';
+  assert.equal(expandText(text,text.length,index,'direct',true).text,'hôm nay mới được không, nhưng nhiều thôi');
+  assert.equal(suggestionsFor('xl',2,index,'direct').length,2);
+});
+test('partial moderation overrides an entire trigger without disabling unrelated demo words',()=>{
+  const rows=keyboardDictionary(bundled,[
+    {trigger:'HNAY',expansion:'hôm nay',status:'approved',auto_replace:false,category:'chat'},
+    {trigger:'xl',expansion:'xin lỗi',status:'approved',auto_replace:false,category:'chat'},
+    {trigger:'newword',expansion:'từ cộng đồng',status:'approved',auto_replace:true,category:'chat'},
+    {trigger:'pendingword',expansion:'chưa duyệt',status:'pending',auto_replace:true},
+    {trigger:'privateword',expansion:'riêng tư',status:'draft',auto_replace:true}
+  ]),index=makeIndex(rows);
+  const text='hnay ms dc k newword pendingword privateword';
+  assert.equal(expandText(text,text.length,index,'direct',true).text,'hnay mới được không từ cộng đồng pendingword privateword');
+  assert.deepEqual(suggestionsFor('xl',2,index,'direct').map(row=>row.expansion),['xin lỗi']);
+  assert.equal(rows.find(row=>row.trigger==='ms').demo,true);
+  assert.equal(rows.find(row=>row.trigger==='newword').demo,false);
 });
