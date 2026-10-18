@@ -6,13 +6,13 @@ import {reviewTargets,entryDiff,nextAfterReview,reviewError} from './review-acti
 const el=id=>document.getElementById(id),store=new CommunityStore();
 const categoryNames={chat:'Nhắn tin',profanity:'Từ tục',euphemism:'Nói nhẹ',english:'Tiếng Anh',game:'Game'};
 let allowed=false,rows=[],page=0,total=0,current=null,advanced=true,busy=false,loadVersion=0,searchTimer,decision='accept',batch=[],results=[];
-const selected=new Map(),edits=new Map(),styleChoices=new Map();let contextRows=[],lastUndo=null;
+const selected=new Map(),edits=new Map(),styleChoices=new Map();let contextRows=[],lastUndo=null,publishedSaveAttempt=null;
 const filtersKey='intelkb.review.filters.v2';
 function status(message,error=false){el('admin-status').textContent=message;el('admin-status').classList.toggle('error',error);}
 function node(tag,text,cls=''){const element=document.createElement(tag);if(text!==undefined)element.textContent=text;if(cls)element.className=cls;return element;}
 function canReview(row){return ['draft','pending'].includes(row.status);}
 function closeDetail(){current=null;el('review-form').hidden=true;el('review-empty').hidden=false;}
-function hide(){allowed=false;loadVersion++;contextRows=[];lastUndo=null;styleChoices.clear();selected.clear();edits.clear();rows=[];closeDetail();el('queue-list').replaceChildren();el('admin-panel').hidden=true;el('admin-login').hidden=false;el('admin-logout').hidden=true;el('review-results').hidden=true;}
+function hide(){allowed=false;loadVersion++;contextRows=[];lastUndo=null;publishedSaveAttempt=null;styleChoices.clear();selected.clear();edits.clear();rows=[];closeDetail();el('queue-list').replaceChildren();el('admin-panel').hidden=true;el('admin-login').hidden=false;el('admin-logout').hidden=true;el('review-results').hidden=true;}
 function selection(){
   for(const id of ['queue-kind','queue-filter','queue-search','queue-category','queue-grouped','queue-compact','queue-reload'])el(id).disabled=busy;
   const n=selected.size;el('selected-count').textContent=n?`${n} mục đã chọn · trang hiện tại`:'Chưa chọn mục';
@@ -31,7 +31,7 @@ function selection(){
   for(const button of el('queue-list').querySelectorAll('[data-decision]')){const count=selected.has(button.dataset.rowId)?selected.size:1;button.textContent=(button.dataset.decision==='accept'?'Duyệt':'Từ chối')+(count>1?' ('+count+')':'');button.title=count>1?`Áp dụng cho ${count} mục đang chọn`:'Chỉ áp dụng cho dòng này';}
   el('queue-prev').disabled=busy||page===0;el('queue-next').disabled=busy||(page+1)*50>=total;
 }
-function saveEdit(){if(!current)return;edits.set(current.id,{expansion:el('review-expansion').value,category:el('review-category').value,auto_replace:el('review-auto').checked,note:el('review-note').value});}
+function saveEdit(){if(!current)return;edits.set(current.id,{trigger:current.trigger,expansion:el('review-expansion').value,category:el('review-category').value,auto_replace:el('review-auto').checked,note:el('review-note').value});}
 function candidates(){
  const map=new Map(contextRows.filter(row=>row.status==='approved').map(row=>[row.id,{...row,kind:'approved'}]));
  for(const row of rows.filter(canReview))map.set(row.id,{...row,...edits.get(row.id),kind:el('queue-kind').value});
@@ -147,7 +147,8 @@ async function openReview(row){
   const lines=[`Bản đang xét: ${row.expansion}`];
   if(row.explanation)lines.push('Giải thích / ví dụ: '+row.explanation);if(row.contributor_name)lines.push('Người đóng góp: '+row.contributor_name);if(row.moderator_note)lines.push('Ghi chú trước đó: '+row.moderator_note);
   el('review-original').textContent=lines.join('\n');el('review-original').append(diffView(row.action==='edit'?contextRows.find(item=>item.id===row.target_id):row,saved));el('review-form').hidden=false;el('review-empty').hidden=true;
-  el('accept-proposal').hidden=el('reject-proposal').hidden=!canReview(row);render();
+  el('accept-proposal').hidden=el('reject-proposal').hidden=!canReview(row);
+  el('save-published').hidden=!(el('queue-kind').value==='seeds'&&row.status==='approved');el('published-save-help').hidden=el('save-published').hidden;el('published-save-status').hidden=true;render();
   if(window.innerWidth<1000)el('review-form').scrollIntoView({behavior:'smooth',block:'center'});
   if(row.target_id){try{const target=await store.target(row.target_id);if(!allowed||current?.id!==row.id)return;el('review-original').textContent+='\nNghĩa hiện tại: '+(target?target.trigger+' → '+target.expansion+' · v'+target.revision:'Mục gốc không còn tồn tại')+'\nĐề xuất dựa trên v'+row.base_revision;}catch(error){if(current?.id===row.id)status(error.message,true);}}
 }
@@ -189,7 +190,23 @@ el('queue-compact').onchange=()=>el('review-table').classList.toggle('compact',e
 el('queue-reload').onclick=()=>{if(!busy)loadQueue();};el('queue-prev').onclick=()=>{if(!busy){page--;loadQueue();}};el('queue-next').onclick=()=>{if(!busy){page++;loadQueue();}};
 el('select-page').onclick=()=>{rows.filter(canReview).forEach(row=>selected.set(row.id,row));selection();};el('clear-selection').onclick=()=>{selected.clear();selection();};
 el('bulk-accept').onclick=()=>prepare('accept',[...selected.values()]);el('bulk-reject').onclick=()=>prepare('reject',[...selected.values()]);
-el('review-form').onsubmit=event=>{event.preventDefault();if(current)prepare('accept',reviewTargets(rows,selected,current.id));};el('reject-proposal').onclick=()=>{if(current)prepare('reject',reviewTargets(rows,selected,current.id));};
+async function savePublished(){
+ if(busy||!allowed||!current||current.status!=='approved'||el('queue-kind').value!=='seeds')return;
+ saveEdit();const row=current,draft=edits.get(row.id);let entry;
+ try{entry=validateEntry({...row,...draft});}catch(error){status(error.message,true);return;}
+ const signature=JSON.stringify([row.id,row.revision,entry,draft.note]);
+ if(publishedSaveAttempt?.signature!==signature)publishedSaveAttempt={signature,receipt:crypto.randomUUID()};
+ busy=true;selection();el('save-published').textContent='Đang lưu…';el('published-save-status').hidden=false;el('published-save-status').textContent='Đang lưu vào Supabase…';
+ try{
+  const report=await store.savePublished(row,entry,draft.note,publishedSaveAttempt.receipt);if(!allowed)return;publishedSaveAttempt=null;lastUndo=report;edits.delete(row.id);current=null;
+  const remaining=new Map(edits);await loadQueue();for(const [id,draft] of remaining)if(rows.some(item=>item.id===id))edits.set(id,draft);
+  const updated=rows.find(item=>item.id===row.id);if(updated)await openReview(updated);else render();
+  status('Đã lưu thay đổi vào từ điển. Bạn có thể hoàn tác lượt lưu này.');el('published-save-status').hidden=false;el('published-save-status').textContent='Đã lưu vào Supabase.';
+ }catch(error){if(allowed){const message=error.code==='PGRST202'?'Cần chạy SQL lưu mục đã duyệt: published-edit-upgrade.sql trong Supabase SQL Editor. Thay đổi của bạn vẫn được giữ trong form.':reviewError(error).message;status(message,true);el('published-save-status').hidden=false;el('published-save-status').textContent=message;}}
+ finally{busy=false;el('save-published').textContent='Lưu thay đổi';selection();}
+}
+el('save-published').onclick=savePublished;
+el('review-form').onsubmit=event=>{event.preventDefault();if(current?.status==='approved'&&el('queue-kind').value==='seeds')savePublished();else if(current)prepare('accept',reviewTargets(rows,selected,current.id));};el('reject-proposal').onclick=()=>{if(current)prepare('reject',reviewTargets(rows,selected,current.id));};
 el('review-form').oninput=()=>{saveEdit();render();};el('cancel-review').onclick=()=>{saveEdit();closeDetail();render();};el('review-next').onclick=()=>nextRow();
 el('export-results').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(results,null,2)],{type:'application/json'}));const a=node('a');a.href=url;a.download='intelkb-review-results.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 document.addEventListener('keydown',event=>{if(!allowed||busy||/INPUT|TEXTAREA|SELECT/.test(event.target.tagName))return;if(event.key==='j'){event.preventDefault();nextRow();}if(event.key==='k'){event.preventDefault();nextRow(-1);}if(event.altKey&&event.key==='Enter'&&current){event.preventDefault();prepare('accept',reviewTargets(rows,selected,current.id));}});

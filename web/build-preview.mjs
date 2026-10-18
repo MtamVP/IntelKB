@@ -29,9 +29,11 @@ const reviewTools=fs.readFileSync(new URL('../supabase/migrations/20261018_revie
 const entryChanges=fs.readFileSync(new URL('../supabase/migrations/20261018_entry_changes.sql',import.meta.url),'utf8');
 const styleReview=fs.readFileSync(new URL('../supabase/migrations/20261018_style_review.sql',import.meta.url),'utf8');
 const referenceApproval=referenceApprovalSql(JSON.parse(read('words.json')));
+const publishedEdit=fs.readFileSync(new URL('../supabase/migrations/20261018_published_edit.sql',import.meta.url),'utf8');
+fs.writeFileSync(new URL('./dist/published-edit-upgrade.sql',import.meta.url),publishedEdit);
 fs.writeFileSync(new URL('./dist/reference-approval-upgrade.sql',import.meta.url),referenceApproval);
-fs.writeFileSync(new URL('./dist/supabase-setup.sql',import.meta.url),migration+'\n'+seeds+'\n'+reviewTools+'\n'+entryChanges+'\n'+styleReview+'\n'+referenceApproval);
-fs.writeFileSync(new URL('./dist/review-efficiency-upgrade.sql',import.meta.url),reviewTools+'\n'+entryChanges+'\n'+styleReview+'\n'+referenceApproval);
+fs.writeFileSync(new URL('./dist/supabase-setup.sql',import.meta.url),migration+'\n'+seeds+'\n'+reviewTools+'\n'+entryChanges+'\n'+styleReview+'\n'+referenceApproval+'\n'+publishedEdit);
+fs.writeFileSync(new URL('./dist/review-efficiency-upgrade.sql',import.meta.url),reviewTools+'\n'+entryChanges+'\n'+styleReview+'\n'+referenceApproval+'\n'+publishedEdit);
 fs.writeFileSync(new URL('./dist/entry-changes-upgrade.sql',import.meta.url),reviewTools+'\n'+entryChanges);
 fs.writeFileSync(new URL('./dist/review-tools-upgrade.sql',import.meta.url),reviewTools);
 console.log('Created web/preview.html');

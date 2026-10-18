@@ -68,3 +68,7 @@ Mở **Kiểm tra tự động điền theo chế độ** trên bàn kiểm duy�
 Các dòng chỉnh sửa tô trước/sau cho bốn trường từ vựng. Duyệt xong mở mục tiếp, ưu tiên dòng bị lỗi và giữ vị trí cuộn bảng. Nút **Hoàn tác lượt cuối** khôi phục trạng thái trước lượt duyệt hoặc đổi ưu tiên với phiên bản mới; nếu có thay đổi tiếp trên các dữ liệu liên quan thì từ chối hoàn tác. Không xóa vĩnh viễn mục vừa tạo; mục được thu hồi và đề xuất trở lại hàng chờ. Không gửi lại tự động sau lỗi mạng; dùng Tải lại để xem kết quả.
 
 Chạy `web/dist/review-efficiency-upgrade.sql` trong Supabase SQL Editor. Kiểm tra UI bằng `node web/tests/style-review-preview.mjs 8772`: PostgreSQL thử trong bộ nhớ, tài khoản giả, không kết nối Supabase thật.
+
+### Chỉnh sửa mục đã công bố
+
+Trong trang quản trị, mở mục đã chấp nhận, sửa nghĩa/nhóm/tự động điền rồi bấm **Lưu thay đổi** ở đầu khung chi tiết. Database đang dùng cần chạy `web/dist/published-edit-upgrade.sql` một lần sau các nâng cấp kiểm duyệt trước đó. Chỉ chủ trang được lưu; RPC kiểm tra phiên bản, chặn cặp trùng, ghi lịch sử và hỗ trợ nút hoàn tác. Khi lưu lỗi, nội dung form được giữ để thử lại. Nút lưu không tự công bố đề xuất của người đóng góp.

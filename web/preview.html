@@ -513,6 +513,10 @@ class CommunityStore extends SupabaseClient {
   async lastReview(){return this.request('/rest/v1/rpc/intelkb_last_review',{method:'POST',token:await this.accessToken(),body:{}});}
   async undoReview(id){return this.request('/rest/v1/rpc/intelkb_undo_review',{method:'POST',token:await this.accessToken(),body:{p_id:id}});}
   async setStyleDefaults(trigger,direct,gentle){return this.request('/rest/v1/rpc/intelkb_set_style_defaults',{method:'POST',token:await this.accessToken(),body:{p_receipt:crypto.randomUUID(),p_trigger:trigger,p_direct:direct||null,p_gentle:gentle||null}});}
+  async savePublished(row,entry,note='',receipt=crypto.randomUUID()){
+    if(row.status!=='approved'||!row.id||!Number.isInteger(row.revision))throw new Error('Hãy chọn mục đã công bố trước khi lưu.');
+    return this.request('/rest/v1/rpc/intelkb_save_published',{method:'POST',token:await this.accessToken(),body:{p_receipt:receipt,p_id:row.id,p_revision:row.revision,p_entry:validateEntry(entry),p_note:note}});
+  }
   async submit(input,context={}) {
     const word=validateEntry(input), action=context.action || 'new';
     if(!['new','add_meaning','edit'].includes(action))throw new Error('Loại đóng góp không hợp lệ.');
