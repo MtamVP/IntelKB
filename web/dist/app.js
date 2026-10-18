@@ -61,7 +61,7 @@ function refresh() {
 }
 function accept(i) {
   const item = typeof i === 'object' ? i : state.suggestions[i]; if (!item) return;
-  state.completeInput=true;syncSelection(); const changes=model.choose(item); draw(true);
+  state.completeInput=true;syncSelection(); const changes=model.choose(item,state.auto); draw(true);
   feedback('Đã chọn nghĩa và điền '+changes.length+' từ trong câu.');
 }
 function expand(completeLast=false) {
@@ -143,7 +143,7 @@ editor.addEventListener('beforeinput',event=>{
 editor.addEventListener('input', event => {
   if (!event.isComposing && !state.composing) {
     const complete=['insertFromPaste','insertFromDrop'].includes(event.inputType);
-    changed(complete,complete,event.inputType?.startsWith('delete'),event.inputType==='insertText');
+    changed(complete,false,event.inputType?.startsWith('delete'),event.inputType==='insertText');
   }
 });
 editor.addEventListener('paste',event=>{
@@ -153,7 +153,7 @@ editor.addEventListener('paste',event=>{
 function pasteText(text) {
   if (!text) {feedback('Clipboard chưa có văn bản.');return;}
   editor.setRangeText(text,editor.selectionStart,editor.selectionEnd,'end');
-  changed(true,true);editor.focus({preventScroll:true});
+  changed(true,false);editor.focus({preventScroll:true});
 }
 editor.addEventListener('compositionstart', () => { syncSelection();state.composing = true; });
 editor.addEventListener('compositionend', () => { state.composing = false; changed(); });
@@ -203,9 +203,10 @@ function setStyle(style) {
 $('#direct').addEventListener('click', () => setStyle('direct')); $('#gentle').addEventListener('click', () => setStyle('gentle'));
 document.querySelectorAll('[data-sample]').forEach(button => button.addEventListener('click', () => {
   state.completeInput=true;syncSelection();
-  const changes=model.load(button.dataset.sample,JSON.parse(button.dataset.meanings || '{}'));draw(true);
+  const changes=model.load(button.dataset.sample,{},state.auto);draw(true);
+  $('#sample-source').hidden=false;$('#sample-source').textContent='Câu mẫu ban đầu: “'+button.dataset.sample+'” · '+(state.auto?'Đã chạy tự động điền theo từ điển hiện tại.':'Khi nhập mẫu, tự động điền đang tắt: giữ nguyên chữ viết tắt.');
   const remaining=pendingWords(model.text,index,state.style,model.ranges).length;
-  feedback(changes.length ? 'Câu mẫu đã điền '+changes.length+' từ.'+(remaining ? ' Chọn nghĩa cho từ còn lại.' : ' Bạn có thể gõ tiếp hoặc sao chép.') : 'Đã điền câu mẫu. Chạm từ viết tắt bên dưới để chọn nghĩa nếu có.');
+  feedback(!state.auto?'Đã nhập câu viết tắt nguyên gốc. Bật tự động điền hoặc chọn một gợi ý để thử.':changes.length ? 'Câu mẫu đã điền '+changes.length+' từ.'+(remaining ? ' Chọn nghĩa cho từ còn lại.' : ' Bạn có thể gõ tiếp hoặc sao chép.') : 'Đã nhập câu mẫu; từ chưa có nghĩa ưu tiên vẫn giữ nguyên.');
   if (window.innerWidth < 760) $('.demo').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }));
 document.querySelectorAll('[data-tone]').forEach(button => {

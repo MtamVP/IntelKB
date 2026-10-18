@@ -53,8 +53,9 @@ export class EditorModel {
     this.commit({text,start,end,ranges:moveRanges(this.ranges,a,b,c-a),report:this.current.report},merge);
     this.typingAt = canGroup ? now : 0;
   }
-  load(text, meanings = {}) {
+  load(text, meanings = {}, autoFill = true) {
     this.commit({text,start:text.length,end:text.length,ranges:[],report:null});
+    if(!autoFill)return [];
     const {next,changes} = this.transformed(this.current,true,meanings);
     if (changes.length) this.commit(next);
     return changes;
@@ -77,7 +78,7 @@ export class EditorModel {
     if (changes.length) this.commit(next);
     return changes;
   }
-  choose(item) {
+  choose(item, autoFill = true) {
     const before = this.current;
     const out = replaceSuggestion(before.text,item);
     const added = out.text.length-before.text.length+(item.end-item.start);
@@ -88,7 +89,7 @@ export class EditorModel {
       end:keepCaret?mapPosition(before.end,[change]):out.caret,
       ranges:[...moveRanges(before.ranges,item.start,item.end,added),{start:item.start,end:item.start+added}],
       report:{source:before.text,changes:[{from:before.text.slice(item.start,item.end),to:replacement.trimEnd()}]}};
-    const transformed = this.transformed(next,true);
+    const transformed = autoFill?this.transformed(next,true):{next,changes:[]};
     transformed.next.report = {source:before.text,changes:[...next.report.changes,...transformed.changes.map(c=>({from:next.text.slice(c.start,c.end),to:c.replacement}))]};
     this.commit(transformed.next);
     return this.current.report.changes;

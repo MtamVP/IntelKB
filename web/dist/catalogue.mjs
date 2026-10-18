@@ -37,6 +37,10 @@ export function publicCatalogue(samples, approved) {
 }
 const catalogueSearch = text => text.normalize('NFD').replace(/\p{M}/gu,'').replace(/[đĐ]/g,'d').toLocaleLowerCase('vi');
 export const isBundledEntry = row => row.sample===true || row.source==='bootstrap';
+export function catalogueStats(rows){
+ const bundled=rows.filter(isBundledEntry).length;
+ return {total:rows.length,bundled,community:rows.length-bundled,triggers:new Set(rows.map(row=>normalize(row.trigger))).size};
+}
 export function filterCatalogue(rows,{query='',category='',status='',auto=''}={}) {
   const search=catalogueSearch(query.trim());
   return rows.filter(row=>(!category || row.category===category) && (!status || status==='approved' || (status==='sample'?isBundledEntry(row):status==='community'&&!isBundledEntry(row)))

@@ -1,5 +1,5 @@
 import { CommunityStore } from './community-store.mjs';
-import { publicCatalogue, filterCatalogue, keyboardDictionary, isBundledEntry } from './catalogue.mjs';
+import { publicCatalogue, filterCatalogue, keyboardDictionary, isBundledEntry, catalogueStats } from './catalogue.mjs';
 import {findTriggerMatches,parseContributions,classifyContribution} from './contribution-tools.mjs';
 
 export function mountDictionary(baseWords,onChange) {
@@ -97,9 +97,10 @@ export function mountDictionary(baseWords,onChange) {
     const rows=filterCatalogue(catalogue,{query,category:get('catalogue-category').value,status:get('catalogue-status').value,auto:get('catalogue-auto').value});
     page=Math.max(0,Math.min(page,Math.ceil(rows.length/pageSize)-1));
     get('custom-count').textContent=`${catalogue.length} nghĩa`;
-    const approved=catalogue.length;
-    get('catalogue-total').textContent=catalogue.length;
-    get('catalogue-approved').textContent=approved;
+    const counts=catalogueStats(catalogue);
+    get('catalogue-total').textContent=`Tổng ${counts.total} nghĩa · ${counts.triggers} từ viết tắt · sau khi gộp trùng.`;
+    get('catalogue-bundled').textContent=counts.bundled;
+    get('catalogue-community').textContent=counts.community;
     get('catalogue-source').textContent=mode==='live'?'Đã kết nối từ điển cộng đồng':mode==='cache'?'Đang xem bản đã lưu · chưa tải được bản mới':'Đang xem bộ có sẵn · đã duyệt';
     const host=get('dictionary-list');host.replaceChildren();
     for(const row of rows.slice(page*pageSize,(page+1)*pageSize)){

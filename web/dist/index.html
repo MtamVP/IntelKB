@@ -19,8 +19,8 @@
       <p class="lead">Ngón tay thích viết tắt.<br>Bàn phím thì thích nói cho rõ.</p>
       <p class="description">Thử gõ vài chữ bên cạnh. IntelKB sẽ điền đầy đủ những từ viết tắt thành lời — kể cả những lời hơi… thẳng.</p>
       <div class="try-label">CHỌN MỘT CÂU ĐỂ THỬ <span>↘</span></div>
-      <div class="examples"><button data-sample="hnay đi chơi k">Hẹn hội bạn <span>↗</span></button><button data-sample="đcmm lag vcl">Mất chuỗi thắng <span>↗</span></button><button data-sample="xl nha t đến muộn" data-meanings='{"xl":"xin lỗi","t":"tôi"}'>Một lời xin lỗi <span>↗</span></button></div>
-      <div class="notes"><div><span>01</span> Gõ, dán một đoạn hoặc chọn câu mẫu.<br><span class="indent">Từ rõ nghĩa được điền đầy đủ ngay.</span></div><div><span>02</span> Chưa có nghĩa ưu tiên? Chọn ở hàng gợi ý.<br><span class="indent">Ctrl + Space chọn gợi ý đầu tiên.</span></div></div>
+      <div class="examples"><button data-sample="hnay đi chơi k">Hẹn hội bạn <span>↗</span></button><button data-sample="đcmm lag vcl">Mất chuỗi thắng <span>↗</span></button><button data-sample="sr nha mik đến muộn">Một lời xin lỗi <span>↗</span></button></div>
+      <p id="sample-source" class="sample-source" role="status" hidden></p><div class="notes"><div><span>01</span> Gõ, dán một đoạn hoặc chọn câu mẫu.<br><span class="indent">Bật tự động điền để chuyển từ theo từ điển hiện tại.</span></div><div><span>02</span> Chưa có nghĩa ưu tiên? Chọn ở hàng gợi ý.<br><span class="indent">Ctrl + Space chọn gợi ý đầu tiên.</span></div></div>
       <div class="privacy"><span>◉</span> Nội dung bạn gõ được xử lý ngay trên thiết bị.</div>
     </section>
     <section class="demo" aria-label="Khu vực thử bàn phím">
@@ -57,8 +57,8 @@
   </main>
   <section id="dictionary-page" class="dictionary-page" role="tabpanel" aria-labelledby="tab-dictionary" hidden>
     <div class="catalogue-heading"><div><span class="control-title">KHO TỪ CỦA CHÚNG MÌNH</span><h1>Từ ngắn. Nghĩa dài.</h1><p>Tra cứu cách dùng, bổ sung nghĩa còn thiếu. Cùng viết một từ điển tiếng Việt sống động hơn.</p></div><button id="new-proposal">＋ Đóng góp từ mới</button></div>
-    <div class="catalogue-metrics"><div><strong id="catalogue-total">0</strong><span>nghĩa có thể tra cứu</span></div><div><strong id="catalogue-approved">0</strong><span>nghĩa đã duyệt</span></div><div><strong>Ai cũng góp được.</strong><span>Không cần tài khoản · Chủ trang duyệt trước khi công bố.</span></div></div>
-    <div class="cloud-box"><div><strong id="catalogue-source">Đang tải từ điển…</strong><p>Bộ từ có sẵn được mặc định là đã duyệt. Đóng góp và chỉnh sửa mới vẫn cần chủ trang duyệt trước khi công bố.</p></div><button id="reload-catalogue">Tải lại</button></div>
+    <div class="catalogue-metrics"><div><strong id="catalogue-bundled">0</strong><span>nghĩa trong bộ có sẵn</span></div><div><strong id="catalogue-community">0</strong><span>nghĩa cộng đồng đóng góp · đã duyệt</span></div><div><strong>Ai cũng góp được.</strong><span>Không cần tài khoản · Chủ trang duyệt trước khi công bố.</span></div></div>
+    <p id="catalogue-total" class="entry-help"></p><div class="cloud-box"><div><strong id="catalogue-source">Đang tải từ điển…</strong><p>Bộ từ có sẵn được mặc định là đã duyệt. Đóng góp và chỉnh sửa mới vẫn cần chủ trang duyệt trước khi công bố.</p></div><button id="reload-catalogue">Tải lại</button></div>
     <p id="dictionary-status" role="status" aria-live="polite"></p>
     <div class="catalogue-layout"><div class="catalogue-browser">
       <div class="dictionary-list-header"><h2>Toàn bộ từ điển</h2><input id="dictionary-search" type="search" placeholder="Tìm từ hoặc nghĩa, có dấu hay không đều được…" aria-label="Tìm trong từ điển"></div>

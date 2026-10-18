@@ -1,3 +1,20 @@
+import {normalize} from './engine.mjs';
+
+export function modeDefaultGaps(rows){
+ const groups=new Map();
+ for(const row of rows.filter(row=>row.status==='approved')){
+  const key=normalize(row.trigger);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(row);
+ }
+ const gaps=[];
+ for(const [trigger,group] of groups){
+  const profane=group.filter(row=>row.category==='profanity'),safe=group.filter(row=>row.category!=='profanity'),modes=[];
+  for(const [mode,pool] of [['direct',profane.length?profane:safe],['gentle',safe]]){
+   if(pool.length>1&&pool.filter(row=>row['auto_'+mode]===true).length!==1)modes.push(mode);
+  }
+  if(modes.length)gaps.push({trigger,modes});
+ }
+ return gaps.sort((a,b)=>a.trigger.localeCompare(b.trigger,'vi'));
+}
 // A row action uses the selection only when its initiating row belongs to it.
 export function reviewError(error){
   const missing=/^Choose (direct|gentle) default for (.+)$/.exec(error.message);

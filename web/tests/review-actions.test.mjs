@@ -1,6 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {reviewTargets,entryDiff,nextAfterReview,reviewError,makeReviewDraft,dirtyReviewDraft,staleReviewDraft} from '../dist/review-actions.mjs';
+import {reviewTargets,entryDiff,nextAfterReview,reviewError,makeReviewDraft,dirtyReviewDraft,staleReviewDraft,modeDefaultGaps} from '../dist/review-actions.mjs';
+
+test('admin priority shortcut finds only published ambiguous groups missing a mode default',()=>{
+ const row=(trigger,category,flags={})=>({trigger,category,status:'approved',...flags});
+ const rows=[row('TT','chat'),row('tt','chat'),row('xl','profanity'),row('xl','chat'),
+ row('ok','chat',{auto_direct:true,auto_gentle:true}),row('ok','chat'),
+ row('pending','chat',{status:'pending'}),row('pending','chat',{status:'pending'}),
+ row('g','chat',{auto_direct:true}),row('g','chat')];
+ assert.deepEqual(modeDefaultGaps(rows),[{trigger:'g',modes:['gentle']},{trigger:'tt',modes:['direct','gentle']}]);
+ assert.deepEqual(modeDefaultGaps([]),[]);
+});
 
 test('review drafts retain their original version and cannot silently overwrite refreshed data',()=>{
  const row={id:'a',trigger:'ms',expansion:'mới',category:'chat',status:'approved',revision:1,auto_replace:true};

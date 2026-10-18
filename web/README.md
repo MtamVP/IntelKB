@@ -61,7 +61,7 @@ Giống cả viết tắt, nghĩa, nhóm và tự động điền thì chặn g�
 
 ## Tự động điền theo chế độ và kiểm duyệt có hoàn tác
 
-Nhắn tục ưu tiên tập nghĩa `profanity`; nếu không có nghĩa tục thì dùng tập nghĩa không tục. Nhắn nhẹ chỉ dùng nghĩa không tục (`chat`, `euphemism`, `english`, `game`). Trong nhóm nhiều nghĩa, mỗi chế độ có một ứng viên thì tự điền ứng viên đó; nhiều ứng viên cùng chế độ phải có đúng một nghĩa ưu tiên do chủ trang chọn. Không lấy nghĩa đầu tiên theo thứ tự sắp xếp. Với mục một nghĩa, giữ quyền tự động điền hiện có. Chọn gợi ý/câu mẫu có nghĩa chỉ định vẫn là lựa chọn rõ ràng của người dùng.
+Nhắn tục ưu tiên tập nghĩa `profanity`; nếu không có nghĩa tục thì dùng tập nghĩa không tục. Nhắn nhẹ chỉ dùng nghĩa không tục (`chat`, `euphemism`, `english`, `game`). Trong nhóm nhiều nghĩa, mỗi chế độ có một ứng viên thì tự điền ứng viên đó; nhiều ứng viên cùng chế độ phải có đúng một nghĩa ưu tiên do chủ trang chọn. Không lấy nghĩa đầu tiên theo thứ tự sắp xếp. Với mục một nghĩa, giữ quyền tự động điền hiện có. Nút câu mẫu nhập nguyên câu viết tắt rồi dùng đúng từ điển/chế độ hiện tại, không mang nghĩa được chỉ định sẵn. Tắt tự động điền sẽ giữ nguyên chữ viết tắt cả khi chọn câu mẫu hoặc dán; bấm một gợi ý chỉ thay từ được chọn. Khi bật, các từ đủ điều kiện được điền tiếp theo quy tắc chung.
 
 Mở **Kiểm tra tự động điền theo chế độ** trên bàn kiểm duyệt. Chọn nghĩa đang chờ cũng chọn dòng vào lượt duyệt; bấm nút Duyệt trên dòng được chọn áp dụng cả nhóm đã chọn. Nghĩa đã công bố có thể đổi ưu tiên bằng nút Lưu riêng. Từ cùng cặp một tục/một nhẹ tự được cấu hình khi duyệt. Khi một phía còn nhiều nghĩa chưa chọn ưu tiên, toàn bộ lượt duyệt đó được rollback và giao diện mở phần chọn ưu tiên.
 
@@ -74,3 +74,5 @@ Chạy `web/dist/review-efficiency-upgrade.sql` trong Supabase SQL Editor. Kiể
 Trong trang quản trị, mở mục đã chấp nhận, sửa nghĩa/nhóm/tự động điền rồi bấm **Lưu thay đổi** ở đầu khung chi tiết. Database đang dùng cần chạy `web/dist/published-edit-upgrade.sql` một lần sau các nâng cấp kiểm duyệt trước đó. Chỉ chủ trang được lưu; RPC kiểm tra phiên bản, chặn cặp trùng, ghi lịch sử và hỗ trợ nút hoàn tác. Khi lưu lỗi, nội dung form được giữ để thử lại. Nút lưu không tự công bố đề xuất của người đóng góp.
 
 Bản rà soát phát hành: bản sửa trong trang quản trị được giữ khi lọc/chuyển trang/tải lại; nếu phiên bản máy chủ thay đổi thì chặn ghi đè và cho bỏ bản sửa cũ để đối chiếu bản mới. Đóng tab khi có bản sửa chưa lưu sẽ được trình duyệt cảnh báo. Các yêu cầu quản trị dùng chung một lần refresh token để tránh xung đột phiên.
+
+Thống kê công khai chia theo nguồn: bộ có sẵn (`bootstrap` hoặc mẫu ngoại tuyến) và cộng đồng (`community`), kèm tổng nghĩa và số viết tắt riêng biệt sau gộp trùng. Ba lối tắt trên trang quản trị mở đóng góp chờ duyệt, nhóm thiếu nghĩa ưu tiên trong từ điển đã công bố, và bản sửa chưa lưu trong phiên hiện tại; không yêu cầu SQL mới.

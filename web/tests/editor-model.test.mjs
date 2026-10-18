@@ -7,18 +7,33 @@ const words=JSON.parse(fs.readFileSync(new URL('../dist/words.json',import.meta.
 const dictionary=makeIndex(words);
 const create=()=>new EditorModel(dictionary);
 
-test('apology sample explicitly chooses xin lỗi and tôi and undo restores its raw text',()=>{
+test('sample buttons use raw abbreviations and real dictionary rules without preset meanings',()=>{
   const html=fs.readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
-  const sample=html.match(/data-sample="(xl nha t đến muộn)" data-meanings='([^']+)'/);
-  assert.ok(sample,'apology button must carry explicit meanings');
-  const m=create();m.load(sample[1],JSON.parse(sample[2]));
-  assert.equal(m.text,'xin lỗi nha tôi đến muộn');
-  assert.equal(m.current.start,m.text.length);
-  assert.equal(pendingWords(m.text,m.index,'direct',m.ranges).length,0);
-  assert.equal(m.current.report.changes.length,2);
-  m.undo();assert.equal(m.text,'xl nha t đến muộn');
-  m.redo();assert.equal(m.text,'xin lỗi nha tôi đến muộn');
+  assert.ok(html.includes('data-sample="sr nha mik đến muộn"'));assert.ok(!html.includes('data-meanings'));
+  const m=create();m.load('sr nha mik đến muộn',{},true);
+  assert.equal(m.text,'xin lỗi nha mình đến muộn');assert.equal(m.current.report.changes.length,2);
+  m.undo();assert.equal(m.text,'sr nha mik đến muộn');
+  m.redo();assert.equal(m.text,'xin lỗi nha mình đến muộn');
 });
+
+test('turning automatic filling off keeps every sample abbreviation literal',()=>{
+  const html=fs.readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
+  for(const match of html.matchAll(/data-sample="([^"]+)"/g)){
+    const m=create(),changes=m.load(match[1],{},false);
+    assert.equal(m.text,match[1]);assert.deepEqual(changes,[]);assert.equal(m.current.report,null);
+    m.transform(true);assert.notEqual(m.text,match[1]);m.undo();assert.equal(m.text,match[1]);
+  }
+  const managed=new EditorModel(makeIndex([{trigger:'sr',expansion:'xin lỗi',status:'approved',category:'chat',auto_replace:false}]));
+  managed.load('sr',{},true);assert.equal(managed.text,'sr');
+});
+
+test('manual suggestion selection does not transform other words when automatic filling is off',()=>{
+ const m=create();m.load('ms hnay',{},false);
+ const item=suggestionsFor(m.text,2,m.index,'direct')[0];m.choose(item,false);
+ assert.equal(m.text,'mới hnay');assert.equal(m.current.report.changes.length,1);
+ m.undo();assert.equal(m.text,'ms hnay');
+});
+
 test('mode defaults fill eligible words but cannot invent an unavailable meaning',()=>{
   const m=create();m.load('xl nha t đến muộn');
   assert.equal(m.text,'xạo lồn nha t đến muộn');

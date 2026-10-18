@@ -1,9 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {publicCatalogue,filterCatalogue,keyboardDictionary} from '../dist/catalogue.mjs';
+import {publicCatalogue,filterCatalogue,keyboardDictionary,catalogueStats} from '../dist/catalogue.mjs';
 import {makeIndex,expandText,suggestionsFor} from '../dist/engine.mjs';
 import fs from 'node:fs';
 const samples=[{trigger:'ms',expansion:'mới',category:'chat'},{trigger:'xl',expansion:'xin lỗi',category:'chat'}];
+test('public metrics separate bundled provenance from approved community meanings',()=>{
+ const rows=publicCatalogue(samples,[{id:'a',trigger:'MS',expansion:'mới',category:'chat',source:'bootstrap',status:'approved'},
+ {id:'b',trigger:'ms',expansion:'một nghĩa khác',category:'chat',source:'community',status:'approved'}]);
+ assert.deepEqual(catalogueStats(rows),{total:3,bundled:2,community:1,triggers:2});
+ assert.deepEqual(catalogueStats([]),{total:0,bundled:0,community:0,triggers:0});
+});
 test('built-in words are included in the approved catalogue without impersonating database rows',()=>{
   const rows=publicCatalogue(samples,[]);
   assert.equal(rows.length,2);assert.ok(rows.every(r=>r.sample && r.status===undefined));
