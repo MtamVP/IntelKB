@@ -54,3 +54,7 @@ Bảng từ điển có cột và bộ lọc **Tự động điền**. Bấm **B
 ## Thao tác nhanh với hàng chờ
 
 Bấm nền dòng hoặc nhấn Space/Enter khi dòng đang được focus để chọn/bỏ chọn. Các nút, ô nhập và checkbox vẫn hoạt động riêng, không làm đổi lựa chọn ngoài ý muốn. Dòng được chọn có nền nổi bật. Nút Duyệt/Từ chối trên dòng được chọn áp dụng cho toàn bộ các dòng đã chọn trên trang, đồng thời hiển thị số lượng. Nút ở dòng chưa chọn chỉ xử lý dòng đó. Không mở popup xác nhận. Cài đặt nhóm/tự động điền/ghi chú theo lô nằm ngay trên trang; trạng thái đang xử lý khóa thao tác lặp. Ở phần đóng góp, bấm cả thẻ tự động điền để đổi lựa chọn, hoặc bấm nền dòng/kết quả tìm nhanh để mở góp ý.
+
+## Quy tắc trùng đầy đủ / chỉnh sửa
+
+Giống cả viết tắt, nghĩa, nhóm và tự động điền thì chặn gửi, kể cả thêm ghi chú hoặc đổi tên người góp. Thay đổi nhóm, tự động điền hoặc nghĩa được chuyển thành đề xuất chỉnh sửa trên mục hiện có. Với nhiều nghĩa, chọn đúng mục để chỉnh sửa hoặc bấm ＋ Nghĩa để bổ sung. Có thể sửa viết tắt khi đã chọn mục cần sửa. Bộ mẫu không có revision trong database nên phần khác bộ mẫu được gửi làm ứng viên mới. Dán nhiều dòng giữ các cột bị bỏ trống của mục cũ; không tự đề xuất tắt tự động điền. Cần chạy `web/dist/entry-changes-upgrade.sql` trước khi dùng luồng gửi mới.

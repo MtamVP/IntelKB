@@ -100,7 +100,7 @@ async function openReview(row){
   el('review-original').textContent=lines.join('\n');el('review-form').hidden=false;el('review-empty').hidden=true;
   el('accept-proposal').hidden=el('reject-proposal').hidden=!canReview(row);render();
   if(window.innerWidth<1000)el('review-form').scrollIntoView({behavior:'smooth',block:'center'});
-  if(row.target_id){try{const target=await store.target(row.target_id);if(!allowed||current?.id!==row.id)return;el('review-original').textContent+='\nNghĩa hiện tại: '+(target?target.expansion+' · v'+target.revision:'Mục gốc không còn tồn tại')+'\nĐề xuất dựa trên v'+row.base_revision;}catch(error){if(current?.id===row.id)status(error.message,true);}}
+  if(row.target_id){try{const target=await store.target(row.target_id);if(!allowed||current?.id!==row.id)return;el('review-original').textContent+='\nNghĩa hiện tại: '+(target?target.trigger+' → '+target.expansion+' · v'+target.revision:'Mục gốc không còn tồn tại')+'\nĐề xuất dựa trên v'+row.base_revision;}catch(error){if(current?.id===row.id)status(error.message,true);}}
 }
 function nextRow(delta=1){const index=rows.findIndex(row=>row.id===current?.id);const row=rows[Math.max(0,Math.min(rows.length-1,index+delta))];if(row)openReview(row);}
 function prepare(dec,chosen){

@@ -23,6 +23,9 @@ export class CommunityStore extends SupabaseClient {
   async checkPair(trigger,expansion,excludeId=null) {
     return this.request('/rest/v1/rpc/intelkb_check_pair',{method:'POST',body:{p_trigger:trigger,p_expansion:expansion,p_exclude_id:excludeId}});
   }
+  async checkEntry(value){
+    return this.request('/rest/v1/rpc/intelkb_check_entry',{method:'POST',body:{p_trigger:value.trigger,p_expansion:value.expansion,p_category:value.category,p_auto_replace:value.auto_replace}});
+  }
   async reviewQueue({kind='proposals',status='pending',search='',category='',offset=0,limit=50,grouped=true}={}) {
     const token=await this.accessToken();
     return this.request('/rest/v1/rpc/intelkb_review_queue',{method:'POST',token,body:{p_kind:kind,p_status:status,p_search:search,p_category:category,p_offset:offset,p_limit:limit,p_grouped:grouped}});

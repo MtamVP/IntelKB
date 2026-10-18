@@ -44,3 +44,9 @@ Project đã cài đặt trước đây chỉ cần chạy `migrations/20261018_
 - Nếu chưa chạy nâng cấp, giao diện vẫn dùng RPC duyệt cũ lần lượt cho các dòng đã chọn và báo cần nâng cấp cho tìm kiếm/thống kê ở server. Kiểm tra trùng tại client vẫn hoạt động; kiểm tra hàng chờ và chống trùng mới ở server cần SQL nâng cấp.
 
 Kiểm tra giao diện quản trị với dữ liệu giả: `python web/tests/manual-review-preview.py`, mở `http://127.0.0.1:8770/workbench-ink-7c91.html`, dùng email bất kỳ hợp lệ và mật khẩu bất kỳ. Server chỉ bind localhost, không kết nối Supabase; đây không phải tài khoản cho website thật. Không triển khai server fixture lên hosting.
+
+## Nâng cấp kiểm tra toàn bộ thông tin
+
+Chạy toàn bộ `web/dist/entry-changes-upgrade.sql` trong Supabase SQL Editor rồi Run. File gồm phần công cụ kiểm duyệt trước đó và migration mới `20261018_entry_changes.sql`, chạy lại được, không xóa dữ liệu. Không cần chạy lại bộ seed. Bộ cài đầy đủ `web/dist/supabase-setup.sql` cũng đã gồm nâng cấp này.
+
+Chỉ chặn khi viết tắt, nghĩa (không phân biệt hoa/thường/khoảng trắng/Unicode), nhóm và tự động điền đều giống. Ghi chú và tên người góp không tạo thành một mục từ khác. Khác metadata của cùng cặp sẽ là `edit` có target/revision, không tạo bản công bố trùng. Có thể đổi viết tắt của mục đã chọn; chỉ áp dụng khi quản trị duyệt. Đề xuất chờ có metadata khác nhau được giữ riêng; nếu một bản đã được duyệt thì bản dựa trên revision cũ phải kiểm tra lại. RPC kiểm tra chỉ trả trạng thái trùng, không trả nội dung hàng chờ. Giao diện cần RPC mới trước khi gửi để tránh dùng nhầm quy tắc cũ.

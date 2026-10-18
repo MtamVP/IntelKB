@@ -1,6 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {findPair,findTriggerMatches,parseContributions,groupReviewRows} from '../dist/contribution-tools.mjs';
+import {findPair,findTriggerMatches,parseContributions,groupReviewRows,classifyContribution} from '../dist/contribution-tools.mjs';
+
+test('only fully identical word information is blocked; metadata or meaning changes resolve to edits',()=>{
+  const row={id:'1',revision:3,trigger:'xl',expansion:'xin lỗi',category:'chat',auto_replace:false};
+  assert.equal(classifyContribution([row],{...row,trigger:' XL ',expansion:'XIN  LỖI'}).action,'duplicate');
+  for(const change of [{category:'english'},{auto_replace:true},{expansion:'nghĩa khác'}]){
+    const result=classifyContribution([row],{...row,...change});assert.equal(result.action,'edit');assert.equal(result.target.id,'1');
+  }
+  const other={...row,id:'2',expansion:'nghĩa thứ hai'};
+  assert.equal(classifyContribution([row,other],{...row,expansion:'sửa nghĩa'}).action,'choose');
+  assert.equal(classifyContribution([row,other],{...row,expansion:'sửa nghĩa'},row,'edit').action,'edit');
+  assert.equal(classifyContribution([row,other],{...row,expansion:'bổ sung'},row,'add_meaning').action,'add_meaning');
+  assert.equal(classifyContribution([{...row,sample:true}],{...row,auto_replace:true}).action,'new');
+  assert.ok(parseContributions('xl → xin lỗi',[{...row,auto_replace:true}])[0].error);
+  const pasted=parseContributions('xl,xin lỗi,english',[{...row,auto_replace:true}])[0];
+  assert.equal(pasted.context.action,'edit');assert.equal(pasted.value.auto_replace,true);
+});
 
 test('typing lookup counts unique meanings, ranks exact then prefix and updates for unfinished aliases',()=>{
   const rows=[{trigger:'axl',expansion:'contains'},{trigger:'xla',expansion:'prefix'},{trigger:'xl',expansion:'xin lỗi'},{trigger:'XL',expansion:'XIN LỖI'},{trigger:'xl',expansion:'xạo lồn'},{trigger:'má',expansion:'mẹ'}];
@@ -30,7 +46,7 @@ test('paste parser accepts Excel, CSV quoted fields, headers and arrow notation'
 test('paste parser reports duplicates and invalid lines without losing valid contributions',()=>{
   const rows=parseContributions('abc → nghĩa mới\nABC → NGHĨA MỚI\nx → x\nxyz → khác');
   assert.equal(rows.filter(row=>!row.error).length,2);assert.match(rows[1].error,/Trùng/);assert.ok(rows[2].error);
-  assert.ok(parseContributions('abc → nghĩa mới',[{trigger:'ABC',expansion:'nghĩa mới'}])[0].error);
+  assert.ok(parseContributions('abc → nghĩa mới',[{trigger:'ABC',expansion:'nghĩa mới',category:'chat',auto_replace:false}])[0].error);
   assert.ok(parseContributions(Array.from({length:21},(_,i)=>`x${i} → nghĩa`).join('\n'))[0].error);
 });
 test('group review only groups supplied page rows, case-insensitively',()=>{

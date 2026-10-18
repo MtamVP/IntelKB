@@ -1,6 +1,19 @@
 import {normalize} from './engine.mjs';
 import {validateEntry} from './dictionary-store.mjs';
 export const pairIdentity = row => JSON.stringify([normalize(String(row.trigger||'')),normalize(String(row.expansion||''))]);
+export const entryIdentity = row => JSON.stringify([pairIdentity(row),row.category,Boolean(row.auto_replace)]);
+export function classifyContribution(rows,input,target=null,action='new'){
+  const identical=rows.find(row=>entryIdentity(row)===entryIdentity(input));
+  if(identical)return {action:'duplicate',target:identical};
+  if(target&&action==='edit')return {action:target.sample?'new':'edit',target:target.sample?null:target};
+  const pair=findPair(rows,input);
+  if(pair)return {action:pair.sample?'new':'edit',target:pair.sample?null:pair};
+  if(action==='add_meaning'&&target)return {action:target.sample?'new':action,target:target.sample?null:target};
+  const aliases=rows.filter(row=>normalize(row.trigger)===normalize(input.trigger));
+  if(aliases.length>1)return {action:'choose',target:null};
+  if(aliases.length===1&&!aliases[0].sample)return {action:'edit',target:aliases[0]};
+  return {action:'new',target:null};
+}
 export function findPair(rows,input,excludeId=null){
   const key=pairIdentity(input);
   return rows.find(row=>row.id!==excludeId && pairIdentity(row)===key) || null;
@@ -39,10 +52,15 @@ export function parseContributions(text,existing=[],category='chat'){
     try{
       if(cells.length<2 || cells.length>3)throw new Error('Dùng 2 cột: viết tắt và nghĩa; có thể thêm cột nhóm.');
       const value=validateEntry({trigger:cells[0],expansion:cells[1],category:cells[2]||category,auto_replace:false});
-      const key=pairIdentity(value);let error='';
+      const aliases=existing.filter(row=>normalize(row.trigger)===normalize(value.trigger));
+      const original=findPair(existing,value)||(aliases.length===1?aliases[0]:null);
+      // Missing pasted columns mean keep the original settings, not silently turn them off.
+      if(original){value.auto_replace=Boolean(original.auto_replace);value.category=cells[2]||original.category||category;}
+      const key=entryIdentity(value),context=classifyContribution(existing,value);let error='';
       if(seen.has(key))error='Trùng cặp trong nội dung vừa dán.';
-      else if(findPair(existing,value))error='Cặp viết tắt và nghĩa đã có trong danh sách.';
-      seen.add(key);return {line:i+1,value,error};
+      else if(context.action==='duplicate')error='Toàn bộ thông tin đã có trong danh sách.';
+      else if(context.action==='choose')error='Có nhiều nghĩa: chọn mục cần sửa hoặc bổ sung nghĩa ở chế độ Một từ.';
+      seen.add(key);return {line:i+1,value,error,context};
     }catch(error){return {line:i+1,error:error.message};}
   });
 }
