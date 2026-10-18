@@ -1,4 +1,4 @@
-import {normalize} from './engine.mjs';
+import {normalize,defaultAutoFill} from './engine.mjs';
 const catalogueKey = row => `${normalize(row.trigger)}\u0000${normalize(row.expansion)}`;
 const keyboardTrigger = row => normalize(row.trigger);
 function uniquePairs(rows) {
@@ -20,15 +20,16 @@ export function keyboardDictionary(samples, serverRows = []) {
     ...approved.map(row=>({...row,demo:false}))];
 }
 export function publicCatalogue(samples, approved) {
-  const rows = new Map(uniquePairs(samples).map((row,i)=>[catalogueKey(row),{...row,id:`sample-${i}`,sample:true}]));
+  const rows = new Map(uniquePairs(samples).map((row,i)=>[catalogueKey(row),{...row,auto_replace:row.auto_replace??defaultAutoFill(row.trigger),id:`sample-${i}`,sample:true}]));
   for (const row of uniquePairs(approved.filter(row=>row.status==='approved'))) {
     if (row.status === 'approved') rows.set(catalogueKey(row),{...row,sample:false});
   }
   return [...rows.values()].sort((a,b)=>a.trigger.localeCompare(b.trigger,'vi') || a.expansion.localeCompare(b.expansion,'vi'));
 }
 const catalogueSearch = text => text.normalize('NFD').replace(/\p{M}/gu,'').replace(/[đĐ]/g,'d').toLocaleLowerCase('vi');
-export function filterCatalogue(rows,{query='',category='',status=''}={}) {
+export function filterCatalogue(rows,{query='',category='',status='',auto=''}={}) {
   const search=catalogueSearch(query.trim());
   return rows.filter(row=>(!category || row.category===category) && (!status || (status==='sample'?row.sample:!row.sample))
+    && (!auto || (auto==='on'?row.auto_replace===true:row.auto_replace!==true))
     && catalogueSearch(`${row.trigger} ${row.expansion}`).includes(search));
 }

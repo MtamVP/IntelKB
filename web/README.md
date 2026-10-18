@@ -47,4 +47,6 @@ Xem `supabase/README.md` ở repo gốc để chạy SQL nâng cấp và phân b
 
 ## Tra cứu ngay khi nhập từ mới
 
+Bảng từ điển có cột và bộ lọc **Tự động điền**. Bấm **Bật/Tắt · Sửa** để đề xuất đổi riêng cài đặt, giữ nguyên nghĩa; trạng thái hiện tại và đề xuất được hiển thị trong biểu mẫu. Cài đặt vẫn cần chủ trang duyệt. Kết quả tìm nhanh cũng hiển thị Bật/Tắt. Mục tham khảo lấy mặc định từ bộ máy bàn phím; mục đã duyệt lấy cài đặt trong database. Bật là cho phép tự động điền, còn việc điền thực tế phụ thuộc chế độ bàn phím và lựa chọn nghĩa.
+
 Ô viết tắt tìm ngay trong toàn bộ danh sách công khai đã tải (bộ mẫu và nghĩa đã duyệt), không cần nhập xong hoặc điền nghĩa. Kết quả không phân biệt hoa/thường; ưu tiên khớp toàn bộ, rồi bắt đầu bằng ký tự đã nhập, rồi chứa ký tự đó. Số nghĩa khớp toàn bộ được đếm riêng với các mục gần khớp; mỗi cặp chỉ đếm một lần. Hiện tối đa 6 mục để đối chiếu, có nút mở bảng tra cứu và nút góp ý từng mục. Không có kết quả thì ẩn khung; kiểm tra trùng cả cặp và hàng chờ vẫn hoạt động như trước. Không công khai nội dung hàng chờ.

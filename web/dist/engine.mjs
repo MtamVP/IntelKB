@@ -10,6 +10,9 @@ for (const trigger of ['ms','nhg','nhưg','nhìu','nhiu','thui','thoy','hoy','wa
   'nchung','lquan','khieu','k hiểu','nữaa','cừi','bùn','đii','dii','đou','dou',
   'đei','dei','zô','zo','zề','ze','tvi','helo']) ordinaryAuto.add(trigger);
 
+// Expose the demo defaults for catalogue labels; published rows use their saved flag.
+export const defaultAutoFill = trigger => ordinaryAuto.has(normalize(trigger)) || styleTriggers.has(normalize(trigger));
+
 export function makeIndex(rows) {
   const index = new Map();
   for (const row of rows) {

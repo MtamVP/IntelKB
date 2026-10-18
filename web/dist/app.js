@@ -23,7 +23,7 @@ function changed(completeLast = false, force = false, deleting = false, groupTyp
   model.edit(editor.value,editor.selectionStart,editor.selectionEnd,groupTyping);
   const changes = !deleting && (force || state.auto) ? model.transform(completeLast) : [];
   draw();
-  if (changes.length) feedback('Đã bung '+changes.length+' từ · Hoàn tác để lấy lại chữ gốc.');
+  if (changes.length) feedback('Đã điền '+changes.length+' từ · Hoàn tác để lấy lại chữ gốc.');
 }
 function refresh() {
   state.suggestions = suggestionsFor(editor.value, editor.selectionStart, index, state.style, model.ranges,state.completeInput);
@@ -50,7 +50,7 @@ function refresh() {
   $('#undo').disabled=!model.past.length; $('#redo').disabled=!model.future.length;
   $('#copy-result').disabled=!editor.value.trim(); $('#clear-text').disabled=!editor.value;
   $('#text-count').textContent = [...editor.value].length+' ký tự';
-  $('#pending-count').textContent = pending.length ? pending.length+' từ chưa bung · chạm gợi ý để chọn' : 'Không còn từ chờ chọn';
+  $('#pending-count').textContent = pending.length ? pending.length+' từ chưa điền · chạm gợi ý để chọn' : 'Không còn từ chờ chọn';
   const report=model.current.report;
   $('#conversion-report').hidden=!report;
   $('#conversion-source').textContent=report?.source || '';
@@ -62,12 +62,12 @@ function refresh() {
 function accept(i) {
   const item = typeof i === 'object' ? i : state.suggestions[i]; if (!item) return;
   state.completeInput=true;syncSelection(); const changes=model.choose(item); draw(true);
-  feedback('Đã chọn nghĩa và bung '+changes.length+' từ trong câu.');
+  feedback('Đã chọn nghĩa và điền '+changes.length+' từ trong câu.');
 }
 function expand(completeLast=false) {
   state.completeInput=completeLast;
   syncSelection(); const changes=model.transform(completeLast);draw(true);
-  feedback(changes.length ? 'Đã bung '+changes.length+' từ. Từ nhiều nghĩa vẫn để bạn chọn.' : 'Chọn nghĩa cho các từ còn lại ở hàng gợi ý.');
+  feedback(changes.length ? 'Đã điền '+changes.length+' từ. Từ nhiều nghĩa vẫn để bạn chọn.' : 'Chọn nghĩa cho các từ còn lại ở hàng gợi ý.');
 }
 function insert(value, telex = false) {
   const start = editor.selectionStart, end = editor.selectionEnd;
@@ -190,9 +190,9 @@ $('#copy-result').addEventListener('click',async()=>{
 $('#expand-all').addEventListener('pointerdown',e=>e.preventDefault());
 $('#expand-all').addEventListener('click',()=>expand(true));
 $('#auto').addEventListener('click', () => {
-  state.auto = !state.auto; $('#auto').setAttribute('aria-checked', state.auto); $('#mode-label').textContent = state.auto ? 'Tự bung đang bật' : 'Chọn nghĩa thủ công';
+  state.auto = !state.auto; $('#auto').setAttribute('aria-checked', state.auto); $('#mode-label').textContent = state.auto ? 'Tự động điền đang bật' : 'Chọn nghĩa thủ công';
   if (state.auto) expand(true);
-  feedback(state.auto ? 'Đã bật tự bung. Gõ hnay rồi nhấn cách để thử.' : 'Chế độ gợi ý: chạm một nghĩa để chọn.');
+  feedback(state.auto ? 'Đã bật tự động điền. Gõ hnay rồi nhấn cách để thử.' : 'Chế độ gợi ý: chạm một nghĩa để chọn.');
 });
 function setStyle(style) {
   model.style=style;
@@ -205,7 +205,7 @@ document.querySelectorAll('[data-sample]').forEach(button => button.addEventList
   state.completeInput=true;syncSelection();
   const changes=model.load(button.dataset.sample,JSON.parse(button.dataset.meanings || '{}'));draw(true);
   const remaining=pendingWords(model.text,index,state.style,model.ranges).length;
-  feedback(changes.length ? 'Câu mẫu đã bung '+changes.length+' từ.'+(remaining ? ' Chọn nghĩa cho từ còn lại.' : ' Bạn có thể gõ tiếp hoặc sao chép.') : 'Đã điền câu mẫu. Chạm từ viết tắt bên dưới để chọn nghĩa nếu có.');
+  feedback(changes.length ? 'Câu mẫu đã điền '+changes.length+' từ.'+(remaining ? ' Chọn nghĩa cho từ còn lại.' : ' Bạn có thể gõ tiếp hoặc sao chép.') : 'Đã điền câu mẫu. Chạm từ viết tắt bên dưới để chọn nghĩa nếu có.');
   if (window.innerWidth < 760) $('.demo').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }));
 document.querySelectorAll('[data-tone]').forEach(button => {
