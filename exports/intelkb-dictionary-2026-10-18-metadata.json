@@ -1,0 +1,22 @@
+{
+  "exported_at": "2026-10-18T17:37:22.618361+07:00",
+  "source": "https://unkrjkhqzzksqqpqygwp.supabase.co",
+  "table": "public.intelkb_dictionary",
+  "scope": "Published dictionary rows visible via anonymous API; excludes pending proposals, drafts, admin accounts and private archives.",
+  "file": "intelkb-dictionary-2026-10-18.json",
+  "row_count": 523,
+  "distinct_triggers": 445,
+  "categories": {
+    "chat": 401,
+    "profanity": 85,
+    "english": 20,
+    "euphemism": 12,
+    "game": 5
+  },
+  "sources": {
+    "community": 109,
+    "bootstrap": 414
+  },
+  "duplicate_normalized_pairs": 0,
+  "sha256": "155cb7d6459a2f3796054806f7c69c384b3effa49d0429c45ec37f5e6e6171c3"
+}
