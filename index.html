@@ -2,34 +2,33 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#f3f0e8">
+  <meta name="theme-color" content="#171916">
   <meta name="description" content="Thử IntelKB: bàn phím điền từ viết tắt thành lời. Gõ thử, chọn gợi ý và tự điền ngay trên web.">
-  <title>IntelKB · Thử bàn phím</title>
+  <title>IntelKB — Gõ ngắn. Nói thẳng.</title>
   <link rel="stylesheet" href="web/dist/style.css">
   <link rel="stylesheet" href="web/dist/dictionary.css">
   <link rel="stylesheet" href="web/dist/community.css">
   <link rel="stylesheet" href="web/dist/catalogue.css">
-  <link rel="stylesheet" href="web/dist/playground.css">
 </head>
-<body class="public-app">
-  <header class="nav"><a href="#playground" class="brand" aria-label="IntelKB trang chủ"><span class="brand-icon" aria-hidden="true">ik</span> IntelKB<span class="beta">bản thử</span></a><nav class="site-tabs" role="tablist" aria-label="Khám phá IntelKB"><a id="tab-playground" role="tab" href="#playground" aria-controls="playground" aria-selected="true">Thử bàn phím</a><a id="tab-dictionary" role="tab" href="#dictionary" aria-controls="dictionary-page" aria-selected="false" tabindex="-1">Từ điển & đóng góp <span id="custom-count">0 nghĩa</span></a></nav></header>
+<body>
+  <header class="nav"><a href="#playground" class="brand" aria-label="IntelKB trang chủ"><span class="brand-icon">iK<span>↗</span></span> IntelKB<span class="beta">LAB / 01</span></a><nav class="site-tabs" role="tablist" aria-label="Khám phá IntelKB"><a id="tab-playground" role="tab" href="#playground" aria-controls="playground" aria-selected="true">Thử bàn phím</a><a id="tab-dictionary" role="tab" href="#dictionary" aria-controls="dictionary-page" aria-selected="false" tabindex="-1">Từ điển & đóng góp <span id="custom-count">0 nghĩa</span></a></nav></header>
   <main id="playground" role="tabpanel" aria-labelledby="tab-playground">
     <section class="intro">
-      <div class="eyebrow">Bàn phím tiếng Việt / dùng thử</div>
-      <h1>Gõ thử đi.</h1>
-      <p class="lead">Cứ nhắn như mọi ngày.</p>
-      <p class="description">Gõ trong ô tin nhắn hoặc dùng bàn phím bên dưới. IntelKB sẽ gợi ý nghĩa đầy đủ cho những từ bạn viết tắt.</p>
-      <div class="try-label">Hoặc bắt đầu bằng một câu có sẵn</div>
-      <div class="examples"><button data-sample="hnay đi chơi k"><strong>Rủ bạn đi chơi</strong><small>hnay đi chơi k</small><span aria-hidden="true">↗</span></button><button data-sample="đcmm lag vcl"><strong>Vừa thua một ván</strong><small>đcmm lag vcl</small><span aria-hidden="true">↗</span></button><button data-sample="sr nha mik đến muộn"><strong>Nhắn một lời xin lỗi</strong><small>sr nha mik đến muộn</small><span aria-hidden="true">↗</span></button></div>
-      <p id="sample-source" class="sample-source" role="status" hidden></p><div class="notes"><p>Muốn tự chọn nghĩa? Tắt tự động điền rồi bấm một gợi ý.</p><p><kbd>Ctrl</kbd> + <kbd>Space</kbd> chọn gợi ý đầu tiên.</p></div>
-      <div class="privacy"><span aria-hidden="true">↳</span> Tin nhắn thử chỉ ở trên máy bạn.</div>
+      <div class="eyebrow"><span class="live-dot"></span> BÀN PHÍM CHO NHỮNG LỜI CHƯA VIẾT HẾT</div>
+      <h1>Gõ ngắn.<br>Nói <span class="straight">thẳng<svg viewBox="0 0 330 20" aria-hidden="true"><path d="M3 13 Q140 0 325 9 M16 18 Q180 7 302 15"/></svg></span><span class="period">.</span></h1>
+      <p class="lead">Ngón tay thích viết tắt.<br>Bàn phím thì thích nói cho rõ.</p>
+      <p class="description">Thử gõ vài chữ bên cạnh. IntelKB sẽ điền đầy đủ những từ viết tắt thành lời — kể cả những lời hơi… thẳng.</p>
+      <div class="try-label">CHỌN MỘT CÂU ĐỂ THỬ <span>↘</span></div>
+      <div class="examples"><button data-sample="hnay đi chơi k">Hẹn hội bạn <span>↗</span></button><button data-sample="đcmm lag vcl">Mất chuỗi thắng <span>↗</span></button><button data-sample="sr nha mik đến muộn">Một lời xin lỗi <span>↗</span></button></div>
+      <p id="sample-source" class="sample-source" role="status" hidden></p><div class="notes"><div><span>01</span> Gõ, dán một đoạn hoặc chọn câu mẫu.<br><span class="indent">Bật tự động điền để chuyển từ theo từ điển hiện tại.</span></div><div><span>02</span> Chưa có nghĩa ưu tiên? Chọn ở hàng gợi ý.<br><span class="indent">Ctrl + Space chọn gợi ý đầu tiên.</span></div></div>
+      <div class="privacy"><span>◉</span> Nội dung bạn gõ được xử lý ngay trên thiết bị.</div>
     </section>
     <section class="demo" aria-label="Khu vực thử bàn phím">
-      <div class="demo-caption"><span>Bàn phím thử</span><span>Gõ trực tiếp hoặc bấm phím</span></div>
+      <div class="demo-caption"><span><span class="live-dot"></span> LIVE PLAYGROUND</span><span>Không cần tải app</span></div>
       <div class="phone">
         <div class="status-bar"><span>9:41</span><div class="island"></div><span class="status-icons">▂▄▆ <span>▰</span></span></div>
-        <div class="chat-header"><span class="back-arrow" aria-hidden="true">‹</span><div class="avatar" aria-hidden="true">bb</div><div><strong>Nhắn thử</strong><span>Cuộc trò chuyện của bạn</span></div><span class="chat-more" aria-hidden="true">···</span></div>
-        <div class="messages" id="messages" aria-label="Tin nhắn thử" aria-live="polite"><div class="date-tag">HÔM NAY, 9:41</div><div class="bubble incoming">Gõ tắt như bình thường nhé.</div><div class="bubble incoming">Thử “hnay đi chơi k” xem sao.</div><div class="system-note">Tin nhắn chỉ xuất hiện trong bản thử này.</div></div>
+        <div class="chat-header"><span class="back-arrow" aria-hidden="true">‹</span><div class="avatar">:)</div><div><strong>Hội bạn thân</strong><span>Cuộc trò chuyện mô phỏng</span></div><span class="chat-more" aria-hidden="true">···</span></div>
+        <div class="messages" id="messages" aria-label="Tin nhắn thử" aria-live="polite"><div class="date-tag">HÔM NAY, 9:41</div><div class="bubble incoming">Ê, bàn phím mới hả? 👀</div><div class="bubble incoming">Gõ thử một câu xem nào.</div><div class="system-note">Tin nhắn chỉ xuất hiện trong bản thử này.</div></div>
         <div class="typing-feedback" id="feedback" aria-live="polite">Gõ ngắn thôi. Để IntelKB lo phần còn lại.</div>
         <div class="editor-actions"><button id="paste-text">Dán văn bản</button><button id="copy-result" disabled>Sao chép</button><button id="clear-text" disabled>Xóa</button><span id="text-count">0 ký tự</span></div>
         <div class="composer"><textarea id="editor" rows="2" aria-label="Nhập tin nhắn thử" placeholder="Gõ hoặc dán: hnay dc k" autocomplete="off" spellcheck="false"></textarea><button id="send" aria-label="Gửi tin nhắn thử">↑</button></div>
@@ -48,12 +47,12 @@
       <details class="conversion-report" id="conversion-report" hidden><summary>Xem lần điền gần nhất</summary><p>Chữ gốc</p><div id="conversion-source"></div><div id="conversion-list"></div></details>
     </section>
     <aside class="controls" aria-label="Tùy chỉnh bàn phím">
-      <div class="control-title">Cài đặt bản thử</div><h2>Tùy chỉnh.</h2>
-      <div class="setting"><div><strong>Tự động điền</strong><p>Áp dụng khi gõ, dán văn bản hoặc chọn câu mẫu.</p></div><button class="switch" id="auto" role="switch" aria-checked="true" aria-label="Tự động điền từ"><span></span></button></div>
-      <div class="setting-block"><strong>Cách nói</strong><div class="segmented" aria-label="Cách nói"><button id="direct" aria-pressed="true">Nhắn tục</button><button id="gentle" aria-pressed="false">Nhắn nhẹ</button></div><p id="style-help">Hiện nguyên nghĩa, kể cả từ tục.</p></div>
-      <div class="word-demo"><span>Ví dụ với “vcl”</span><div><small>vcl</small><span>↓</span><strong id="vcl-demo">vãi cả lồn</strong></div></div>
-      <p class="ambiguity-note">Chưa đúng ý? Bạn có thể chọn nghĩa khác ở hàng gợi ý phía trên bàn phím.</p>
-      <button id="reset" class="reset">↺ Thử lại từ đầu</button>
+      <div class="control-title">BẠN CẦM LÁI.</div><h2>Bàn phím<br>theo ý bạn.</h2>
+      <div class="setting"><div><strong>Tự động điền khi gõ</strong><p>Nhấn cách hoặc dấu câu.<br>Dán và câu mẫu luôn được điền đầy đủ.</p></div><button class="switch" id="auto" role="switch" aria-checked="true" aria-label="Tự động điền từ"><span></span></button></div>
+      <div class="setting-block"><strong>Cách nói</strong><div class="segmented" aria-label="Cách nói"><button id="direct" aria-pressed="true">Nhắn tục ↗</button><button id="gentle" aria-pressed="false">Nhắn nhẹ ☁</button></div><p id="style-help">Hiện nguyên nghĩa, kể cả từ tục.</p></div>
+      <div class="word-demo"><span>VÍ DỤ VỚI “VCL”</span><div><small>vcl</small><span>↓</span><strong id="vcl-demo">vãi cả lồn</strong></div></div>
+      <p class="ambiguity-note">Mỗi chế độ dùng một nghĩa ưu tiên. Nhiều nghĩa cùng chế độ cần được chủ trang chọn trước.</p>
+      <button id="reset" class="reset">↺ Bắt đầu lại</button>
     </aside>
   </main>
   <section id="dictionary-page" class="dictionary-page" role="tabpanel" aria-labelledby="tab-dictionary" hidden>
@@ -70,7 +69,7 @@
     <form id="dictionary-form"><h3 id="proposal-kind">Đề xuất từ mới</h3><div class="entry-mode"><button type="button" id="entry-single" aria-pressed="true">Một từ</button><button type="button" id="entry-many" aria-pressed="false">Dán nhiều từ</button></div><div id="single-entry"><div class="entry-fields"><label>Từ viết tắt<input id="entry-trigger" maxlength="48" required placeholder="vd: hem" autocomplete="off" aria-describedby="entry-match-count"></label><section id="entry-lookup" class="entry-lookup" hidden aria-label="Từ đã có trong từ điển"><p id="entry-match-count" role="status" aria-live="polite"></p><ul id="entry-match-list"></ul><button id="entry-match-all" type="button" hidden></button><p class="entry-help">Đối chiếu các nghĩa đã có. Bạn vẫn có thể bổ sung nghĩa khác; chỉ giống cả viết tắt, nghĩa, nhóm và tự động điền mới là bản trùng.</p></section><label>Nghĩa đầy đủ<input id="entry-expansion" maxlength="240" required placeholder="vd: không" autocomplete="off"></label></div><div id="entry-preview" class="entry-preview" aria-live="polite">Viết tắt → nghĩa đầy đủ</div><div id="entry-duplicate" class="entry-duplicate" role="status"></div><button type="button" id="entry-use-existing" hidden>Góp ý trên mục đã có ↗</button></div><div id="many-entry" hidden><label>Dán tối đa 20 dòng<textarea id="entry-lines" rows="6" maxlength="20000" placeholder="Viết tắt → nghĩa đầy đủ&#10;hoặc dán 2 cột từ Excel"></textarea></label><p class="entry-help">Mỗi dòng một cặp, cách bằng Tab, dấu phẩy hoặc →. Dòng trùng và lỗi sẽ được bỏ qua. Từ mới mặc định chỉ hiện gợi ý. Với mục đã có, cột bị bỏ trống giữ nguyên nhóm và tự động điền; khác thông tin sẽ gửi chỉnh sửa.</p><div id="entry-lines-preview"></div></div><div class="entry-options"><label>Nhóm từ<select id="entry-category"><option value="chat">Nhắn tin</option><option value="profanity">Từ tục</option><option value="euphemism">Nói nhẹ</option><option value="english">Tiếng Anh</option><option value="game">Game</option></select></label><label class="check-label"><input id="entry-auto" type="checkbox"> Đề nghị bật tự động điền</label></div><p id="entry-auto-current" class="entry-help" aria-live="polite"></p><label>Giải thích / ví dụ sử dụng<textarea id="entry-explanation" maxlength="1000" rows="2" placeholder="Từ này dùng trong tình huống nào? Vì sao nghĩa cũ cần sửa?"></textarea></label><label class="contributor-label">Tên hiển thị (không bắt buộc)<input id="contributor-name" maxlength="60" placeholder="Ẩn danh nếu để trống" autocomplete="off"></label><p id="entry-save-state" class="entry-help" aria-live="polite"></p><div class="form-actions"><button id="save-entry" type="submit">Gửi đề xuất</button><button id="cancel-edit" type="button" hidden>Hủy sửa</button></div></form>
     <p class="contribution-note">Không cần đăng nhập. Chỉ nội dung bạn bấm gửi ở biểu mẫu này được gửi lên hệ thống.</p></aside></div>
   </section>
-  <footer><span>IntelKB <span class="footer-slash">/</span> Bàn phím tiếng Việt đang được hoàn thiện.</span><span>Bản thử trên trình duyệt</span></footer>
+  <footer><span>IntelKB <span class="footer-slash">/</span> Ít ký tự hơn. Đủ ý hơn.</span><span>Đang thử nghiệm <span class="tiny-dot"></span> Made for tiếng Việt.</span></footer>
   <script type="module" src="web/dist/app.js"></script>
 </body>
 </html>

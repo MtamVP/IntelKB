@@ -20,7 +20,6 @@ html = html.replace('<link rel="stylesheet" href="style.css">', () => '<style>' 
 html = html.replace('<link rel="stylesheet" href="dictionary.css">', () => '<style>' + read('dictionary.css') + '</style>');
 html = html.replace('<link rel="stylesheet" href="community.css">', () => '<style>' + read('community.css') + '</style>');
 html = html.replace('<link rel="stylesheet" href="catalogue.css">', () => '<style>' + read('catalogue.css') + '</style>');
-html = html.replace('<link rel="stylesheet" href="playground.css">', () => '<style>' + read('playground.css') + '</style>');
 const inlineScript = (engine + '\n' + stripModule(read('editor-model.mjs')) + '\n' + cloud + '\n' + app).replace(/<\/script/gi, '<\\/script');
 html = html.replace('<script type="module" src="app.js"></script>', () => '<script type="module">\n' + inlineScript + '\n</script>');
 fs.writeFileSync(new URL('./preview.html', import.meta.url), html);
