@@ -1,6 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {reviewTargets,entryDiff,nextAfterReview} from '../dist/review-actions.mjs';
+import {reviewTargets,entryDiff,nextAfterReview,reviewError} from '../dist/review-actions.mjs';
+
+test('review errors identify the required meaning choice and preserve database diagnostics',()=>{
+ const missing=reviewError(new Error('Choose gentle default for tt'));
+ assert.equal(missing.needsChoice,true);assert.match(missing.message,/“tt”.*nhắn nhẹ/);
+ assert.equal(reviewError(new Error('Default must be an approved or successfully reviewed entry')).needsChoice,true);
+ const database=reviewError(Object.assign(new Error('ambiguous column'),{code:'42702',details:'column id',hint:'qualify it'}));
+ assert.equal(database.needsChoice,false);assert.match(database.message,/42702.*column id.*qualify it/);
+ assert.equal(reviewError(new Error('network timeout')).needsChoice,false);
+});
 test('row actions apply to the selection only from a selected eligible row',()=>{
   const rows=[{id:'a',status:'draft'},{id:'b',status:'pending'},{id:'c',status:'draft'},{id:'d',status:'approved'}];
   const selected=new Set(['a','b','d','outside-page']);

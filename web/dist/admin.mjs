@@ -2,7 +2,7 @@ import {CommunityStore} from './community-store.mjs';
 import {validateEntry} from './dictionary-store.mjs';
 import {groupReviewRows} from './contribution-tools.mjs';
 import {normalize} from './engine.mjs';
-import {reviewTargets,entryDiff,nextAfterReview} from './review-actions.mjs';
+import {reviewTargets,entryDiff,nextAfterReview,reviewError} from './review-actions.mjs';
 const el=id=>document.getElementById(id),store=new CommunityStore();
 const categoryNames={chat:'Nhắn tin',profanity:'Từ tục',euphemism:'Nói nhẹ',english:'Tiếng Anh',game:'Game'};
 let allowed=false,rows=[],page=0,total=0,current=null,advanced=true,busy=false,loadVersion=0,searchTimer,decision='accept',batch=[],results=[];
@@ -177,7 +177,7 @@ async function confirmBatch(){
     const next=rows.find(row=>report.rows.some(item=>item.id===row.id&&!item.ok))||rows.find(row=>row.id===nextId)||rows[0];
     if(next){await openReview(next);el('queue-list').closest('.review-table-wrap').scrollTop=scroll;}
     status(`Đã xử lý lượt duyệt: ${report.ok} thành công, ${report.failed} lỗi. Xem báo cáo phía dưới.`,report.failed>0);
-  }catch(error){if(/Choose .* default/.test(error.message))el('style-review').open=true;if(allowed){status((/Choose .* default/.test(error.message)?'Cần chọn nghĩa ưu tiên trong phần kiểm tra theo chế độ. Lượt này chưa được lưu. ': 'Chưa xác nhận được toàn bộ kết quả. Hãy tải lại trước khi thử lại. ')+error.message,true);}}
+  }catch(error){if(allowed){const failure=reviewError(error);status(failure.message,true);el('review-summary').textContent=failure.message;el('review-result-rows').replaceChildren();el('review-results').hidden=false;if(failure.needsChoice){el('style-review').open=true;el('style-review').scrollIntoView({behavior:'smooth',block:'center'});}else el('admin-status').scrollIntoView({behavior:'smooth',block:'center'});}}
   finally{busy=false;selection();}
 }
 el('undo-review').onclick=async()=>{if(busy||!lastUndo?.undo_available)return;busy=true;selection();try{await store.undoReview(lastUndo.action_id);if(!allowed)return;lastUndo=null;el('review-summary').textContent='Đã hoàn tác lượt cuối; dữ liệu trở về trạng thái trước lượt duyệt với phiên bản mới.';await loadQueue();status('Đã hoàn tác. Các thay đổi mới hơn không bị ghi đè.');}catch(error){status(error.message,true);}finally{busy=false;selection();}};

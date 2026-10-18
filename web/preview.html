@@ -443,10 +443,11 @@ class SupabaseClient {
     });
     const raw = await response.text(); let data; try { data = raw ? JSON.parse(raw) : null; } catch { data = null; }
     if (!response.ok) {
-      if (['PGRST205','PGRST202'].includes(data?.code)) throw new Error('Chưa thiết lập database cộng đồng. Chủ trang cần chạy SQL mới trong Supabase SQL Editor.');
-      if (response.status === 401) throw new Error('Phiên đăng nhập hoặc cấu hình API chưa hợp lệ. Hãy đăng nhập lại.');
-      if (response.status === 403) throw new Error('Supabase từ chối quyền truy cập. Kiểm tra SQL và chính sách RLS.');
-      throw new Error(data?.msg || data?.message || data?.error_description || `Supabase trả lỗi ${response.status}.`);
+      let message=data?.msg || data?.message || data?.error_description || `Supabase trả lỗi ${response.status}.`;
+      if (['PGRST205','PGRST202'].includes(data?.code)) message='Chưa thiết lập database cộng đồng. Chủ trang cần chạy SQL mới trong Supabase SQL Editor.';
+      else if (response.status === 401) message='Phiên đăng nhập hoặc cấu hình API chưa hợp lệ. Hãy đăng nhập lại.';
+      else if (response.status === 403) message='Supabase từ chối quyền truy cập. Kiểm tra SQL và chính sách RLS.';
+      throw Object.assign(new Error(message),{status:response.status,code:data?.code,details:data?.details,hint:data?.hint,serverMessage:data?.message});
     }
     return data;
   }

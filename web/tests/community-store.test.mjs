@@ -4,6 +4,11 @@ import {CommunityStore} from '../dist/community-store.mjs';
 const config={url:'https://example.invalid',publishableKey:'public-test',table:'unused'};
 const storage=()=>{const m=new Map();return {getItem:k=>m.get(k)||null,setItem:(k,v)=>m.set(k,v),removeItem:k=>m.delete(k)};};
 const word={trigger:'abc',expansion:'một nghĩa mới',category:'chat',auto_replace:false};
+
+test('RPC failures retain status, SQL code, details and hint for diagnosis',async()=>{
+ const store=new CommunityStore({storage:storage(),config,fetcher:async()=>new Response(JSON.stringify({code:'42702',message:'ambiguous column',details:'column id',hint:'qualify it'}),{status:400})});
+ await assert.rejects(store.request('/rest/v1/rpc/intelkb_review_commit'),error=>error.status===400&&error.code==='42702'&&error.details==='column id'&&error.hint==='qualify it'&&error.message==='ambiguous column');
+});
 test('anonymous contributions use only the submission RPC and cannot set moderation fields',async()=>{
   let call;
   const store=new CommunityStore({storage:storage(),config,fetcher:async(url,options)=>{call={url,options};return new Response(JSON.stringify({id:'proposal-id',status:'pending'}));}});
