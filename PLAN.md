@@ -104,3 +104,31 @@ Cập nhật sau mỗi giai đoạn. Commit riêng cho từng milestone.
 | 2026-10-17 | `33732ab` | Add admin/ folder với URL đẹp |
 | 2026-10-17 | `cb8eafc` | Serve web app từ root index.html cho GitHub Pages |
 | 2026-10-17 | `612dee6` | Open IntelKB app từ GitHub Pages root |
+
+
+---
+
+## Tiến độ bổ sung 18/10/2026
+
+## Đã triển khai
+- [x] Tab tra cứu và đóng góp riêng, bảng tìm kiếm/lọc/phân trang.
+- [x] So trùng theo cặp viết tắt + nghĩa, chuẩn hóa hoa/thường, Unicode và khoảng trắng.
+- [x] Xem trước khi nhập, giữ nội dung cục bộ, góp ý trên mục đã có.
+- [x] Dán nhiều dòng có kiểm tra lỗi/trùng và báo kết quả từng dòng.
+- [x] Bàn kiểm duyệt dạng bảng gọn, khung sửa cạnh bên, lọc và gom cụm.
+- [x] Chọn mục/cụm/trang, xem trước rồi duyệt/từ chối theo lô.
+- [x] Sửa nghĩa, nhóm, tự bung; phím điều hướng và xuất báo cáo lô.
+- [x] RPC quyền admin, kiểm tra revision, kết quả riêng từng mục và nhật ký lô.
+
+## Cần chủ project thiết lập
+- [ ] Chạy `supabase/migrations/20261018_review_tools.sql` trên Supabase thật để bật các RPC mới. Không cần xóa hoặc nhập lại dữ liệu.
+- [ ] Kiểm tra đăng nhập và lượt duyệt thật bằng tài khoản chủ trang.
+
+## Tiếp theo
+- [ ] Nhập file CSV/JSON/JSONL quy mô lớn với ánh xạ cột và tiếp tục sau lỗi.
+- [ ] Quản lý toàn bộ dữ liệu: lịch sử phiên bản, thu hồi công bố, thùng rác và khôi phục.
+- [ ] Đồng bộ trạng thái vô hiệu hóa để bộ mẫu không làm sống lại từ đã thu hồi.
+- [ ] Chống spam theo IP/Turnstile trước khi mở đóng góp quy mô lớn.
+- [ ] Tiếp tục kiểm tra và tối ưu bàn phím sau khi hoàn thiện các công cụ dữ liệu.
+
+Giữ quyền công bố cuối cùng cho chủ trang. Đóng góp mới luôn vào hàng chờ; bộ mẫu và nghĩa đã duyệt được ghi nhãn riêng.

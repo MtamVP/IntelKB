@@ -34,3 +34,13 @@ Không có liên kết quản trị ở trang công khai. Trang riêng nằm t�
 Từ thư mục web: `npm install` rồi `npm test`. PGlite chỉ dùng kiểm thử local, không được tải vào trình duyệt hoặc bundle production. Trang tĩnh không cần bước build framework; Cloudflare Pages có thể phục vụ `web/dist` từ repo gốc với build command `exit 0`.
 
 Dữ liệu mẫu do IntelKB biên tập tại `data/editorial/expansions.jsonl` ở repo cha. Chạy `python scripts/export_web_words.py` rồi `python scripts/export_community_seeds.py` từ repo gốc để cập nhật. Dataset bên thứ ba chưa rõ quyền sử dụng không được đưa lên web. Các seed xuất ra SQL là draft để chủ trang duyệt.
+
+## Nhập liệu và bàn kiểm duyệt mới
+
+Biểu mẫu cho xem trước cặp đang nhập và báo trùng cả hai trường, không phân biệt hoa/thường hay khoảng trắng. Mục đã công bố trùng hẳn không được gửi lại như từ mới; nút góp ý mở đúng mục gốc. Cặp trong bộ mẫu được cảnh báo để người dùng bổ sung ngữ cảnh. Nội dung đang nhập được giữ cục bộ (không bao gồm mật khẩu hay dữ liệu quản trị).
+
+Chế độ Dán nhiều từ nhận tối đa 20 dòng từ Excel (Tab), CSV hoặc `viết tắt → nghĩa`. Xem trước lỗi từng dòng, tự bỏ qua các cặp trùng trong nội dung và danh sách hiện tại; gửi riêng từng dòng hợp lệ. Dòng gửi lỗi lưu vào bản nháp để thử lại, không tự công bố. Dòng nhiều từ mặc định chỉ gợi ý (không tự bật auto_replace).
+
+Trang quản trị dùng bảng có độ cao cuộn riêng, gom cụm chỉ với những từ có nhiều mục trên trang và khung sửa bên cạnh. Có chọn trang/chọn cụm, xem trước danh sách trước Accept/Reject, chỉnh nhóm theo lô, tắt tự bung theo lô, phím J/K và báo cáo kết quả tải JSON. Thay đổi nghĩa chưa gửi được giữ khi chuyển mục trong cùng trang; đổi bộ lọc hoặc tải lại sẽ bỏ chỉnh sửa tạm đó. Chọn nhiều chỉ áp dụng trong trang hiện tại, không chọn ngầm các trang khác.
+
+Xem `supabase/README.md` ở repo gốc để chạy SQL nâng cấp và phân biệt dữ liệu giả kiểm tra với dữ liệu thật.

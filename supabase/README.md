@@ -32,3 +32,15 @@ Từ thư mục web: `npm install` rồi `npm test`. PGlite là devDependency, c
 API công khai có giới hạn độ dài, chống trùng đề xuất pending và receipt để retry. Chưa có Turnstile/rate-limit theo IP; nên bổ sung trước khi mở tiếp nhận ở quy mô lớn.
 
 Migration từ mô hình từ điển cá nhân trước đây vẫn được giữ để bảo toàn lịch sử, nhưng giao diện hiện tại không dùng bảng `intelkb_entries`. Không cần chạy migration cũ để dùng luồng cộng đồng.
+
+## Nâng cấp giao diện nhập và kiểm duyệt (18/10/2026)
+
+Project đã cài đặt trước đây chỉ cần chạy `migrations/20261018_review_tools.sql` một lần trong SQL Editor. Bản sao thuận tiện nằm ở `web/dist/review-tools-upgrade.sql`; không cần xóa bảng, nhập lại seed hay tạo lại Auth. Project mới chạy `web/dist/supabase-setup.sql` đã bao gồm bản nâng cấp này. File nháp P0 cũ không phải điều kiện để dùng các chức năng mới.
+
+- Báo trùng kiểm tra cả viết tắt và nghĩa theo NFC, khoảng trắng và chữ hoa/thường; không bỏ dấu tiếng Việt. Endpoint công khai chỉ trả `none/published/pending` cho đúng cặp được hỏi, không trả nội dung hay danh tính trong hàng chờ.
+- Đề xuất trùng cặp đã công bố bị chặn ở database; góp ý sửa cùng mục được phép gửi kèm thay đổi nhóm hoặc giải thích. Gửi lại cùng receipt không tạo đề xuất thứ hai.
+- Quản trị có tìm kiếm và lọc toàn bộ hàng chờ, gom cụm theo viết tắt, chọn tối đa 50 mục trong trang, xem trước rồi Accept/Reject theo lô. Mỗi dòng được xử lý riêng và trả kết quả; mục đã duyệt hoặc revision cũ không bị ghi đè.
+- Có thể giữ nhóm/tự bung của từng mục hoặc gán nhóm, tắt tự bung cho cả lượt. Lượt duyệt không tự bật tự bung đồng loạt. Nhật ký lô nằm trong `intelkb_review_log`, chỉ admin đọc được.
+- Nếu chưa chạy nâng cấp, giao diện vẫn dùng RPC duyệt cũ lần lượt cho các dòng đã chọn và báo cần nâng cấp cho tìm kiếm/thống kê ở server. Kiểm tra trùng tại client vẫn hoạt động; kiểm tra hàng chờ và chống trùng mới ở server cần SQL nâng cấp.
+
+Kiểm tra giao diện quản trị với dữ liệu giả: `python web/tests/manual-review-preview.py`, mở `http://127.0.0.1:8770/workbench-ink-7c91.html`, dùng email bất kỳ hợp lệ và mật khẩu bất kỳ. Server chỉ bind localhost, không kết nối Supabase; đây không phải tài khoản cho website thật. Không triển khai server fixture lên hosting.

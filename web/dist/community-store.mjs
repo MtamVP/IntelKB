@@ -20,6 +20,17 @@ export class CommunityStore extends SupabaseClient {
     this.storage.setItem(this.cacheKey,JSON.stringify(rows));return rows;
   }
   cachedCatalogue() {return this.read(this.cacheKey,null);}
+  async checkPair(trigger,expansion,excludeId=null) {
+    return this.request('/rest/v1/rpc/intelkb_check_pair',{method:'POST',body:{p_trigger:trigger,p_expansion:expansion,p_exclude_id:excludeId}});
+  }
+  async reviewQueue({kind='proposals',status='pending',search='',category='',offset=0,limit=50,grouped=true}={}) {
+    const token=await this.accessToken();
+    return this.request('/rest/v1/rpc/intelkb_review_queue',{method:'POST',token,body:{p_kind:kind,p_status:status,p_search:search,p_category:category,p_offset:offset,p_limit:limit,p_grouped:grouped}});
+  }
+  async reviewBatch(items,decision,note='',options={}) {
+    const token=await this.accessToken();
+    return this.request('/rest/v1/rpc/intelkb_review_batch',{method:'POST',token,body:{p_items:items,p_decision:decision,p_note:note,p_options:options}});
+  }
   async submit(input,context={}) {
     const word=validateEntry(input), action=context.action || 'new';
     if(!['new','add_meaning','edit'].includes(action))throw new Error('Loại đóng góp không hợp lệ.');
