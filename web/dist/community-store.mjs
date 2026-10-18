@@ -14,7 +14,8 @@ export class CommunityStore extends SupabaseClient {
     const rows=[];
     for(let offset=0;;offset+=1000) {
       // Deliberately anonymous, even if this browser has an admin session.
-      const page=await this.request(`/rest/v1/intelkb_dictionary?status=eq.approved&select=id,trigger,expansion,category,auto_replace,revision,status,source&order=id&limit=1000&offset=${offset}`);
+      const path=`/rest/v1/intelkb_dictionary?status=eq.approved&select=id,trigger,expansion,category,auto_replace,auto_direct,auto_gentle,revision,status,source&order=id&limit=1000&offset=${offset}`;
+      let page;try{page=await this.request(path);}catch(error){if(!/auto_direct|auto_gentle/.test(error.message))throw error;page=await this.request(path.replace('auto_direct,auto_gentle,',''));}
       rows.push(...page);if(page.length<1000)break;
     }
     this.storage.setItem(this.cacheKey,JSON.stringify(rows));return rows;
@@ -34,6 +35,11 @@ export class CommunityStore extends SupabaseClient {
     const token=await this.accessToken();
     return this.request('/rest/v1/rpc/intelkb_review_batch',{method:'POST',token,body:{p_items:items,p_decision:decision,p_note:note,p_options:options}});
   }
+  async reviewContext(items){return this.request('/rest/v1/rpc/intelkb_review_context',{method:'POST',token:await this.accessToken(),body:{p_items:items}});}
+  async commitReview(receipt,items,decision,note,options,choices){return this.request('/rest/v1/rpc/intelkb_review_commit',{method:'POST',token:await this.accessToken(),body:{p_receipt:receipt,p_items:items,p_decision:decision,p_note:note,p_options:options,p_choices:choices}});}
+  async lastReview(){return this.request('/rest/v1/rpc/intelkb_last_review',{method:'POST',token:await this.accessToken(),body:{}});}
+  async undoReview(id){return this.request('/rest/v1/rpc/intelkb_undo_review',{method:'POST',token:await this.accessToken(),body:{p_id:id}});}
+  async setStyleDefaults(trigger,direct,gentle){return this.request('/rest/v1/rpc/intelkb_set_style_defaults',{method:'POST',token:await this.accessToken(),body:{p_receipt:crypto.randomUUID(),p_trigger:trigger,p_direct:direct||null,p_gentle:gentle||null}});}
   async submit(input,context={}) {
     const word=validateEntry(input), action=context.action || 'new';
     if(!['new','add_meaning','edit'].includes(action))throw new Error('Loại đóng góp không hợp lệ.');

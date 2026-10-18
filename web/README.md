@@ -58,3 +58,13 @@ Bấm nền dòng hoặc nhấn Space/Enter khi dòng đang được focus để
 ## Quy tắc trùng đầy đủ / chỉnh sửa
 
 Giống cả viết tắt, nghĩa, nhóm và tự động điền thì chặn gửi, kể cả thêm ghi chú hoặc đổi tên người góp. Thay đổi nhóm, tự động điền hoặc nghĩa được chuyển thành đề xuất chỉnh sửa trên mục hiện có. Với nhiều nghĩa, chọn đúng mục để chỉnh sửa hoặc bấm ＋ Nghĩa để bổ sung. Có thể sửa viết tắt khi đã chọn mục cần sửa. Bộ mẫu không có revision trong database nên phần khác bộ mẫu được gửi làm ứng viên mới. Dán nhiều dòng giữ các cột bị bỏ trống của mục cũ; không tự đề xuất tắt tự động điền. Cần chạy `web/dist/entry-changes-upgrade.sql` trước khi dùng luồng gửi mới.
+
+## Tự động điền theo chế độ và kiểm duyệt có hoàn tác
+
+Nhắn tục ưu tiên tập nghĩa `profanity`; nếu không có nghĩa tục thì dùng tập nghĩa không tục. Nhắn nhẹ chỉ dùng nghĩa không tục (`chat`, `euphemism`, `english`, `game`). Trong nhóm nhiều nghĩa, mỗi chế độ có một ứng viên thì tự điền ứng viên đó; nhiều ứng viên cùng chế độ phải có đúng một nghĩa ưu tiên do chủ trang chọn. Không lấy nghĩa đầu tiên theo thứ tự sắp xếp. Với mục một nghĩa, giữ quyền tự động điền hiện có. Chọn gợi ý/câu mẫu có nghĩa chỉ định vẫn là lựa chọn rõ ràng của người dùng.
+
+Mở **Kiểm tra tự động điền theo chế độ** trên bàn kiểm duyệt. Chọn nghĩa đang chờ cũng chọn dòng vào lượt duyệt; bấm nút Duyệt trên dòng được chọn áp dụng cả nhóm đã chọn. Nghĩa đã công bố có thể đổi ưu tiên bằng nút Lưu riêng. Từ cùng cặp một tục/một nhẹ tự được cấu hình khi duyệt. Khi một phía còn nhiều nghĩa chưa chọn ưu tiên, toàn bộ lượt duyệt đó được rollback và giao diện mở phần chọn ưu tiên.
+
+Các dòng chỉnh sửa tô trước/sau cho bốn trường từ vựng. Duyệt xong mở mục tiếp, ưu tiên dòng bị lỗi và giữ vị trí cuộn bảng. Nút **Hoàn tác lượt cuối** khôi phục trạng thái trước lượt duyệt hoặc đổi ưu tiên với phiên bản mới; nếu có thay đổi tiếp trên các dữ liệu liên quan thì từ chối hoàn tác. Không xóa vĩnh viễn mục vừa tạo; mục được thu hồi và đề xuất trở lại hàng chờ. Không gửi lại tự động sau lỗi mạng; dùng Tải lại để xem kết quả.
+
+Chạy `web/dist/review-efficiency-upgrade.sql` trong Supabase SQL Editor. Kiểm tra UI bằng `node web/tests/style-review-preview.mjs 8772`: PostgreSQL thử trong bộ nhớ, tài khoản giả, không kết nối Supabase thật.

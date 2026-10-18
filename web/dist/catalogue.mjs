@@ -1,4 +1,4 @@
-import {normalize,defaultAutoFill} from './engine.mjs';
+import {normalize,defaultAutoFill,makeIndex,automaticMeaning} from './engine.mjs';
 const catalogueKey = row => `${normalize(row.trigger)}\u0000${normalize(row.expansion)}`;
 const keyboardTrigger = row => normalize(row.trigger);
 function uniquePairs(rows) {
@@ -24,7 +24,14 @@ export function publicCatalogue(samples, approved) {
   for (const row of uniquePairs(approved.filter(row=>row.status==='approved'))) {
     if (row.status === 'approved') rows.set(catalogueKey(row),{...row,sample:false});
   }
-  return [...rows.values()].sort((a,b)=>a.trigger.localeCompare(b.trigger,'vi') || a.expansion.localeCompare(b.expansion,'vi'));
+  const result=[...rows.values()],sampleIndex=makeIndex(result.filter(row=>row.sample));
+  // Demo labels reflect the same mode-aware policy as the playground.
+  for(const row of result.filter(row=>row.sample)){
+    row.auto_direct=automaticMeaning(row.trigger,sampleIndex,'direct')?.id===row.id;
+    row.auto_gentle=automaticMeaning(row.trigger,sampleIndex,'gentle')?.id===row.id;
+    row.auto_replace=row.auto_direct||row.auto_gentle;
+  }
+  return result.sort((a,b)=>a.trigger.localeCompare(b.trigger,'vi') || a.expansion.localeCompare(b.expansion,'vi'));
 }
 const catalogueSearch = text => text.normalize('NFD').replace(/\p{M}/gu,'').replace(/[đĐ]/g,'d').toLocaleLowerCase('vi');
 export function filterCatalogue(rows,{query='',category='',status='',auto=''}={}) {

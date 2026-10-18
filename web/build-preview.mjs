@@ -26,7 +26,9 @@ const migration=fs.readFileSync(new URL('../supabase/migrations/20261017_communi
 const seeds=fs.readFileSync(new URL('../supabase/seeds/initial_dictionary.sql',import.meta.url),'utf8');
 const reviewTools=fs.readFileSync(new URL('../supabase/migrations/20261018_review_tools.sql',import.meta.url),'utf8');
 const entryChanges=fs.readFileSync(new URL('../supabase/migrations/20261018_entry_changes.sql',import.meta.url),'utf8');
-fs.writeFileSync(new URL('./dist/supabase-setup.sql',import.meta.url),migration+'\n'+seeds+'\n'+reviewTools+'\n'+entryChanges);
+const styleReview=fs.readFileSync(new URL('../supabase/migrations/20261018_style_review.sql',import.meta.url),'utf8');
+fs.writeFileSync(new URL('./dist/supabase-setup.sql',import.meta.url),migration+'\n'+seeds+'\n'+reviewTools+'\n'+entryChanges+'\n'+styleReview);
+fs.writeFileSync(new URL('./dist/review-efficiency-upgrade.sql',import.meta.url),reviewTools+'\n'+entryChanges+'\n'+styleReview);
 fs.writeFileSync(new URL('./dist/entry-changes-upgrade.sql',import.meta.url),reviewTools+'\n'+entryChanges);
 fs.writeFileSync(new URL('./dist/review-tools-upgrade.sql',import.meta.url),reviewTools);
 console.log('Created web/preview.html');

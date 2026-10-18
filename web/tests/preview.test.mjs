@@ -33,5 +33,5 @@ test('GitHub Pages entry points mirror generated public and moderation pages', (
   assert.ok(!admin.includes('<dialog'));
   assert.ok(admin.includes('src="../web/dist/admin.mjs"'));
   assert.ok(admin.includes('href="../web/dist/review.css"'));
-  assert.ok(admin.includes('href="../web/dist/review-tools-upgrade.sql"'));
+  assert.ok(admin.includes('href="../web/dist/review-efficiency-upgrade.sql"'));
 });

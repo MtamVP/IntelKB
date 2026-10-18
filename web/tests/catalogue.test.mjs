@@ -38,14 +38,16 @@ test('duplicate pairs differing only in case, whitespace or Unicode appear once 
 const bundled=JSON.parse(fs.readFileSync(new URL('../dist/words.json',import.meta.url)));
 
 test('catalogue filters automatic filling independently of approval and category',()=>{
-  const rows=publicCatalogue([{trigger:'a',expansion:'anh',category:'chat',auto_replace:true}],
+  const rows=publicCatalogue([{trigger:'ae',expansion:'anh em',category:'chat',auto_replace:true}],
     [{id:'b',trigger:'b',expansion:'bạn',category:'chat',status:'approved',auto_replace:false}]);
-  assert.deepEqual(filterCatalogue(rows,{auto:'on'}).map(row=>row.trigger),['a']);
+  assert.deepEqual(filterCatalogue(rows,{auto:'on'}).map(row=>row.trigger),['ae']);
   assert.deepEqual(filterCatalogue(rows,{auto:'off',status:'approved'}).map(row=>row.trigger),['b']);
   assert.equal(filterCatalogue(rows,{auto:'on',status:'approved'}).length,0);
   const defaults=publicCatalogue(bundled,[]);
   assert.equal(defaults.find(row=>row.trigger==='hnay').auto_replace,true);
-  assert.equal(defaults.find(row=>row.trigger==='xl').auto_replace,false);
+  assert.equal(defaults.find(row=>row.trigger==='xl').auto_replace,true);
+  assert.ok(defaults.find(row=>row.trigger==='xl'&&row.category==='profanity').auto_direct);
+  assert.ok(defaults.find(row=>row.trigger==='xl'&&row.category==='chat').auto_gentle);
 });
 test('successful empty Supabase response keeps broad keyboard suggestions and autocomplete working',()=>{
   const rows=keyboardDictionary(bundled,[]),index=makeIndex(rows);

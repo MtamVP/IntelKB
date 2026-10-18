@@ -35,7 +35,7 @@ export function mountDictionary(baseWords,onChange) {
       :`${result.total} mục chứa “${result.query}” · chưa có viết tắt khớp hoàn toàn.`;
     for(const row of result.rows){
       const item=document.createElement('li'),copy=document.createElement('div'),word=document.createElement('strong'),meaning=document.createElement('span'),badge=document.createElement('small'),edit=document.createElement('button');
-      word.textContent=row.trigger;meaning.textContent=' → '+row.expansion;badge.textContent=(row.sample?'Tham khảo':'Đã duyệt')+' · Tự động điền: '+(row.auto_replace?'Bật':'Tắt');copy.append(word,meaning,badge);
+      word.textContent=row.trigger;meaning.textContent=' → '+row.expansion;badge.textContent=(row.sample?'Tham khảo':'Đã duyệt')+' · Tự động điền: '+(row.auto_replace?'Bật':'Tắt')+(row.auto_direct?' · Ưu tiên nhắn tục':'')+(row.auto_gentle?' · Ưu tiên nhắn nhẹ':'');copy.append(word,meaning,badge);
       edit.type='button';edit.textContent='Góp ý';edit.setAttribute('aria-label',`Góp ý mục có sẵn ${row.trigger}: ${row.expansion}`);edit.onclick=()=>startProposal(row,'edit');item.tabIndex=0;item.setAttribute('role','group');item.setAttribute('aria-label',`Góp ý ${row.trigger}: ${row.expansion}`);item.onclick=event=>{if(!event.target.closest('button')&&!window.getSelection()?.toString())startProposal(row,'edit');};item.onkeydown=event=>{if(event.target===item&&['Enter',' '].includes(event.key)){event.preventDefault();startProposal(row,'edit');}};item.append(copy,edit);host.append(item);
     }
     get('entry-match-all').hidden=result.total<=result.rows.length;

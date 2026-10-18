@@ -11,9 +11,22 @@ test('ordinary aliases expand on space, not inside words', () => {
   assert.equal(autoCandidate('lag ',4,index,'direct'),null);
   assert.equal(autoCandidate('nha ',4,index,'direct'),null);
 });
-test('ambiguous meanings need explicit selection in both styles', () => {
-  for (const style of ['direct','gentle']) assert.equal(autoCandidate('xl ',3,index,style),null);
+test('one meaning per style fills according to the selected messaging mode', () => {
+  assert.equal(autoCandidate('xl ',3,index,'direct').expansion,'xạo lồn');
+  assert.equal(autoCandidate('xl ',3,index,'gentle').expansion,'xin lỗi');
   assert.equal(suggestionsFor('xl',2,index,'direct').length,2);
+});
+
+test('multiple meanings within one mode require exactly one owner-selected default',()=>{
+  const rows=[{trigger:'zz',expansion:'tục một',category:'profanity',auto_replace:false},
+    {trigger:'zz',expansion:'tục hai',category:'profanity',auto_replace:true},
+    {trigger:'zz',expansion:'nhẹ một',category:'chat'}, {trigger:'zz',expansion:'nhẹ hai',category:'euphemism'}];
+  for(const mode of ['direct','gentle'])assert.equal(autoCandidate('zz ',3,makeIndex(rows),mode),null);
+  rows[1].auto_direct=true;rows[2].auto_gentle=true;
+  assert.equal(expandText('zz ',3,makeIndex(rows),'direct').text,'tục hai ');
+  assert.equal(expandText('zz ',3,makeIndex(rows),'gentle').text,'nhẹ một ');
+  rows[0].auto_direct=true;assert.equal(autoCandidate('zz ',3,makeIndex(rows),'direct'),null);
+  assert.equal(autoCandidate('zz ',3,makeIndex(rows.filter(row=>row.category==='profanity')),'gentle'),null);
 });
 test('style controls explicit vcl expansion', () => {
   assert.equal(autoCandidate('vcl ',4,index,'direct').expansion,'vãi cả lồn');

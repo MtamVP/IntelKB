@@ -132,3 +132,15 @@ Cập nhật sau mỗi giai đoạn. Commit riêng cho từng milestone.
 - [ ] Tiếp tục kiểm tra và tối ưu bàn phím sau khi hoàn thiện các công cụ dữ liệu.
 
 Giữ quyền công bố cuối cùng cho chủ trang. Đóng góp mới luôn vào hàng chờ; bộ mẫu và nghĩa đã duyệt được ghi nhãn riêng.
+
+## Bổ sung: nghĩa theo chế độ và ba ưu tiên UX
+
+- [x] Tự điền theo nhắn tục / nhắn nhẹ, dùng chung cho gõ và dán.
+- [x] Một nghĩa phù hợp được tự chọn; nhiều nghĩa cùng chế độ yêu cầu chủ trang chọn đúng một ưu tiên.
+- [x] Kiểm tra nhóm tại database khi duyệt; không tự lấy nghĩa đầu tiên.
+- [x] So sánh trước/sau ngay trên dòng và khung chi tiết.
+- [x] Duyệt xong tự chuyển mục, giữ vị trí cuộn bảng.
+- [x] Hoàn tác lượt duyệt/từ chối/đổi ưu tiên, có kiểm tra thay đổi mới hơn và phiên bản mới.
+- [ ] Chủ project chạy `web/dist/review-efficiency-upgrade.sql`, rồi thử bằng tài khoản quản trị thật.
+
+Các đề xuất tiếp theo vẫn là nhập file lớn, quản lý thu hồi từ độc lập, ví dụ/nguồn, biên nhận đóng góp và hàng chờ ưu tiên.

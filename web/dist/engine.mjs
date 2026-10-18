@@ -3,7 +3,7 @@ const ordinaryAuto = new Set('ko k k0 kh hk hông hong hok kô khum đc dc bik b
 const styleTriggers = new Set(['vcl', 'sml']);
 
 // Common chat spellings in the bundled demo. Published rows still obey the
-// moderator's auto_replace flag, and multi-meaning entries still need a choice.
+// moderator's auto_replace flag for single meanings; groups use mode defaults.
 for (const trigger of ['ms','nhg','nhưg','nhìu','nhiu','thui','thoy','hoy','wa','wá','qá',
   'thíck','dthuong','dthương','đz','đzai','dz','dzai','hphuc','hphúc','qtam','qtâm',
   'qtrong','qtr','cgắng','ktra','btap','btvn','hkì','trhoc','vdu','vde','vđề',
@@ -29,7 +29,8 @@ export function optionsFor(trigger, index, style = 'direct') {
   const all = index.get(normalize(trigger)) || [];
   return [...all].filter(row => style !== 'gentle' || row.category !== 'profanity').sort((a, b) => {
     const rank = row => style === 'direct' ? (row.category === 'profanity' ? 0 : row.category === 'euphemism' ? 2 : 1) : (row.category === 'euphemism' ? 0 : 1);
-    return rank(a) - rank(b);
+    const field=style==='gentle'?'auto_gentle':'auto_direct';
+    return Number(Boolean(b[field]))-Number(Boolean(a[field]))||rank(a)-rank(b);
   });
 }
 
@@ -116,31 +117,36 @@ export function suggestionsFor(text, caret, index, style, excluded = [], complet
   return result.slice(0, 8);
 }
 
+// One policy for typing, paste and virtual keys; never choose by incidental sort order.
+export function automaticMeaning(trigger,index,style='direct'){
+  const all=index.get(normalize(trigger))||[];
+  const safe=all.filter(row=>row.category!=='profanity');
+  const profane=all.filter(row=>row.category==='profanity');
+  const pool=style==='gentle'?safe:(profane.length?profane:safe);
+  if(!pool.length)return null;
+  if(all.length>1){
+    if(pool.length===1)return pool[0];
+    const chosen=pool.filter(row=>row[style==='gentle'?'auto_gentle':'auto_direct']===true);
+    return chosen.length===1?chosen[0]:null;
+  }
+  const first=pool[0],managed=first.custom||first.status==='approved';
+  return (managed?first.auto_replace:defaultAutoFill(trigger))?first:null;
+}
 export function autoCandidate(text, caret, index, style) {
   if (!/[\s.,!?;:]/u.test(text[caret - 1] || '')) return null;
-  const token = activeToken(text, caret, index);
-  if (!token) return null;
-  const options = optionsFor(token.trigger, index, style);
-  const all = index.get(token.trigger) || [];
-  if (!options.length) return null;
-  const managed = options[0].custom || options[0].status === 'approved';
-  if (styleTriggers.has(token.trigger) && (!managed || options[0].auto_replace)) return { ...options[0], ...token };
-  // Ambiguous entries remain manual even if a style hides one of the meanings.
-  if (!(managed ? options[0].auto_replace : ordinaryAuto.has(token.trigger)) || all.length !== 1) return null;
-  return { ...options[0], ...token };
+  const token=activeToken(text,caret,index);if(!token)return null;
+  const chosen=automaticMeaning(token.trigger,index,style);
+  return chosen?{...chosen,...token}:null;
 }
 
 export function expandText(text, caret, index, style, completeLast = false, excluded = [], meanings = {}) {
   const changes = [];
   for (const token of pendingWords(text, index, style, excluded)) {
     if (token.end > caret || (!completeLast && token.end === caret)) continue;
-    const all = index.get(token.trigger) || [];
-    // A labelled sample can explicitly choose a meaning; pasted text never supplies this map.
-    const chosen = token.options.find(row => row.expansion === meanings[token.trigger]);
-    const first = chosen || token.options[0];
-    const managed = first.custom || first.status === 'approved';
-    if (!chosen && !(styleTriggers.has(token.trigger) && (!managed || first.auto_replace)) && (all.length !== 1 || !(managed ? first.auto_replace : ordinaryAuto.has(token.trigger)))) continue;
-    const item = {...first, ...token};
+    // An explicit user/sample choice can override the default for this insertion.
+    const chosen=token.options.find(row=>row.expansion===meanings[token.trigger]);
+    const first=chosen||automaticMeaning(token.trigger,index,style);if(!first)continue;
+    const item={...first,...token};
     const replacement = caseExpansion(text.slice(item.start,item.end),item.expansion);
     changes.push({...item, replacement});
   }

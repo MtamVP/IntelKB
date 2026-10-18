@@ -33,7 +33,7 @@
       <p class="description">Thử gõ vài chữ bên cạnh. IntelKB sẽ điền đầy đủ những từ viết tắt thành lời — kể cả những lời hơi… thẳng.</p>
       <div class="try-label">CHỌN MỘT CÂU ĐỂ THỬ <span>↘</span></div>
       <div class="examples"><button data-sample="hnay đi chơi k">Hẹn hội bạn <span>↗</span></button><button data-sample="đcmm lag vcl">Mất chuỗi thắng <span>↗</span></button><button data-sample="xl nha t đến muộn" data-meanings='{"xl":"xin lỗi","t":"tôi"}'>Một lời xin lỗi <span>↗</span></button></div>
-      <div class="notes"><div><span>01</span> Gõ, dán một đoạn hoặc chọn câu mẫu.<br><span class="indent">Từ rõ nghĩa được điền đầy đủ ngay.</span></div><div><span>02</span> Từ nhiều nghĩa? Bạn chọn ở hàng gợi ý.<br><span class="indent">Ctrl + Space chọn gợi ý đầu tiên.</span></div></div>
+      <div class="notes"><div><span>01</span> Gõ, dán một đoạn hoặc chọn câu mẫu.<br><span class="indent">Từ rõ nghĩa được điền đầy đủ ngay.</span></div><div><span>02</span> Chưa có nghĩa ưu tiên? Chọn ở hàng gợi ý.<br><span class="indent">Ctrl + Space chọn gợi ý đầu tiên.</span></div></div>
       <div class="privacy"><span>◉</span> Nội dung bạn gõ được xử lý ngay trên thiết bị.</div>
     </section>
     <section class="demo" aria-label="Khu vực thử bàn phím">
@@ -62,9 +62,9 @@
     <aside class="controls" aria-label="Tùy chỉnh bàn phím">
       <div class="control-title">BẠN CẦM LÁI.</div><h2>Bàn phím<br>theo ý bạn.</h2>
       <div class="setting"><div><strong>Tự động điền khi gõ</strong><p>Nhấn cách hoặc dấu câu.<br>Dán và câu mẫu luôn được điền đầy đủ.</p></div><button class="switch" id="auto" role="switch" aria-checked="true" aria-label="Tự động điền từ"><span></span></button></div>
-      <div class="setting-block"><strong>Cách nói</strong><div class="segmented" aria-label="Cách nói"><button id="direct" aria-pressed="true">Nói thẳng ↗</button><button id="gentle" aria-pressed="false">Nói nhẹ ☁</button></div><p id="style-help">Hiện nguyên nghĩa, kể cả từ tục.</p></div>
+      <div class="setting-block"><strong>Cách nói</strong><div class="segmented" aria-label="Cách nói"><button id="direct" aria-pressed="true">Nhắn tục ↗</button><button id="gentle" aria-pressed="false">Nhắn nhẹ ☁</button></div><p id="style-help">Hiện nguyên nghĩa, kể cả từ tục.</p></div>
       <div class="word-demo"><span>VÍ DỤ VỚI “VCL”</span><div><small>vcl</small><span>↓</span><strong id="vcl-demo">vãi cả lồn</strong></div></div>
-      <p class="ambiguity-note">Từ có nhiều nghĩa như <b>“xl”</b>? Bạn chọn nghĩa. IntelKB sẽ không tự đoán.</p>
+      <p class="ambiguity-note">Mỗi chế độ dùng một nghĩa ưu tiên. Nhiều nghĩa cùng chế độ cần được chủ trang chọn trước.</p>
       <button id="reset" class="reset">↺ Bắt đầu lại</button>
     </aside>
   </main>
@@ -75,7 +75,7 @@
     <p id="dictionary-status" role="status" aria-live="polite"></p>
     <div class="catalogue-layout"><div class="catalogue-browser">
       <div class="dictionary-list-header"><h2>Toàn bộ từ điển</h2><input id="dictionary-search" type="search" placeholder="Tìm từ hoặc nghĩa, có dấu hay không đều được…" aria-label="Tìm trong từ điển"></div>
-      <div class="catalogue-filters"><label>Nhóm từ<select id="catalogue-category"><option value="">Tất cả nhóm</option><option value="chat">Nhắn tin</option><option value="profanity">Từ tục</option><option value="euphemism">Nói nhẹ</option><option value="english">Tiếng Anh</option><option value="game">Game</option></select></label><label>Trạng thái<select id="catalogue-status"><option value="">Tất cả dữ liệu</option><option value="approved">Đã duyệt</option><option value="sample">Tham khảo</option></select></label><label>Tự động điền<select id="catalogue-auto"><option value="">Tất cả</option><option value="on">Đang bật</option><option value="off">Đang tắt</option></select></label></div><p class="entry-help">Tự động điền: Bật = cho phép điền khi rõ một nghĩa và chế độ tự động đang bật. Từ nhiều nghĩa vẫn cần chọn gợi ý. Mục tham khảo là cài đặt của bộ mẫu.</p>
+      <div class="catalogue-filters"><label>Nhóm từ<select id="catalogue-category"><option value="">Tất cả nhóm</option><option value="chat">Nhắn tin</option><option value="profanity">Từ tục</option><option value="euphemism">Nói nhẹ</option><option value="english">Tiếng Anh</option><option value="game">Game</option></select></label><label>Trạng thái<select id="catalogue-status"><option value="">Tất cả dữ liệu</option><option value="approved">Đã duyệt</option><option value="sample">Tham khảo</option></select></label><label>Tự động điền<select id="catalogue-auto"><option value="">Tất cả</option><option value="on">Đang bật</option><option value="off">Đang tắt</option></select></label></div><p class="entry-help">Tự động điền: Bật = cho phép điền khi rõ một nghĩa và chế độ tự động đang bật. Mỗi chế độ dùng nghĩa ưu tiên; nếu chưa có ưu tiên thì chọn gợi ý. Mục tham khảo là cài đặt của bộ mẫu.</p>
       <div class="catalogue-table-wrap" tabindex="0" role="region" aria-label="Bảng từ điển, có thể cuộn ngang"><table class="catalogue-table"><caption class="visually-hidden">Danh sách từ viết tắt và nghĩa đầy đủ</caption><thead><tr><th scope="col">Từ viết tắt</th><th scope="col">Nghĩa đầy đủ</th><th scope="col">Nhóm</th><th scope="col">Trạng thái</th><th scope="col">Tự động điền</th><th scope="col">Đóng góp</th></tr></thead><tbody id="dictionary-list"></tbody></table></div>
       <div class="catalogue-pager"><button id="catalogue-prev">← Trước</button><span id="catalogue-page"></span><button id="catalogue-next">Sau →</button></div>
     </div><aside class="contribution-panel" aria-label="Gửi đóng góp"><span class="control-title">MỖI NGHĨA ĐÚNG ĐỀU CÓ ÍCH</span><p class="dictionary-intro">Thêm từ mới hoặc chọn “Góp ý sửa” trong bảng. Bạn gửi, chủ trang kiểm tra.</p><div id="proposal-drafts" aria-label="Các đóng góp chưa gửi"></div>
@@ -89,7 +89,7 @@ const ordinaryAuto = new Set('ko k k0 kh hk hông hong hok kô khum đc dc bik b
 const styleTriggers = new Set(['vcl', 'sml']);
 
 // Common chat spellings in the bundled demo. Published rows still obey the
-// moderator's auto_replace flag, and multi-meaning entries still need a choice.
+// moderator's auto_replace flag for single meanings; groups use mode defaults.
 for (const trigger of ['ms','nhg','nhưg','nhìu','nhiu','thui','thoy','hoy','wa','wá','qá',
   'thíck','dthuong','dthương','đz','đzai','dz','dzai','hphuc','hphúc','qtam','qtâm',
   'qtrong','qtr','cgắng','ktra','btap','btvn','hkì','trhoc','vdu','vde','vđề',
@@ -115,7 +115,8 @@ function optionsFor(trigger, index, style = 'direct') {
   const all = index.get(normalize(trigger)) || [];
   return [...all].filter(row => style !== 'gentle' || row.category !== 'profanity').sort((a, b) => {
     const rank = row => style === 'direct' ? (row.category === 'profanity' ? 0 : row.category === 'euphemism' ? 2 : 1) : (row.category === 'euphemism' ? 0 : 1);
-    return rank(a) - rank(b);
+    const field=style==='gentle'?'auto_gentle':'auto_direct';
+    return Number(Boolean(b[field]))-Number(Boolean(a[field]))||rank(a)-rank(b);
   });
 }
 
@@ -202,31 +203,36 @@ function suggestionsFor(text, caret, index, style, excluded = [], completeInput 
   return result.slice(0, 8);
 }
 
+// One policy for typing, paste and virtual keys; never choose by incidental sort order.
+function automaticMeaning(trigger,index,style='direct'){
+  const all=index.get(normalize(trigger))||[];
+  const safe=all.filter(row=>row.category!=='profanity');
+  const profane=all.filter(row=>row.category==='profanity');
+  const pool=style==='gentle'?safe:(profane.length?profane:safe);
+  if(!pool.length)return null;
+  if(all.length>1){
+    if(pool.length===1)return pool[0];
+    const chosen=pool.filter(row=>row[style==='gentle'?'auto_gentle':'auto_direct']===true);
+    return chosen.length===1?chosen[0]:null;
+  }
+  const first=pool[0],managed=first.custom||first.status==='approved';
+  return (managed?first.auto_replace:defaultAutoFill(trigger))?first:null;
+}
 function autoCandidate(text, caret, index, style) {
   if (!/[\s.,!?;:]/u.test(text[caret - 1] || '')) return null;
-  const token = activeToken(text, caret, index);
-  if (!token) return null;
-  const options = optionsFor(token.trigger, index, style);
-  const all = index.get(token.trigger) || [];
-  if (!options.length) return null;
-  const managed = options[0].custom || options[0].status === 'approved';
-  if (styleTriggers.has(token.trigger) && (!managed || options[0].auto_replace)) return { ...options[0], ...token };
-  // Ambiguous entries remain manual even if a style hides one of the meanings.
-  if (!(managed ? options[0].auto_replace : ordinaryAuto.has(token.trigger)) || all.length !== 1) return null;
-  return { ...options[0], ...token };
+  const token=activeToken(text,caret,index);if(!token)return null;
+  const chosen=automaticMeaning(token.trigger,index,style);
+  return chosen?{...chosen,...token}:null;
 }
 
 function expandText(text, caret, index, style, completeLast = false, excluded = [], meanings = {}) {
   const changes = [];
   for (const token of pendingWords(text, index, style, excluded)) {
     if (token.end > caret || (!completeLast && token.end === caret)) continue;
-    const all = index.get(token.trigger) || [];
-    // A labelled sample can explicitly choose a meaning; pasted text never supplies this map.
-    const chosen = token.options.find(row => row.expansion === meanings[token.trigger]);
-    const first = chosen || token.options[0];
-    const managed = first.custom || first.status === 'approved';
-    if (!chosen && !(styleTriggers.has(token.trigger) && (!managed || first.auto_replace)) && (all.length !== 1 || !(managed ? first.auto_replace : ordinaryAuto.has(token.trigger)))) continue;
-    const item = {...first, ...token};
+    // An explicit user/sample choice can override the default for this insertion.
+    const chosen=token.options.find(row=>row.expansion===meanings[token.trigger]);
+    const first=chosen||automaticMeaning(token.trigger,index,style);if(!first)continue;
+    const item={...first,...token};
     const replacement = caseExpansion(text.slice(item.start,item.end),item.expansion);
     changes.push({...item, replacement});
   }
@@ -480,7 +486,8 @@ class CommunityStore extends SupabaseClient {
     const rows=[];
     for(let offset=0;;offset+=1000) {
       // Deliberately anonymous, even if this browser has an admin session.
-      const page=await this.request(`/rest/v1/intelkb_dictionary?status=eq.approved&select=id,trigger,expansion,category,auto_replace,revision,status,source&order=id&limit=1000&offset=${offset}`);
+      const path=`/rest/v1/intelkb_dictionary?status=eq.approved&select=id,trigger,expansion,category,auto_replace,auto_direct,auto_gentle,revision,status,source&order=id&limit=1000&offset=${offset}`;
+      let page;try{page=await this.request(path);}catch(error){if(!/auto_direct|auto_gentle/.test(error.message))throw error;page=await this.request(path.replace('auto_direct,auto_gentle,',''));}
       rows.push(...page);if(page.length<1000)break;
     }
     this.storage.setItem(this.cacheKey,JSON.stringify(rows));return rows;
@@ -500,6 +507,11 @@ class CommunityStore extends SupabaseClient {
     const token=await this.accessToken();
     return this.request('/rest/v1/rpc/intelkb_review_batch',{method:'POST',token,body:{p_items:items,p_decision:decision,p_note:note,p_options:options}});
   }
+  async reviewContext(items){return this.request('/rest/v1/rpc/intelkb_review_context',{method:'POST',token:await this.accessToken(),body:{p_items:items}});}
+  async commitReview(receipt,items,decision,note,options,choices){return this.request('/rest/v1/rpc/intelkb_review_commit',{method:'POST',token:await this.accessToken(),body:{p_receipt:receipt,p_items:items,p_decision:decision,p_note:note,p_options:options,p_choices:choices}});}
+  async lastReview(){return this.request('/rest/v1/rpc/intelkb_last_review',{method:'POST',token:await this.accessToken(),body:{}});}
+  async undoReview(id){return this.request('/rest/v1/rpc/intelkb_undo_review',{method:'POST',token:await this.accessToken(),body:{p_id:id}});}
+  async setStyleDefaults(trigger,direct,gentle){return this.request('/rest/v1/rpc/intelkb_set_style_defaults',{method:'POST',token:await this.accessToken(),body:{p_receipt:crypto.randomUUID(),p_trigger:trigger,p_direct:direct||null,p_gentle:gentle||null}});}
   async submit(input,context={}) {
     const word=validateEntry(input), action=context.action || 'new';
     if(!['new','add_meaning','edit'].includes(action))throw new Error('Loại đóng góp không hợp lệ.');
@@ -560,7 +572,14 @@ function publicCatalogue(samples, approved) {
   for (const row of uniquePairs(approved.filter(row=>row.status==='approved'))) {
     if (row.status === 'approved') rows.set(catalogueKey(row),{...row,sample:false});
   }
-  return [...rows.values()].sort((a,b)=>a.trigger.localeCompare(b.trigger,'vi') || a.expansion.localeCompare(b.expansion,'vi'));
+  const result=[...rows.values()],sampleIndex=makeIndex(result.filter(row=>row.sample));
+  // Demo labels reflect the same mode-aware policy as the playground.
+  for(const row of result.filter(row=>row.sample)){
+    row.auto_direct=automaticMeaning(row.trigger,sampleIndex,'direct')?.id===row.id;
+    row.auto_gentle=automaticMeaning(row.trigger,sampleIndex,'gentle')?.id===row.id;
+    row.auto_replace=row.auto_direct||row.auto_gentle;
+  }
+  return result.sort((a,b)=>a.trigger.localeCompare(b.trigger,'vi') || a.expansion.localeCompare(b.expansion,'vi'));
 }
 const catalogueSearch = text => text.normalize('NFD').replace(/\p{M}/gu,'').replace(/[đĐ]/g,'d').toLocaleLowerCase('vi');
 function filterCatalogue(rows,{query='',category='',status='',auto=''}={}) {
@@ -673,7 +692,7 @@ function mountDictionary(baseWords,onChange) {
       :`${result.total} mục chứa “${result.query}” · chưa có viết tắt khớp hoàn toàn.`;
     for(const row of result.rows){
       const item=document.createElement('li'),copy=document.createElement('div'),word=document.createElement('strong'),meaning=document.createElement('span'),badge=document.createElement('small'),edit=document.createElement('button');
-      word.textContent=row.trigger;meaning.textContent=' → '+row.expansion;badge.textContent=(row.sample?'Tham khảo':'Đã duyệt')+' · Tự động điền: '+(row.auto_replace?'Bật':'Tắt');copy.append(word,meaning,badge);
+      word.textContent=row.trigger;meaning.textContent=' → '+row.expansion;badge.textContent=(row.sample?'Tham khảo':'Đã duyệt')+' · Tự động điền: '+(row.auto_replace?'Bật':'Tắt')+(row.auto_direct?' · Ưu tiên nhắn tục':'')+(row.auto_gentle?' · Ưu tiên nhắn nhẹ':'');copy.append(word,meaning,badge);
       edit.type='button';edit.textContent='Góp ý';edit.setAttribute('aria-label',`Góp ý mục có sẵn ${row.trigger}: ${row.expansion}`);edit.onclick=()=>startProposal(row,'edit');item.tabIndex=0;item.setAttribute('role','group');item.setAttribute('aria-label',`Góp ý ${row.trigger}: ${row.expansion}`);item.onclick=event=>{if(!event.target.closest('button')&&!window.getSelection()?.toString())startProposal(row,'edit');};item.onkeydown=event=>{if(event.target===item&&['Enter',' '].includes(event.key)){event.preventDefault();startProposal(row,'edit');}};item.append(copy,edit);host.append(item);
     }
     get('entry-match-all').hidden=result.total<=result.rows.length;
@@ -876,7 +895,7 @@ function accept(i) {
 function expand(completeLast=false) {
   state.completeInput=completeLast;
   syncSelection(); const changes=model.transform(completeLast);draw(true);
-  feedback(changes.length ? 'Đã điền '+changes.length+' từ. Từ nhiều nghĩa vẫn để bạn chọn.' : 'Chọn nghĩa cho các từ còn lại ở hàng gợi ý.');
+  feedback(changes.length ? 'Đã điền '+changes.length+' từ. Từ chưa có nghĩa ưu tiên vẫn để bạn chọn.' : 'Chọn nghĩa cho các từ còn lại ở hàng gợi ý.');
 }
 function insert(value, telex = false) {
   const start = editor.selectionStart, end = editor.selectionEnd;

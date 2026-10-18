@@ -67,7 +67,7 @@ function accept(i) {
 function expand(completeLast=false) {
   state.completeInput=completeLast;
   syncSelection(); const changes=model.transform(completeLast);draw(true);
-  feedback(changes.length ? 'Đã điền '+changes.length+' từ. Từ nhiều nghĩa vẫn để bạn chọn.' : 'Chọn nghĩa cho các từ còn lại ở hàng gợi ý.');
+  feedback(changes.length ? 'Đã điền '+changes.length+' từ. Từ chưa có nghĩa ưu tiên vẫn để bạn chọn.' : 'Chọn nghĩa cho các từ còn lại ở hàng gợi ý.');
 }
 function insert(value, telex = false) {
   const start = editor.selectionStart, end = editor.selectionEnd;

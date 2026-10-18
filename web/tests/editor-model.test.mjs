@@ -19,11 +19,11 @@ test('apology sample explicitly chooses xin lỗi and tôi and undo restores its
   m.undo();assert.equal(m.text,'xl nha t đến muộn');
   m.redo();assert.equal(m.text,'xin lỗi nha tôi đến muộn');
 });
-test('ordinary input stays ambiguous and a sample cannot invent an unavailable meaning',()=>{
+test('mode defaults fill eligible words but cannot invent an unavailable meaning',()=>{
   const m=create();m.load('xl nha t đến muộn');
-  assert.equal(m.text,'xl nha t đến muộn');
-  m.load('xl',{xl:'nghĩa chưa được duyệt'});assert.equal(m.text,'xl');
-  m.style='gentle';m.load('xl',{xl:'xạo lồn'});assert.equal(m.text,'xl');
+  assert.equal(m.text,'xạo lồn nha t đến muộn');
+  m.load('xl',{xl:'nghĩa chưa được duyệt'});assert.equal(m.text,'xạo lồn');
+  m.style='gentle';m.load('xl',{xl:'xạo lồn'});assert.equal(m.text,'xin lỗi');
 });
 
 test('sample and paste conversion includes the last word without a trailing space',()=>{
@@ -55,22 +55,22 @@ test('choosing one meaning converts other eligible words in the same transaction
   m.redo();assert.equal(m.text,'xin lỗi hôm nay được không');
 });
 test('repeated ambiguous choices keep the next word addressable',()=>{
-  const m=create();m.load('xl nha t đến muộn');
+  const m=create();m.load('mk nha t đến muộn');
   m.choose(suggestionsFor(m.text,m.text.length,m.index,'direct',m.ranges).find(r=>r.expansion==='tôi'));
-  m.choose(suggestionsFor(m.text,m.text.length,m.index,'direct',m.ranges).find(r=>r.expansion==='xin lỗi'));
-  assert.equal(m.text,'xin lỗi nha tôi đến muộn');
+  m.choose(suggestionsFor(m.text,m.text.length,m.index,'direct',m.ranges).find(r=>r.expansion==='mình'));
+  assert.equal(m.text,'mình nha tôi đến muộn');
   assert.equal(pendingWords(m.text,m.index,'direct',m.ranges).length,0);
 });
 test('a completed paste prioritizes remaining abbreviations over prefixes of normal words',()=>{
-  const m=create();m.load('hnay dc k, xl nha');
+  const m=create();m.load('hnay dc k, mk nha');
   const choices=suggestionsFor(m.text,m.text.length,m.index,'direct',m.ranges,true);
-  assert.ok(choices.length>0 && choices.every(c=>c.trigger==='xl'));
+  assert.ok(choices.length>0 && choices.every(c=>c.trigger==='mk'));
   assert.ok(suggestionsFor('hna',3,m.index,'direct').some(c=>c.trigger==='hnay'));
 });
 test('after choosing the first ambiguous word the next one is suggested even after the caret',()=>{
-  const m=create();m.load('xl nha t đến muộn');
+  const m=create();m.load('mk nha t đến muộn');
   m.select(2);
-  m.choose(suggestionsFor(m.text,2,m.index,'direct',m.ranges).find(c=>c.expansion==='xin lỗi'));
+  m.choose(suggestionsFor(m.text,2,m.index,'direct',m.ranges).find(c=>c.expansion==='mình'));
   const choices=suggestionsFor(m.text,m.current.start,m.index,'direct',m.ranges,true);
   assert.ok(choices.length>0 && choices.every(c=>c.trigger==='t'));
 });
@@ -118,7 +118,7 @@ test('links, email, handles, hashtags, identifiers and code remain literal on pa
 });
 test('switching styles affects subsequent conversions and never bypasses moderation flags',()=>{
   const m=create();m.style='gentle';m.load('vcl xl');
-  assert.equal(m.text,'vãi cả lúa xl');
+  assert.equal(m.text,'vãi cả lúa xin lỗi');
   const governed=new EditorModel(makeIndex([{trigger:'hnay',expansion:'hôm nay',status:'approved',auto_replace:false}]));
   governed.load('hnay');assert.equal(governed.text,'hnay');
   governed.choose(suggestionsFor(governed.text,4,governed.index,'direct')[0]);

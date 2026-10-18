@@ -50,3 +50,13 @@ Kiểm tra giao diện quản trị với dữ liệu giả: `python web/tests/m
 Chạy toàn bộ `web/dist/entry-changes-upgrade.sql` trong Supabase SQL Editor rồi Run. File gồm phần công cụ kiểm duyệt trước đó và migration mới `20261018_entry_changes.sql`, chạy lại được, không xóa dữ liệu. Không cần chạy lại bộ seed. Bộ cài đầy đủ `web/dist/supabase-setup.sql` cũng đã gồm nâng cấp này.
 
 Chỉ chặn khi viết tắt, nghĩa (không phân biệt hoa/thường/khoảng trắng/Unicode), nhóm và tự động điền đều giống. Ghi chú và tên người góp không tạo thành một mục từ khác. Khác metadata của cùng cặp sẽ là `edit` có target/revision, không tạo bản công bố trùng. Có thể đổi viết tắt của mục đã chọn; chỉ áp dụng khi quản trị duyệt. Đề xuất chờ có metadata khác nhau được giữ riêng; nếu một bản đã được duyệt thì bản dựa trên revision cũ phải kiểm tra lại. RPC kiểm tra chỉ trả trạng thái trùng, không trả nội dung hàng chờ. Giao diện cần RPC mới trước khi gửi để tránh dùng nhầm quy tắc cũ.
+
+## Nghĩa ưu tiên theo chế độ và hoàn tác lượt kiểm duyệt
+
+Chạy toàn bộ **`web/dist/review-efficiency-upgrade.sql`** trong SQL Editor rồi Run. File đã gồm hai nâng cấp trước, không cần chạy lại seed. Migration nguồn mới là `20261018_style_review.sql`. Có thể chạy lại.
+
+Thêm cờ `auto_direct`/`auto_gentle` chỉ do quản trị cấu hình; mỗi viết tắt đã duyệt có tối đa một nghĩa ưu tiên mỗi chế độ, bảo đảm bằng unique index. Nhắn nhẹ không chọn nghĩa tục. Cặp đã công bố có đúng một tục/một không tục được đồng bộ ưu tiên tự động khi nâng cấp; nhóm nhiều ứng viên giữ nguyên nội dung và chờ chủ trang chọn ưu tiên. Giao diện kiểm tra toàn nhóm được duyệt, kể cả nghĩa đã công bố ngoài trang hiện tại.
+
+`intelkb_review_commit` thay luồng UI gọi batch cũ: receipt chống xử lý lặp, kiểm tra quyền, revision, lựa chọn theo chế độ và lưu trước/sau. Nếu chưa chọn ưu tiên bắt buộc, toàn bộ lượt rollback; các lỗi từng dòng khác vẫn được báo riêng. `intelkb_set_style_defaults` đổi ưu tiên nghĩa đã công bố. `intelkb_review_context` cung cấp bản gốc và các nghĩa liên quan cho quản trị. Các RPC mới và bảng `intelkb_review_actions` không cho khách xem.
+
+`intelkb_last_review` và `intelkb_undo_review` chỉ phục vụ chủ trang. Hoàn tác đối chiếu trạng thái sau lượt với dữ liệu hiện tại, không ghi đè thay đổi mới hơn; khôi phục với revision tăng. Mục được tạo bởi lần duyệt đã hoàn tác bị thu hồi công bố, không bị xóa; đề xuất trở lại pending và nhận revision nền phù hợp để có thể duyệt lại. Toàn bộ snapshot được giữ riêng theo RLS.
