@@ -39,7 +39,7 @@ Project đã cài đặt trước đây chỉ cần chạy `migrations/20261018_
 
 - Báo trùng kiểm tra cả viết tắt và nghĩa theo NFC, khoảng trắng và chữ hoa/thường; không bỏ dấu tiếng Việt. Endpoint công khai chỉ trả `none/published/pending` cho đúng cặp được hỏi, không trả nội dung hay danh tính trong hàng chờ.
 - Đề xuất trùng cặp đã công bố bị chặn ở database; góp ý sửa cùng mục được phép gửi kèm thay đổi nhóm hoặc giải thích. Gửi lại cùng receipt không tạo đề xuất thứ hai.
-- Quản trị có tìm kiếm và lọc toàn bộ hàng chờ, gom cụm theo viết tắt, chọn tối đa 50 mục trong trang, xem trước rồi Accept/Reject theo lô. Mỗi dòng được xử lý riêng và trả kết quả; mục đã duyệt hoặc revision cũ không bị ghi đè.
+- Quản trị có tìm kiếm và lọc toàn bộ hàng chờ, gom cụm theo viết tắt, chọn tối đa 50 mục trong trang, Accept/Reject trực tiếp theo lô ngay trên dòng (không popup). Mỗi dòng được xử lý riêng và trả kết quả; mục đã duyệt hoặc revision cũ không bị ghi đè.
 - Có thể giữ nhóm/tự bung của từng mục hoặc gán nhóm, tắt tự bung cho cả lượt. Lượt duyệt không tự bật tự bung đồng loạt. Nhật ký lô nằm trong `intelkb_review_log`, chỉ admin đọc được.
 - Nếu chưa chạy nâng cấp, giao diện vẫn dùng RPC duyệt cũ lần lượt cho các dòng đã chọn và báo cần nâng cấp cho tìm kiếm/thống kê ở server. Kiểm tra trùng tại client vẫn hoạt động; kiểm tra hàng chờ và chống trùng mới ở server cần SQL nâng cấp.
 

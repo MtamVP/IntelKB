@@ -29,7 +29,8 @@ test('GitHub Pages entry points mirror generated public and moderation pages', (
   const admin = fs.readFileSync(new URL('../../admin/index.html', import.meta.url), 'utf8');
   assert.ok(root.includes('id="entry-many"'));
   assert.ok(root.includes('src="web/dist/app.js"'));
-  assert.ok(admin.includes('id="batch-dialog"'));
+  assert.ok(admin.includes('id="batch-options"'));
+  assert.ok(!admin.includes('<dialog'));
   assert.ok(admin.includes('src="../web/dist/admin.mjs"'));
   assert.ok(admin.includes('href="../web/dist/review.css"'));
   assert.ok(admin.includes('href="../web/dist/review-tools-upgrade.sql"'));
