@@ -1,5 +1,6 @@
 // Produce a double-clickable local demo; no server or package installation needed.
 import fs from 'node:fs';
+import {referenceApprovalSql} from './reference-approval.mjs';
 const base = new URL('./dist/', import.meta.url);
 const read = name => fs.readFileSync(new URL(name, base), 'utf8').replaceAll('\r\n','\n');
 let html = read('index.html');
@@ -27,8 +28,10 @@ const seeds=fs.readFileSync(new URL('../supabase/seeds/initial_dictionary.sql',i
 const reviewTools=fs.readFileSync(new URL('../supabase/migrations/20261018_review_tools.sql',import.meta.url),'utf8');
 const entryChanges=fs.readFileSync(new URL('../supabase/migrations/20261018_entry_changes.sql',import.meta.url),'utf8');
 const styleReview=fs.readFileSync(new URL('../supabase/migrations/20261018_style_review.sql',import.meta.url),'utf8');
-fs.writeFileSync(new URL('./dist/supabase-setup.sql',import.meta.url),migration+'\n'+seeds+'\n'+reviewTools+'\n'+entryChanges+'\n'+styleReview);
-fs.writeFileSync(new URL('./dist/review-efficiency-upgrade.sql',import.meta.url),reviewTools+'\n'+entryChanges+'\n'+styleReview);
+const referenceApproval=referenceApprovalSql(JSON.parse(read('words.json')));
+fs.writeFileSync(new URL('./dist/reference-approval-upgrade.sql',import.meta.url),referenceApproval);
+fs.writeFileSync(new URL('./dist/supabase-setup.sql',import.meta.url),migration+'\n'+seeds+'\n'+reviewTools+'\n'+entryChanges+'\n'+styleReview+'\n'+referenceApproval);
+fs.writeFileSync(new URL('./dist/review-efficiency-upgrade.sql',import.meta.url),reviewTools+'\n'+entryChanges+'\n'+styleReview+'\n'+referenceApproval);
 fs.writeFileSync(new URL('./dist/entry-changes-upgrade.sql',import.meta.url),reviewTools+'\n'+entryChanges);
 fs.writeFileSync(new URL('./dist/review-tools-upgrade.sql',import.meta.url),reviewTools);
 console.log('Created web/preview.html');

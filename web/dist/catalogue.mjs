@@ -36,7 +36,7 @@ export function publicCatalogue(samples, approved) {
 const catalogueSearch = text => text.normalize('NFD').replace(/\p{M}/gu,'').replace(/[đĐ]/g,'d').toLocaleLowerCase('vi');
 export function filterCatalogue(rows,{query='',category='',status='',auto=''}={}) {
   const search=catalogueSearch(query.trim());
-  return rows.filter(row=>(!category || row.category===category) && (!status || (status==='sample'?row.sample:!row.sample))
+  return rows.filter(row=>(!category || row.category===category) && (!status || status==='approved' || (status==='sample'?row.sample:status==='community'&&!row.sample))
     && (!auto || (auto==='on'?row.auto_replace===true:row.auto_replace!==true))
     && catalogueSearch(`${row.trigger} ${row.expansion}`).includes(search));
 }

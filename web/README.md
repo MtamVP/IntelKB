@@ -23,7 +23,7 @@ Bản gộp mở trực tiếp: `web/preview.html`. Sau khi sửa source, từ t
 
 Tab Từ điển & đóng góp (`#dictionary`) tách riêng khỏi tab Thử bàn phím (`#playground`). Bảng từ có phân trang, tìm kiếm có/không dấu, lọc nhóm và trạng thái. Bất kỳ ai cũng được gửi từ mới, thêm nghĩa và góp ý sửa từ từng hàng mà không có tài khoản. Có trường giải thích/ví dụ và tên tùy chọn. Đề xuất không sửa bản chính thức hay đưa ngay vào bàn phím; cần chủ trang duyệt.
 
-Tab tra cứu luôn có 419 mẫu công khai gắn nhãn Tham khảo, kể cả khi chưa duyệt bộ seed. Khi kết nối Supabase, các nghĩa approved thay thế mẫu trùng và bổ sung mục mới vào bảng. Nhãn Tham khảo không phản ánh dữ liệu draft riêng trong database; không tải hàng chờ hay bản nháp của người khác. Bàn phím luôn giữ bộ mẫu thử đóng gói sẵn để gợi ý và tự động điền không bị mất khi Supabase trả rỗng hoặc mới duyệt một phần. Các mục approved bổ sung từ mới và thay toàn bộ nghĩa mẫu của cùng trigger; cờ auto_replace của bản đã duyệt được tôn trọng. Mẫu thử được ghi rõ dưới bàn phím, không mang nhãn đã duyệt. Các đề xuất pending/draft từ server không được đưa vào bộ từ. Nội dung tin nhắn không rời thiết bị, chỉ các đề xuất được người dùng bấm gửi mới được gửi lên Supabase.
+Tab tra cứu luôn có 419 mục trong bộ có sẵn được mặc định là đã duyệt, gắn nhãn “Đã duyệt · Bộ có sẵn”. Khi kết nối Supabase, các nghĩa approved thay thế mẫu trùng và bổ sung mục mới vào bảng. Nguồn “Bộ có sẵn” phân biệt dữ liệu đóng gói với dữ liệu cộng đồng; không tải hàng chờ hay bản nháp của người khác. Bàn phím luôn giữ bộ mẫu thử đóng gói sẵn để gợi ý và tự động điền không bị mất khi Supabase trả rỗng hoặc mới duyệt một phần. Các mục approved bổ sung từ mới và thay toàn bộ nghĩa mẫu của cùng trigger; cờ auto_replace của bản đã duyệt được tôn trọng. Bộ lọc “Đã duyệt” và số lượng đã duyệt bao gồm cả bộ có sẵn lẫn dữ liệu cộng đồng được công bố. Các đề xuất pending/draft từ server không được đưa vào bộ từ. Nội dung tin nhắn không rời thiết bị, chỉ các đề xuất được người dùng bấm gửi mới được gửi lên Supabase.
 
 ## Quản trị
 
@@ -33,7 +33,7 @@ Không có liên kết quản trị ở trang công khai. Trang riêng nằm t�
 
 Từ thư mục web: `npm install` rồi `npm test`. PGlite chỉ dùng kiểm thử local, không được tải vào trình duyệt hoặc bundle production. Trang tĩnh không cần bước build framework; Cloudflare Pages có thể phục vụ `web/dist` từ repo gốc với build command `exit 0`.
 
-Dữ liệu mẫu do IntelKB biên tập tại `data/editorial/expansions.jsonl` ở repo cha. Chạy `python scripts/export_web_words.py` rồi `python scripts/export_community_seeds.py` từ repo gốc để cập nhật. Dataset bên thứ ba chưa rõ quyền sử dụng không được đưa lên web. Các seed xuất ra SQL là draft để chủ trang duyệt.
+Dữ liệu mẫu do IntelKB biên tập tại `data/editorial/expansions.jsonl` ở repo cha. Chạy `python scripts/export_web_words.py` rồi `python scripts/export_community_seeds.py` từ repo gốc để cập nhật. Dataset bên thứ ba chưa rõ quyền sử dụng không được đưa lên web. SQL seed tạo bản nháp trung gian; gói setup đầy đủ tự duyệt bộ có sẵn ở bước cuối. Với database đang dùng, chạy `web/dist/reference-approval-upgrade.sql` sau bản nâng cấp kiểm duyệt theo chế độ: chỉ chuyển các seed bootstrap nguyên bản, chưa xử lý sang approved; giữ nguyên nhóm từ đã được chủ trang công bố, seed đã sửa/từ chối và mọi đề xuất cộng đồng. Cài đặt tự động điền của bộ có sẵn được giữ nguyên. Có thể chạy lại an toàn. SQL này chưa được tự động chạy trên Supabase của bạn.
 
 ## Nhập liệu và bàn kiểm duyệt mới
 

@@ -4,16 +4,19 @@ import {publicCatalogue,filterCatalogue,keyboardDictionary} from '../dist/catalo
 import {makeIndex,expandText,suggestionsFor} from '../dist/engine.mjs';
 import fs from 'node:fs';
 const samples=[{trigger:'ms',expansion:'mới',category:'chat'},{trigger:'xl',expansion:'xin lỗi',category:'chat'}];
-test('public reference list remains browsable before seeds are approved',()=>{
+test('built-in words are included in the approved catalogue without impersonating database rows',()=>{
   const rows=publicCatalogue(samples,[]);
-  assert.equal(rows.length,2);assert.ok(rows.every(r=>r.sample));
+  assert.equal(rows.length,2);assert.ok(rows.every(r=>r.sample && r.status===undefined));
+  assert.equal(filterCatalogue(rows,{status:"approved"}).length,2);
+  assert.equal(filterCatalogue(rows,{status:"community"}).length,0);
 });
 test('published meanings replace matching samples without losing other meanings or leaking private drafts',()=>{
   const rows=publicCatalogue(samples,[{id:'approved',trigger:'MS',expansion:'mới',category:'chat',status:'approved'},
     {id:'draft',trigger:'private',expansion:'private draft',status:'draft'}]);
   assert.equal(rows.length,2);assert.equal(rows.find(r=>r.trigger==='MS').sample,false);
   assert.equal(rows.find(r=>r.trigger==='MS').id,'approved');
-  assert.equal(filterCatalogue(rows,{status:'approved'}).length,1);
+  assert.equal(filterCatalogue(rows,{status:'approved'}).length,2);
+  assert.equal(filterCatalogue(rows,{status:'community'}).length,1);
   assert.equal(filterCatalogue(rows,{status:'sample'}).length,1);
 });
 test('dictionary search supports unaccented Vietnamese and combined category/status filters',()=>{
@@ -42,7 +45,8 @@ test('catalogue filters automatic filling independently of approval and category
     [{id:'b',trigger:'b',expansion:'bạn',category:'chat',status:'approved',auto_replace:false}]);
   assert.deepEqual(filterCatalogue(rows,{auto:'on'}).map(row=>row.trigger),['ae']);
   assert.deepEqual(filterCatalogue(rows,{auto:'off',status:'approved'}).map(row=>row.trigger),['b']);
-  assert.equal(filterCatalogue(rows,{auto:'on',status:'approved'}).length,0);
+  assert.equal(filterCatalogue(rows,{auto:'on',status:'approved'}).length,1);
+  assert.equal(filterCatalogue(rows,{auto:'on',status:'community'}).length,0);
   const defaults=publicCatalogue(bundled,[]);
   assert.equal(defaults.find(row=>row.trigger==='hnay').auto_replace,true);
   assert.equal(defaults.find(row=>row.trigger==='xl').auto_replace,true);
