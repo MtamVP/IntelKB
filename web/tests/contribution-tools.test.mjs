@@ -1,6 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {findPair,parseContributions,groupReviewRows} from '../dist/contribution-tools.mjs';
+import {findPair,findTriggerMatches,parseContributions,groupReviewRows} from '../dist/contribution-tools.mjs';
+
+test('typing lookup counts unique meanings, ranks exact then prefix and updates for unfinished aliases',()=>{
+  const rows=[{trigger:'axl',expansion:'contains'},{trigger:'xla',expansion:'prefix'},{trigger:'xl',expansion:'xin lỗi'},{trigger:'XL',expansion:'XIN LỖI'},{trigger:'xl',expansion:'xạo lồn'},{trigger:'má',expansion:'mẹ'}];
+  assert.deepEqual(findTriggerMatches(rows,''),{query:'',exact:0,total:0,rows:[]});
+  const partial=findTriggerMatches(rows,' X ',2);
+  assert.equal(partial.exact,0);assert.equal(partial.total,4);assert.equal(partial.rows.length,2);
+  const full=findTriggerMatches(rows,'XL');
+  assert.equal(full.exact,2);assert.equal(full.total,4);assert.ok(full.rows.slice(0,2).every(row=>row.trigger.toLowerCase()==='xl'));
+  assert.equal(full.rows[2].trigger,'xla');assert.equal(full.rows[3].trigger,'axl');
+  assert.equal(findTriggerMatches(rows,'unknown').total,0);
+  assert.equal(findTriggerMatches(rows,'ma').total,0);
+  assert.equal(findTriggerMatches(rows,'MÁ'.normalize('NFD')).exact,1);
+});
 test('duplicate check requires both fields, ignores case/spacing/Unicode but preserves Vietnamese accents',()=>{
   const rows=[{id:'1',trigger:'XL',expansion:'Xin lỗi'},{id:'2',trigger:'ma',expansion:'mẹ'}];
   assert.equal(findPair(rows,{trigger:' xl ',expansion:'xin  lỗi'.normalize('NFD')}).id,'1');

@@ -5,6 +5,19 @@ export function findPair(rows,input,excludeId=null){
   const key=pairIdentity(input);
   return rows.find(row=>row.id!==excludeId && pairIdentity(row)===key) || null;
 }
+// Search the abbreviation while it is still being typed; counts are meanings, not raw duplicates.
+export function findTriggerMatches(rows,text,limit=6){
+  const query=normalize(String(text||''));
+  if(!query)return {query,exact:0,total:0,rows:[]};
+  const found=new Map();
+  for(const row of rows){
+    if(normalize(row.trigger).includes(query))found.set(pairIdentity(row),row);
+  }
+  const matches=[...found.values()];
+  const rank=row=>normalize(row.trigger)===query?0:normalize(row.trigger).startsWith(query)?1:2;
+  matches.sort((a,b)=>rank(a)-rank(b)||a.trigger.localeCompare(b.trigger,'vi')||a.expansion.localeCompare(b.expansion,'vi'));
+  return {query,exact:matches.filter(row=>normalize(row.trigger)===query).length,total:matches.length,rows:matches.slice(0,limit)};
+}
 // Parse Excel TSV, CSV (including quoted newlines), or one "alias → meaning" per line.
 export function parseContributions(text,existing=[],category='chat'){
   const delimiter=text.includes('\t')?'\t':',';

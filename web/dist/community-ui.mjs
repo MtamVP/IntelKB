@@ -1,6 +1,6 @@
 import { CommunityStore } from './community-store.mjs';
 import { publicCatalogue, filterCatalogue, keyboardDictionary } from './catalogue.mjs';
-import {findPair,parseContributions} from './contribution-tools.mjs';
+import {findPair,findTriggerMatches,parseContributions} from './contribution-tools.mjs';
 
 export function mountDictionary(baseWords,onChange) {
   const get=id=>document.getElementById(id), store=new CommunityStore();
@@ -26,6 +26,20 @@ export function mountDictionary(baseWords,onChange) {
     get('entry-auto').disabled=mode==='many';
   }
   function batchRows(){return parseContributions(get('entry-lines').value,catalogue,get('entry-category').value);}
+  function renderTriggerMatches(){
+    const result=findTriggerMatches(catalogue,get('entry-trigger').value),host=get('entry-match-list');host.replaceChildren();
+    get('entry-lookup').hidden=!result.total;
+    get('entry-match-count').textContent=result.exact
+      ?`“${result.query}” đã có ${result.exact} nghĩa${result.total>result.exact?` · ${result.total-result.exact} mục gần khớp khác`:''}.`
+      :`${result.total} mục chứa “${result.query}” · chưa có viết tắt khớp hoàn toàn.`;
+    for(const row of result.rows){
+      const item=document.createElement('li'),copy=document.createElement('div'),word=document.createElement('strong'),meaning=document.createElement('span'),badge=document.createElement('small'),edit=document.createElement('button');
+      word.textContent=row.trigger;meaning.textContent=' → '+row.expansion;badge.textContent=row.sample?'Tham khảo':'Đã duyệt';copy.append(word,meaning,badge);
+      edit.type='button';edit.textContent='Góp ý';edit.setAttribute('aria-label',`Góp ý mục có sẵn ${row.trigger}: ${row.expansion}`);edit.onclick=()=>startProposal(row,'edit');item.append(copy,edit);host.append(item);
+    }
+    get('entry-match-all').hidden=result.total<=result.rows.length;
+    get('entry-match-all').textContent='Mở bảng tra cứu đầy đủ ↗';
+  }
   function updateEditor(){
     clearTimeout(checkTimer);const version=++checkVersion;blocked=false;existingPair=null;get('entry-use-existing').hidden=true;
     if(entryMode==='many'){
@@ -34,6 +48,7 @@ export function mountDictionary(baseWords,onChange) {
       const valid=rows.filter(row=>!row.error);get('save-entry').textContent=`Gửi ${valid.length} đề xuất`;get('save-entry').disabled=sending||!valid.length;return;
     }
     get('save-entry').textContent=action==='edit'?'Gửi góp ý sửa':'Gửi đề xuất';
+    renderTriggerMatches();
     const value=editorInput(),message=get('entry-duplicate');
     get('entry-preview').textContent=(value.trigger.trim()||'Viết tắt')+' → '+(value.expansion.trim()||'Nghĩa đầy đủ');
     existingPair=findPair(catalogue,value,target?.id);
@@ -142,6 +157,9 @@ export function mountDictionary(baseWords,onChange) {
   });
   get('entry-single').onclick=()=>setEntryMode('single');get('entry-many').onclick=()=>setEntryMode('many');
   get('entry-use-existing').onclick=()=>{if(existingPair)startProposal(existingPair,'edit');};
+  get('entry-match-all').onclick=()=>{
+    get('dictionary-search').value=get('entry-trigger').value.trim();get('catalogue-category').value='';get('catalogue-status').value='';page=0;render();get('dictionary-search').scrollIntoView({behavior:'smooth',block:'center'});get('dictionary-search').focus({preventScroll:true});
+  };
   resetForm();
   try{const saved=JSON.parse(localStorage.getItem(composerKey));if(saved){get('entry-trigger').value=saved.trigger||'';get('entry-expansion').value=saved.expansion||'';get('entry-category').value=saved.category||'chat';get('entry-auto').checked=Boolean(saved.auto_replace);get('entry-explanation').value=saved.explanation||'';get('entry-lines').value=saved.lines||'';setEntryMode(saved.mode==='many'?'many':'single');get('entry-save-state').textContent='Đã khôi phục nội dung bạn đang nhập.';}}catch{}
   render();route();onChange(keyboardDictionary(baseWords));load();return store;

@@ -44,3 +44,7 @@ Chế độ Dán nhiều từ nhận tối đa 20 dòng từ Excel (Tab), CSV ho
 Trang quản trị dùng bảng có độ cao cuộn riêng, gom cụm chỉ với những từ có nhiều mục trên trang và khung sửa bên cạnh. Có chọn trang/chọn cụm, xem trước danh sách trước Accept/Reject, chỉnh nhóm theo lô, tắt tự bung theo lô, phím J/K và báo cáo kết quả tải JSON. Thay đổi nghĩa chưa gửi được giữ khi chuyển mục trong cùng trang; đổi bộ lọc hoặc tải lại sẽ bỏ chỉnh sửa tạm đó. Chọn nhiều chỉ áp dụng trong trang hiện tại, không chọn ngầm các trang khác.
 
 Xem `supabase/README.md` ở repo gốc để chạy SQL nâng cấp và phân biệt dữ liệu giả kiểm tra với dữ liệu thật.
+
+## Tra cứu ngay khi nhập từ mới
+
+Ô viết tắt tìm ngay trong toàn bộ danh sách công khai đã tải (bộ mẫu và nghĩa đã duyệt), không cần nhập xong hoặc điền nghĩa. Kết quả không phân biệt hoa/thường; ưu tiên khớp toàn bộ, rồi bắt đầu bằng ký tự đã nhập, rồi chứa ký tự đó. Số nghĩa khớp toàn bộ được đếm riêng với các mục gần khớp; mỗi cặp chỉ đếm một lần. Hiện tối đa 6 mục để đối chiếu, có nút mở bảng tra cứu và nút góp ý từng mục. Không có kết quả thì ẩn khung; kiểm tra trùng cả cặp và hàng chờ vẫn hoạt động như trước. Không công khai nội dung hàng chờ.

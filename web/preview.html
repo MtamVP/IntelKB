@@ -18,6 +18,7 @@
 @media(max-width:1100px){.dictionary-page{padding:35px 30px 50px}.catalogue-layout{grid-template-columns:minmax(0,1fr) 290px;gap:18px}.catalogue-heading h1{font-size:39px}.site-tabs a{font-size:10px}.site-tabs a span{display:none}}
 @media(max-width:800px){.nav{flex-wrap:wrap;gap:18px}.site-tabs{width:100%;justify-content:center}.site-tabs a{flex:1;text-align:center;font-size:10px}.dictionary-page{padding:30px 20px 40px}.catalogue-heading{align-items:flex-start;flex-direction:column;gap:6px}.catalogue-heading h1{font-size:35px}.catalogue-metrics{grid-template-columns:1fr 1fr}.catalogue-metrics>div{padding:17px}.catalogue-metrics>div:nth-child(2){border-right:0}.catalogue-metrics>div:last-child{grid-column:1/-1;border-top:1px solid #3d4b32}.catalogue-layout{grid-template-columns:1fr}.contribution-panel{margin-top:12px}.dictionary-page .dictionary-list-header{align-items:flex-start;flex-direction:column;gap:14px}.dictionary-page .dictionary-list-header input{max-width:none}.catalogue-heading p{font-size:11px}.catalogue-table{font-size:10px}.catalogue-filters label{max-width:none}}
 .entry-mode{display:flex;gap:4px;padding:3px;background:#151e10;border:1px solid #3b4d2d;border-radius:7px;margin:0 0 17px}.entry-mode button{flex:1;font:10px inherit;background:transparent;border:0;color:#aebd9d;border-radius:5px;padding:9px 5px}.entry-mode button[aria-pressed=true]{background:#cce99b;color:#26351c}.entry-mode button:disabled{opacity:.35;cursor:default}.entry-preview{font-size:12px;line-height:1.8;overflow-wrap:anywhere;background:#2a3820;border-radius:7px;padding:10px;margin:13px 0 7px;color:#d5edb6}.entry-duplicate{font-size:10px;line-height:1.8;color:#9fb38c;min-height:35px}.entry-duplicate.duplicate{color:#e3c88a}.entry-help{font-size:9px;line-height:1.9;color:#91a57e}.dictionary-page #entry-use-existing{font-size:9px;background:none;border:1px solid #526940;color:#c3dfa9;border-radius:5px;padding:7px;margin:6px 0 12px}.contribution-panel{position:sticky;top:18px;max-height:calc(100vh - 36px);overflow-y:auto;scrollbar-width:thin}#entry-lines-preview{max-height:210px;overflow:auto;border-radius:5px}#entry-lines-preview p{font-size:10px;line-height:1.8;border-bottom:1px solid #394a2d;padding:7px 3px;margin:0}#entry-lines-preview .invalid{color:#e9b49b}#entry-lines-preview .valid{color:#bdd9a1}@media(max-width:800px){.contribution-panel{position:static;max-height:none}}
+.entry-lookup{background:#172113;border:1px solid #4b6339;border-radius:8px;padding:10px 11px;margin:-3px 0 13px;min-width:0}.entry-lookup[hidden]{display:none}#entry-match-count{font-size:11px;line-height:1.7;color:#d0ecac;margin:0 0 7px}.entry-lookup ul{list-style:none;padding:0;margin:0;max-height:205px;overflow:auto;scrollbar-width:thin}.entry-lookup li{display:flex;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid #35482a;padding:8px 0;font-size:11px;line-height:1.7}.entry-lookup li>div{min-width:0;overflow-wrap:anywhere}.entry-lookup strong{color:#d1efaa}.entry-lookup small{display:block;color:#96a986;font-size:9px}.dictionary-page .entry-lookup button{background:transparent;color:#c4dfaa;border:1px solid #536b40;border-radius:5px;padding:5px 7px;font-size:10px;flex-shrink:0}.dictionary-page #entry-match-all{margin-top:9px;width:100%;text-align:left}.entry-lookup .entry-help{margin-bottom:0}
 </style>
 </head>
 <body>
@@ -76,7 +77,7 @@
       <div class="catalogue-table-wrap" tabindex="0" role="region" aria-label="Bảng từ điển, có thể cuộn ngang"><table class="catalogue-table"><caption class="visually-hidden">Danh sách từ viết tắt và nghĩa đầy đủ</caption><thead><tr><th scope="col">Từ viết tắt</th><th scope="col">Nghĩa đầy đủ</th><th scope="col">Nhóm</th><th scope="col">Trạng thái</th><th scope="col">Đóng góp</th></tr></thead><tbody id="dictionary-list"></tbody></table></div>
       <div class="catalogue-pager"><button id="catalogue-prev">← Trước</button><span id="catalogue-page"></span><button id="catalogue-next">Sau →</button></div>
     </div><aside class="contribution-panel" aria-label="Gửi đóng góp"><span class="control-title">MỖI NGHĨA ĐÚNG ĐỀU CÓ ÍCH</span><p class="dictionary-intro">Thêm từ mới hoặc chọn “Góp ý sửa” trong bảng. Bạn gửi, chủ trang kiểm tra.</p><div id="proposal-drafts" aria-label="Các đóng góp chưa gửi"></div>
-    <form id="dictionary-form"><h3 id="proposal-kind">Đề xuất từ mới</h3><div class="entry-mode"><button type="button" id="entry-single" aria-pressed="true">Một từ</button><button type="button" id="entry-many" aria-pressed="false">Dán nhiều từ</button></div><div id="single-entry"><div class="entry-fields"><label>Từ viết tắt<input id="entry-trigger" maxlength="48" required placeholder="vd: hem" autocomplete="off"></label><label>Nghĩa đầy đủ<input id="entry-expansion" maxlength="240" required placeholder="vd: không" autocomplete="off"></label></div><div id="entry-preview" class="entry-preview" aria-live="polite">Viết tắt → nghĩa đầy đủ</div><div id="entry-duplicate" class="entry-duplicate" role="status"></div><button type="button" id="entry-use-existing" hidden>Góp ý trên mục đã có ↗</button></div><div id="many-entry" hidden><label>Dán tối đa 20 dòng<textarea id="entry-lines" rows="6" maxlength="20000" placeholder="Viết tắt → nghĩa đầy đủ&#10;hoặc dán 2 cột từ Excel"></textarea></label><p class="entry-help">Mỗi dòng một cặp, cách bằng Tab, dấu phẩy hoặc →. Dòng trùng và lỗi sẽ được bỏ qua. Các từ gửi theo lô mặc định chỉ hiện gợi ý; chủ trang quyết định tự bung.</p><div id="entry-lines-preview"></div></div><div class="entry-options"><label>Nhóm từ<select id="entry-category"><option value="chat">Nhắn tin</option><option value="profanity">Từ tục</option><option value="euphemism">Nói nhẹ</option><option value="english">Tiếng Anh</option><option value="game">Game</option></select></label><label class="check-label"><input id="entry-auto" type="checkbox"> Đề nghị cho phép tự bung</label></div><label>Giải thích / ví dụ sử dụng<textarea id="entry-explanation" maxlength="1000" rows="2" placeholder="Từ này dùng trong tình huống nào? Vì sao nghĩa cũ cần sửa?"></textarea></label><label class="contributor-label">Tên hiển thị (không bắt buộc)<input id="contributor-name" maxlength="60" placeholder="Ẩn danh nếu để trống" autocomplete="off"></label><p id="entry-save-state" class="entry-help" aria-live="polite"></p><div class="form-actions"><button id="save-entry" type="submit">Gửi đề xuất</button><button id="cancel-edit" type="button" hidden>Hủy sửa</button></div></form>
+    <form id="dictionary-form"><h3 id="proposal-kind">Đề xuất từ mới</h3><div class="entry-mode"><button type="button" id="entry-single" aria-pressed="true">Một từ</button><button type="button" id="entry-many" aria-pressed="false">Dán nhiều từ</button></div><div id="single-entry"><div class="entry-fields"><label>Từ viết tắt<input id="entry-trigger" maxlength="48" required placeholder="vd: hem" autocomplete="off" aria-describedby="entry-match-count"></label><section id="entry-lookup" class="entry-lookup" hidden aria-label="Từ đã có trong từ điển"><p id="entry-match-count" role="status" aria-live="polite"></p><ul id="entry-match-list"></ul><button id="entry-match-all" type="button" hidden></button><p class="entry-help">Đối chiếu các nghĩa đã có. Bạn vẫn có thể bổ sung nghĩa khác; chỉ trùng cả cặp mới là bản trùng.</p></section><label>Nghĩa đầy đủ<input id="entry-expansion" maxlength="240" required placeholder="vd: không" autocomplete="off"></label></div><div id="entry-preview" class="entry-preview" aria-live="polite">Viết tắt → nghĩa đầy đủ</div><div id="entry-duplicate" class="entry-duplicate" role="status"></div><button type="button" id="entry-use-existing" hidden>Góp ý trên mục đã có ↗</button></div><div id="many-entry" hidden><label>Dán tối đa 20 dòng<textarea id="entry-lines" rows="6" maxlength="20000" placeholder="Viết tắt → nghĩa đầy đủ&#10;hoặc dán 2 cột từ Excel"></textarea></label><p class="entry-help">Mỗi dòng một cặp, cách bằng Tab, dấu phẩy hoặc →. Dòng trùng và lỗi sẽ được bỏ qua. Các từ gửi theo lô mặc định chỉ hiện gợi ý; chủ trang quyết định tự bung.</p><div id="entry-lines-preview"></div></div><div class="entry-options"><label>Nhóm từ<select id="entry-category"><option value="chat">Nhắn tin</option><option value="profanity">Từ tục</option><option value="euphemism">Nói nhẹ</option><option value="english">Tiếng Anh</option><option value="game">Game</option></select></label><label class="check-label"><input id="entry-auto" type="checkbox"> Đề nghị cho phép tự bung</label></div><label>Giải thích / ví dụ sử dụng<textarea id="entry-explanation" maxlength="1000" rows="2" placeholder="Từ này dùng trong tình huống nào? Vì sao nghĩa cũ cần sửa?"></textarea></label><label class="contributor-label">Tên hiển thị (không bắt buộc)<input id="contributor-name" maxlength="60" placeholder="Ẩn danh nếu để trống" autocomplete="off"></label><p id="entry-save-state" class="entry-help" aria-live="polite"></p><div class="form-actions"><button id="save-entry" type="submit">Gửi đề xuất</button><button id="cancel-edit" type="button" hidden>Hủy sửa</button></div></form>
     <p class="contribution-note">Không cần đăng nhập. Chỉ nội dung bạn bấm gửi ở biểu mẫu này được gửi lên hệ thống.</p></aside></div>
   </section>
   <footer><span>IntelKB <span class="footer-slash">/</span> Ít ký tự hơn. Đủ ý hơn.</span><span>Đang thử nghiệm <span class="tiny-dot"></span> Made for tiếng Việt.</span></footer>
@@ -565,6 +566,19 @@ function findPair(rows,input,excludeId=null){
   const key=pairIdentity(input);
   return rows.find(row=>row.id!==excludeId && pairIdentity(row)===key) || null;
 }
+// Search the abbreviation while it is still being typed; counts are meanings, not raw duplicates.
+function findTriggerMatches(rows,text,limit=6){
+  const query=normalize(String(text||''));
+  if(!query)return {query,exact:0,total:0,rows:[]};
+  const found=new Map();
+  for(const row of rows){
+    if(normalize(row.trigger).includes(query))found.set(pairIdentity(row),row);
+  }
+  const matches=[...found.values()];
+  const rank=row=>normalize(row.trigger)===query?0:normalize(row.trigger).startsWith(query)?1:2;
+  matches.sort((a,b)=>rank(a)-rank(b)||a.trigger.localeCompare(b.trigger,'vi')||a.expansion.localeCompare(b.expansion,'vi'));
+  return {query,exact:matches.filter(row=>normalize(row.trigger)===query).length,total:matches.length,rows:matches.slice(0,limit)};
+}
 // Parse Excel TSV, CSV (including quoted newlines), or one "alias → meaning" per line.
 function parseContributions(text,existing=[],category='chat'){
   const delimiter=text.includes('\t')?'\t':',';
@@ -623,6 +637,20 @@ function mountDictionary(baseWords,onChange) {
     get('entry-auto').disabled=mode==='many';
   }
   function batchRows(){return parseContributions(get('entry-lines').value,catalogue,get('entry-category').value);}
+  function renderTriggerMatches(){
+    const result=findTriggerMatches(catalogue,get('entry-trigger').value),host=get('entry-match-list');host.replaceChildren();
+    get('entry-lookup').hidden=!result.total;
+    get('entry-match-count').textContent=result.exact
+      ?`“${result.query}” đã có ${result.exact} nghĩa${result.total>result.exact?` · ${result.total-result.exact} mục gần khớp khác`:''}.`
+      :`${result.total} mục chứa “${result.query}” · chưa có viết tắt khớp hoàn toàn.`;
+    for(const row of result.rows){
+      const item=document.createElement('li'),copy=document.createElement('div'),word=document.createElement('strong'),meaning=document.createElement('span'),badge=document.createElement('small'),edit=document.createElement('button');
+      word.textContent=row.trigger;meaning.textContent=' → '+row.expansion;badge.textContent=row.sample?'Tham khảo':'Đã duyệt';copy.append(word,meaning,badge);
+      edit.type='button';edit.textContent='Góp ý';edit.setAttribute('aria-label',`Góp ý mục có sẵn ${row.trigger}: ${row.expansion}`);edit.onclick=()=>startProposal(row,'edit');item.append(copy,edit);host.append(item);
+    }
+    get('entry-match-all').hidden=result.total<=result.rows.length;
+    get('entry-match-all').textContent='Mở bảng tra cứu đầy đủ ↗';
+  }
   function updateEditor(){
     clearTimeout(checkTimer);const version=++checkVersion;blocked=false;existingPair=null;get('entry-use-existing').hidden=true;
     if(entryMode==='many'){
@@ -631,6 +659,7 @@ function mountDictionary(baseWords,onChange) {
       const valid=rows.filter(row=>!row.error);get('save-entry').textContent=`Gửi ${valid.length} đề xuất`;get('save-entry').disabled=sending||!valid.length;return;
     }
     get('save-entry').textContent=action==='edit'?'Gửi góp ý sửa':'Gửi đề xuất';
+    renderTriggerMatches();
     const value=editorInput(),message=get('entry-duplicate');
     get('entry-preview').textContent=(value.trigger.trim()||'Viết tắt')+' → '+(value.expansion.trim()||'Nghĩa đầy đủ');
     existingPair=findPair(catalogue,value,target?.id);
@@ -739,6 +768,9 @@ function mountDictionary(baseWords,onChange) {
   });
   get('entry-single').onclick=()=>setEntryMode('single');get('entry-many').onclick=()=>setEntryMode('many');
   get('entry-use-existing').onclick=()=>{if(existingPair)startProposal(existingPair,'edit');};
+  get('entry-match-all').onclick=()=>{
+    get('dictionary-search').value=get('entry-trigger').value.trim();get('catalogue-category').value='';get('catalogue-status').value='';page=0;render();get('dictionary-search').scrollIntoView({behavior:'smooth',block:'center'});get('dictionary-search').focus({preventScroll:true});
+  };
   resetForm();
   try{const saved=JSON.parse(localStorage.getItem(composerKey));if(saved){get('entry-trigger').value=saved.trigger||'';get('entry-expansion').value=saved.expansion||'';get('entry-category').value=saved.category||'chat';get('entry-auto').checked=Boolean(saved.auto_replace);get('entry-explanation').value=saved.explanation||'';get('entry-lines').value=saved.lines||'';setEntryMode(saved.mode==='many'?'many':'single');get('entry-save-state').textContent='Đã khôi phục nội dung bạn đang nhập.';}}catch{}
   render();route();onChange(keyboardDictionary(baseWords));load();return store;
