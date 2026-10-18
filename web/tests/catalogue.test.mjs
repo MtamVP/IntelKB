@@ -31,7 +31,7 @@ test('duplicate pairs differing only in case, whitespace or Unicode appear once 
   const remote=[{id:'old',trigger:'ms',expansion:'mới',status:'approved',revision:1,auto_replace:true},
     {id:'current',trigger:'MS',expansion:'  mới ',status:'approved',revision:2,auto_replace:false}];
   const visible=publicCatalogue(duplicates,remote);
-  assert.equal(visible.length,2);assert.equal(visible.find(row=>!row.sample).id,'current');
+  assert.equal(visible.length,1);assert.equal(visible.find(row=>!row.sample).id,'current');
   const keyboard=keyboardDictionary(duplicates,remote);
   assert.equal(keyboard.length,1);assert.equal(keyboard[0].id,'current');
   const index=makeIndex(duplicates);
@@ -39,6 +39,15 @@ test('duplicate pairs differing only in case, whitespace or Unicode appear once 
   assert.equal(suggestionsFor('ms',2,index,'direct').length,2);
 });
 const bundled=JSON.parse(fs.readFileSync(new URL('../dist/words.json',import.meta.url)));
+
+test('editing a published meaning never resurrects its old bundled wording or metadata',()=>{
+ const base=[{trigger:'chs',expansion:'chẳng hiểu sao',category:'chat'}];
+ const live=[{id:'changed',trigger:'chs',expansion:'chả hiểu sao',category:'chat',source:'bootstrap',status:'approved',auto_replace:false,revision:3}];
+ const rows=publicCatalogue(base,live);
+ assert.equal(rows.length,1);assert.equal(rows[0].expansion,'chả hiểu sao');assert.equal(rows[0].auto_replace,false);
+ assert.equal(filterCatalogue(rows,{status:'sample'}).length,1);assert.equal(filterCatalogue(rows,{status:'community'}).length,0);
+ assert.equal(rows[0].sample,false);
+});
 
 test('catalogue filters automatic filling independently of approval and category',()=>{
   const rows=publicCatalogue([{trigger:'ae',expansion:'anh em',category:'chat',auto_replace:true}],

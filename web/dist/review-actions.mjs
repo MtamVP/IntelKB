@@ -16,6 +16,10 @@ export function entryDiff(before,after){
   if(!before)return [];
   return ['trigger','expansion','category','auto_replace'].filter(key=>before[key]!==after[key]).map(key=>({key,before:before[key],after:after[key]}));
 }
+const reviewBase=row=>JSON.stringify({trigger:row.trigger,expansion:row.expansion,category:row.category,auto_replace:row.auto_replace,status:row.status,revision:row.revision,base_revision:row.base_revision});
+export function makeReviewDraft(row,values,previous){return {...values,_base:previous?._base||reviewBase(row)};}
+export function dirtyReviewDraft(draft){return Boolean(draft&&(draft.note||entryDiff(JSON.parse(draft._base),draft).length));}
+export function staleReviewDraft(row,draft){return Boolean(draft&&dirtyReviewDraft(draft)&&draft._base!==reviewBase(row));}
 export function nextAfterReview(rows,processed){
   const first=rows.findIndex(row=>processed.has(row.id));
   return [...rows.slice(first+1),...rows.slice(0,first)].find(row=>!processed.has(row.id))?.id||null;

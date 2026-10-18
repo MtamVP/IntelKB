@@ -5,6 +5,17 @@ const config={url:'https://example.invalid',publishableKey:'public-test',table:'
 const storage=()=>{const m=new Map();return {getItem:k=>m.get(k)||null,setItem:(k,v)=>m.set(k,v),removeItem:k=>m.delete(k)};};
 const word={trigger:'abc',expansion:'một nghĩa mới',category:'chat',auto_replace:false};
 
+test('concurrent admin requests share one token refresh and logout cannot be undone by its response',async()=>{
+ let resolveRefresh,calls=0;
+ const store=new CommunityStore({storage:storage(),config,fetcher:async()=>{calls++;return new Promise(resolve=>{resolveRefresh=()=>resolve(new Response(JSON.stringify({user:{id:'owner'},access_token:'new',refresh_token:'rotated',expires_in:3600})));});}});
+ store.setSession({user:{id:'owner'},access_token:'old',refresh_token:'old-refresh',expires_at:1});
+ const pending=[store.accessToken(),store.accessToken(),store.accessToken()];assert.equal(calls,1);
+ resolveRefresh();assert.deepEqual(await Promise.all(pending),['new','new','new']);assert.equal(store.syncing,null);
+ store.setSession({user:{id:'owner'},access_token:'old',refresh_token:'old-refresh',expires_at:1});
+ const loggedOut=store.accessToken();store.session=null;resolveRefresh();
+ await assert.rejects(loggedOut,/đã kết thúc/);assert.equal(store.session,null);
+});
+
 test('saving a published entry uses an authenticated RPC and passes the original revision',async()=>{
  let call;
  const store=new CommunityStore({storage:storage(),config,fetcher:async(url,options)=>{call={url,options};return new Response('{}');}});

@@ -51,9 +51,14 @@ export class SupabaseClient {
   async accessToken() {
     if (!this.session?.user?.id) throw new Error('Đăng nhập quản trị để tiếp tục.');
     if (this.session.expires_at <= Math.floor(Date.now()/1000) + 60) {
-      const data = await this.request('/auth/v1/token?grant_type=refresh_token', {method:'POST', body:{refresh_token:this.session.refresh_token}});
-      this.setSession(data);
+      if(!this.syncing){
+        const original=this.session;
+        this.syncing=this.request('/auth/v1/token?grant_type=refresh_token', {method:'POST', body:{refresh_token:original.refresh_token}})
+          .then(data=>{if(this.session===original)this.setSession(data);}).finally(()=>{this.syncing=null;});
+      }
+      await this.syncing;
     }
+    if(!this.session?.access_token)throw new Error('Phiên đăng nhập đã kết thúc. Hãy đăng nhập lại.');
     return this.session.access_token;
   }
 }

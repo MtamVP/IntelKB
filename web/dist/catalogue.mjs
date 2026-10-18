@@ -20,8 +20,10 @@ export function keyboardDictionary(samples, serverRows = []) {
     ...approved.map(row=>({...row,demo:false}))];
 }
 export function publicCatalogue(samples, approved) {
-  const rows = new Map(uniquePairs(samples).map((row,i)=>[catalogueKey(row),{...row,auto_replace:row.auto_replace??defaultAutoFill(row.trigger),id:`sample-${i}`,sample:true}]));
-  for (const row of uniquePairs(approved.filter(row=>row.status==='approved'))) {
+  const published=uniquePairs(approved.filter(row=>row.status==='approved'));
+  const managed=new Set(published.map(keyboardTrigger));
+  const rows = new Map(uniquePairs(samples).filter(row=>!managed.has(keyboardTrigger(row))).map((row,i)=>[catalogueKey(row),{...row,auto_replace:row.auto_replace??defaultAutoFill(row.trigger),id:`sample-${i}`,sample:true}]));
+  for (const row of published) {
     if (row.status === 'approved') rows.set(catalogueKey(row),{...row,sample:false});
   }
   const result=[...rows.values()],sampleIndex=makeIndex(result.filter(row=>row.sample));
@@ -34,9 +36,10 @@ export function publicCatalogue(samples, approved) {
   return result.sort((a,b)=>a.trigger.localeCompare(b.trigger,'vi') || a.expansion.localeCompare(b.expansion,'vi'));
 }
 const catalogueSearch = text => text.normalize('NFD').replace(/\p{M}/gu,'').replace(/[đĐ]/g,'d').toLocaleLowerCase('vi');
+export const isBundledEntry = row => row.sample===true || row.source==='bootstrap';
 export function filterCatalogue(rows,{query='',category='',status='',auto=''}={}) {
   const search=catalogueSearch(query.trim());
-  return rows.filter(row=>(!category || row.category===category) && (!status || status==='approved' || (status==='sample'?row.sample:status==='community'&&!row.sample))
+  return rows.filter(row=>(!category || row.category===category) && (!status || status==='approved' || (status==='sample'?isBundledEntry(row):status==='community'&&!isBundledEntry(row)))
     && (!auto || (auto==='on'?row.auto_replace===true:row.auto_replace!==true))
     && catalogueSearch(`${row.trigger} ${row.expansion}`).includes(search));
 }

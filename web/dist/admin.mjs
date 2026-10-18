@@ -2,7 +2,7 @@ import {CommunityStore} from './community-store.mjs';
 import {validateEntry} from './dictionary-store.mjs';
 import {groupReviewRows} from './contribution-tools.mjs';
 import {normalize} from './engine.mjs';
-import {reviewTargets,entryDiff,nextAfterReview,reviewError} from './review-actions.mjs';
+import {reviewTargets,entryDiff,nextAfterReview,reviewError,makeReviewDraft,dirtyReviewDraft,staleReviewDraft} from './review-actions.mjs';
 const el=id=>document.getElementById(id),store=new CommunityStore();
 const categoryNames={chat:'Nhắn tin',profanity:'Từ tục',euphemism:'Nói nhẹ',english:'Tiếng Anh',game:'Game'};
 let allowed=false,rows=[],page=0,total=0,current=null,advanced=true,busy=false,loadVersion=0,searchTimer,decision='accept',batch=[],results=[];
@@ -27,11 +27,12 @@ function selection(){
   for(const row of el('queue-list').querySelectorAll('tr[data-review-id]')){const checked=selected.has(row.dataset.reviewId);row.classList.toggle('selected',checked);row.setAttribute('aria-selected',String(checked));}
   for(const button of el('queue-list').querySelectorAll('button'))button.disabled=busy;
   el('review-form').inert=busy;el('batch-options').inert=busy;el('style-review').inert=busy;el('undo-review').disabled=busy||!lastUndo?.undo_available;
+  el('save-published').disabled=busy||Boolean(current&&staleReviewDraft(current,edits.get(current.id)));
   if(current){const count=selected.has(current.id)?selected.size:1;el('accept-proposal').textContent=`Duyệt ${count>1?count+' mục':'mục này'}`;el('reject-proposal').textContent=`Từ chối${count>1?' '+count+' mục':''}`;}
   for(const button of el('queue-list').querySelectorAll('[data-decision]')){const count=selected.has(button.dataset.rowId)?selected.size:1;button.textContent=(button.dataset.decision==='accept'?'Duyệt':'Từ chối')+(count>1?' ('+count+')':'');button.title=count>1?`Áp dụng cho ${count} mục đang chọn`:'Chỉ áp dụng cho dòng này';}
   el('queue-prev').disabled=busy||page===0;el('queue-next').disabled=busy||(page+1)*50>=total;
 }
-function saveEdit(){if(!current)return;edits.set(current.id,{trigger:current.trigger,expansion:el('review-expansion').value,category:el('review-category').value,auto_replace:el('review-auto').checked,note:el('review-note').value});}
+function saveEdit(){if(!current)return;const draft=makeReviewDraft(current,{trigger:current.trigger,expansion:el('review-expansion').value,category:el('review-category').value,auto_replace:el('review-auto').checked,note:el('review-note').value},edits.get(current.id));if(dirtyReviewDraft(draft))edits.set(current.id,draft);else edits.delete(current.id);}
 function candidates(){
  const map=new Map(contextRows.filter(row=>row.status==='approved').map(row=>[row.id,{...row,kind:'approved'}]));
  for(const row of rows.filter(canReview))map.set(row.id,{...row,...edits.get(row.id),kind:el('queue-kind').value});
@@ -89,7 +90,7 @@ function render(){
       if(canReview(row)){tr.tabIndex=0;tr.setAttribute('aria-label',`Chọn ${row.trigger}: ${row.expansion}`);const toggle=()=>{if(busy)return;selected.has(row.id)?selected.delete(row.id):selected.set(row.id,row);selection();};tr.onclick=event=>{if(!event.target.closest('button,input,label,a,select,textarea')&&!window.getSelection()?.toString())toggle();};tr.onkeydown=event=>{if(event.target===tr&&!event.altKey&&!event.ctrlKey&&[' ','Enter'].includes(event.key)){event.preventDefault();toggle();}};}
 
       const selectCell=node('td'),check=node('input');check.type='checkbox';check.dataset.id=row.id;check.disabled=busy||!canReview(row);check.setAttribute('aria-label',`Chọn ${row.trigger}: ${row.expansion}`);check.onchange=()=>{check.checked?selected.set(row.id,row):selected.delete(row.id);selection();};selectCell.append(check);
-      const draft=edits.get(row.id),display=draft?{...row,...draft}:row;const meaning=node('td');meaning.append(node('span',display.expansion));if(draft&&(draft.expansion!==row.expansion||draft.category!==row.category||draft.auto_replace!==row.auto_replace))meaning.append(node('small','Có chỉnh sửa chưa lưu'));
+      const draft=edits.get(row.id),display=draft?{...row,...draft}:row;const meaning=node('td');meaning.append(node('span',display.expansion));if(draft)meaning.append(node('small',staleReviewDraft(row,draft)?'Bản trên máy chủ đã thay đổi · bản sửa vẫn được giữ':'Có chỉnh sửa chưa lưu'));
       meaning.append(diffView(row.action==='edit'?contextRows.find(item=>item.id===row.target_id):row,display));
       if(row.explanation)meaning.append(node('small',row.explanation));
       const meta=[row.action==='edit'?'Sửa nghĩa':row.action==='add_meaning'?'Thêm nghĩa':row.source==='bootstrap'?'Khởi tạo':'Từ mới'];
@@ -109,7 +110,7 @@ function render(){
 async function loadQueue(){
   if(!allowed)return;saveEdit();const version=++loadVersion;el('queue-reload').disabled=true;
   const filters={kind:el('queue-kind').value,status:el('queue-filter').value,search:el('queue-search').value.trim(),category:el('queue-category').value,offset:page*50,grouped:el('queue-grouped').checked};
-  rows=[];selected.clear();edits.clear();closeDetail();render();el('queue-description').textContent='Đang tải hàng chờ…';
+  rows=[];contextRows=[];selected.clear();styleChoices.clear();closeDetail();render();el('queue-description').textContent='Đang tải hàng chờ…';
   try{localStorage.setItem(filtersKey,JSON.stringify({...filters,compact:el('queue-compact').checked}));}catch{}
   try{
     let data;
@@ -128,7 +129,7 @@ async function loadQueue(){
     }
     if(!allowed||version!==loadVersion)return;
     if(page>0 && !data.rows.length){page--;return loadQueue();}
-    rows=data.rows;total=data.total;selected.clear();edits.clear();styleChoices.clear();closeDetail();
+    rows=data.rows;total=data.total;selected.clear();styleChoices.clear();closeDetail();
     const context=await Promise.allSettled([store.reviewContext(rows.map(row=>({id:row.id,kind:filters.kind}))),store.lastReview()]);
     if(!allowed||version!==loadVersion)return;
     contextRows=context[0].status==='fulfilled'?context[0].value:[];
@@ -148,7 +149,8 @@ async function openReview(row){
   if(row.explanation)lines.push('Giải thích / ví dụ: '+row.explanation);if(row.contributor_name)lines.push('Người đóng góp: '+row.contributor_name);if(row.moderator_note)lines.push('Ghi chú trước đó: '+row.moderator_note);
   el('review-original').textContent=lines.join('\n');el('review-original').append(diffView(row.action==='edit'?contextRows.find(item=>item.id===row.target_id):row,saved));el('review-form').hidden=false;el('review-empty').hidden=true;
   el('accept-proposal').hidden=el('reject-proposal').hidden=!canReview(row);
-  el('save-published').hidden=!(el('queue-kind').value==='seeds'&&row.status==='approved');el('published-save-help').hidden=el('save-published').hidden;el('published-save-status').hidden=true;render();
+  el('save-published').hidden=!(el('queue-kind').value==='seeds'&&row.status==='approved');el('published-save-help').hidden=el('save-published').hidden;el('published-save-status').hidden=true;el('discard-review-edit').hidden=!edits.has(row.id);render();
+  if(staleReviewDraft(row,edits.get(row.id)))status('Mục này đã được sửa trên máy chủ. Bản bạn đang nhập vẫn được giữ; bấm Bỏ bản sửa, xem dữ liệu mới trước khi sửa lại để tránh ghi đè.',true);
   if(window.innerWidth<1000)el('review-form').scrollIntoView({behavior:'smooth',block:'center'});
   if(row.target_id){try{const target=await store.target(row.target_id);if(!allowed||current?.id!==row.id)return;el('review-original').textContent+='\nNghĩa hiện tại: '+(target?target.trigger+' → '+target.expansion+' · v'+target.revision:'Mục gốc không còn tồn tại')+'\nĐề xuất dựa trên v'+row.base_revision;}catch(error){if(current?.id===row.id)status(error.message,true);}}
 }
@@ -156,7 +158,7 @@ function nextRow(delta=1){const index=rows.findIndex(row=>row.id===current?.id);
 function prepare(dec,chosen){
   if(busy||!chosen.length)return;saveEdit();
   try{
-    batch=chosen.filter(canReview).map(row=>{const draft=edits.get(row.id);return {id:row.id,kind:el('queue-kind').value,revision:row.revision,trigger:row.trigger,expansion:draft?.expansion||row.expansion,note:draft?.note||'',override:dec==='accept'&&draft?validateEntry({...row,...draft}):undefined,row};});
+    batch=chosen.filter(canReview).map(row=>{const draft=edits.get(row.id);if(dec==='accept'&&staleReviewDraft(row,draft))throw new Error('Bản sửa '+row.trigger+' đã cũ. Mở mục và bỏ bản sửa cũ trước khi duyệt lại.');return {id:row.id,kind:el('queue-kind').value,revision:row.revision,trigger:row.trigger,expansion:draft?.expansion||row.expansion,note:draft?.note||'',override:dec==='accept'&&draft?validateEntry({...row,...draft}):undefined,row};});
     if(!batch.length)return;
     decision=dec;confirmBatch();
   }catch(error){status(error.message,true);}
@@ -170,7 +172,7 @@ async function confirmBatch(){
     const choices=[...styleChoices.values()].filter(choice=>affected.has(choice.trigger));
     const processed=new Set(batch.map(item=>item.id)),nextId=nextAfterReview(rows,processed),scroll=el('queue-list').closest('.review-table-wrap').scrollTop;
     const report=await store.commitReview(crypto.randomUUID(),batch.map(({row,note,...item})=>item),decision,note,options,choices);
-    if(!allowed)return;lastUndo=report;
+    if(!allowed)return;lastUndo=report;for(const result of report.rows)if(result.ok){edits.delete(result.id);if(current?.id===result.id)closeDetail();}
     results=report.rows.map(result=>({...result,trigger:batch.find(item=>item.id===result.id)?.trigger}));
     el('review-summary').textContent=`${report.ok} mục thành công · ${report.failed} mục chưa xử lý được.`;
     el('review-result-rows').replaceChildren(...results.map(item=>node('p',`${item.trigger}: ${item.ok?'Đã '+(decision==='accept'?'duyệt':'từ chối'):item.error}`,item.ok?'result-ok':'result-error')));
@@ -192,7 +194,8 @@ el('select-page').onclick=()=>{rows.filter(canReview).forEach(row=>selected.set(
 el('bulk-accept').onclick=()=>prepare('accept',[...selected.values()]);el('bulk-reject').onclick=()=>prepare('reject',[...selected.values()]);
 async function savePublished(){
  if(busy||!allowed||!current||current.status!=='approved'||el('queue-kind').value!=='seeds')return;
- saveEdit();const row=current,draft=edits.get(row.id);let entry;
+ saveEdit();const row=current,draft=edits.get(row.id)||{...row,note:''};let entry;
+ if(staleReviewDraft(row,edits.get(row.id))){status('Bản sửa đã cũ. Bỏ bản sửa cũ và đối chiếu dữ liệu mới trước khi lưu.',true);return;}
  try{entry=validateEntry({...row,...draft});}catch(error){status(error.message,true);return;}
  const signature=JSON.stringify([row.id,row.revision,entry,draft.note]);
  if(publishedSaveAttempt?.signature!==signature)publishedSaveAttempt={signature,receipt:crypto.randomUUID()};
@@ -207,7 +210,9 @@ async function savePublished(){
 }
 el('save-published').onclick=savePublished;
 el('review-form').onsubmit=event=>{event.preventDefault();if(current?.status==='approved'&&el('queue-kind').value==='seeds')savePublished();else if(current)prepare('accept',reviewTargets(rows,selected,current.id));};el('reject-proposal').onclick=()=>{if(current)prepare('reject',reviewTargets(rows,selected,current.id));};
-el('review-form').oninput=()=>{saveEdit();render();};el('cancel-review').onclick=()=>{saveEdit();closeDetail();render();};el('review-next').onclick=()=>nextRow();
+el('review-form').oninput=()=>{saveEdit();el('discard-review-edit').hidden=!edits.has(current?.id);render();};
+el('discard-review-edit').onclick=()=>{if(!current||busy)return;const row=current;edits.delete(row.id);publishedSaveAttempt=null;current=null;openReview(row);};
+window.addEventListener('beforeunload',event=>{if([...edits.values()].some(dirtyReviewDraft)){event.preventDefault();event.returnValue='';}});el('cancel-review').onclick=()=>{saveEdit();closeDetail();render();};el('review-next').onclick=()=>nextRow();
 el('export-results').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(results,null,2)],{type:'application/json'}));const a=node('a');a.href=url;a.download='intelkb-review-results.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 document.addEventListener('keydown',event=>{if(!allowed||busy||/INPUT|TEXTAREA|SELECT/.test(event.target.tagName))return;if(event.key==='j'){event.preventDefault();nextRow();}if(event.key==='k'){event.preventDefault();nextRow(-1);}if(event.altKey&&event.key==='Enter'&&current){event.preventDefault();prepare('accept',reviewTargets(rows,selected,current.id));}});
 try{const saved=JSON.parse(localStorage.getItem(filtersKey));if(saved){for(const [id,key] of [['queue-kind','kind'],['queue-filter','status'],['queue-category','category']])if(saved[key])el(id).value=saved[key];el('queue-search').value=saved.search||'';el('queue-grouped').checked=saved.grouped!==false;el('queue-compact').checked=saved.compact!==false;el('review-table').classList.toggle('compact',el('queue-compact').checked);}}catch{}

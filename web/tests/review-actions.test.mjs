@@ -1,6 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {reviewTargets,entryDiff,nextAfterReview,reviewError} from '../dist/review-actions.mjs';
+import {reviewTargets,entryDiff,nextAfterReview,reviewError,makeReviewDraft,dirtyReviewDraft,staleReviewDraft} from '../dist/review-actions.mjs';
+
+test('review drafts retain their original version and cannot silently overwrite refreshed data',()=>{
+ const row={id:'a',trigger:'ms',expansion:'mới',category:'chat',status:'approved',revision:1,auto_replace:true};
+ const unchanged=makeReviewDraft(row,{...row,note:''});assert.equal(dirtyReviewDraft(unchanged),false);
+ const draft=makeReviewDraft(row,{...row,expansion:'một nghĩa sửa',note:''});
+ assert.ok(dirtyReviewDraft(draft));assert.equal(staleReviewDraft(row,draft),false);
+ const fresh={...row,revision:2,auto_replace:false};assert.equal(staleReviewDraft(fresh,draft),true);
+ const continued=makeReviewDraft(fresh,{...draft,expansion:'tiếp tục sửa'},draft);
+ assert.equal(continued._base,draft._base);assert.equal(staleReviewDraft(fresh,continued),true);
+ const reset=makeReviewDraft(fresh,{...fresh,note:''});assert.equal(dirtyReviewDraft(reset),false);assert.equal(staleReviewDraft(fresh,reset),false);
+ const proposal={...row,revision:undefined,status:'pending',base_revision:1};
+ const proposalDraft=makeReviewDraft(proposal,{...proposal,expansion:'đã sửa',note:''});
+ assert.equal(staleReviewDraft({...proposal,status:'accepted'},proposalDraft),true);
+});
 
 test('review errors identify the required meaning choice and preserve database diagnostics',()=>{
  const missing=reviewError(new Error('Choose gentle default for tt'));

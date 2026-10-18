@@ -1,5 +1,5 @@
 import { CommunityStore } from './community-store.mjs';
-import { publicCatalogue, filterCatalogue, keyboardDictionary } from './catalogue.mjs';
+import { publicCatalogue, filterCatalogue, keyboardDictionary, isBundledEntry } from './catalogue.mjs';
 import {findTriggerMatches,parseContributions,classifyContribution} from './contribution-tools.mjs';
 
 export function mountDictionary(baseWords,onChange) {
@@ -35,7 +35,7 @@ export function mountDictionary(baseWords,onChange) {
       :`${result.total} mục chứa “${result.query}” · chưa có viết tắt khớp hoàn toàn.`;
     for(const row of result.rows){
       const item=document.createElement('li'),copy=document.createElement('div'),word=document.createElement('strong'),meaning=document.createElement('span'),badge=document.createElement('small'),edit=document.createElement('button');
-      word.textContent=row.trigger;meaning.textContent=' → '+row.expansion;badge.textContent=(row.sample?'Đã duyệt · Bộ có sẵn':'Đã duyệt · Cộng đồng')+' · Tự động điền: '+(row.auto_replace?'Bật':'Tắt')+(row.auto_direct?' · Ưu tiên nhắn tục':'')+(row.auto_gentle?' · Ưu tiên nhắn nhẹ':'');copy.append(word,meaning,badge);
+      word.textContent=row.trigger;meaning.textContent=' → '+row.expansion;badge.textContent=(isBundledEntry(row)?'Đã duyệt · Bộ có sẵn':'Đã duyệt · Cộng đồng')+' · Tự động điền: '+(row.auto_replace?'Bật':'Tắt')+(row.auto_direct?' · Ưu tiên nhắn tục':'')+(row.auto_gentle?' · Ưu tiên nhắn nhẹ':'');copy.append(word,meaning,badge);
       edit.type='button';edit.textContent='Góp ý';edit.setAttribute('aria-label',`Góp ý mục có sẵn ${row.trigger}: ${row.expansion}`);edit.onclick=()=>startProposal(row,'edit');item.tabIndex=0;item.setAttribute('role','group');item.setAttribute('aria-label',`Góp ý ${row.trigger}: ${row.expansion}`);item.onclick=event=>{if(!event.target.closest('button')&&!window.getSelection()?.toString())startProposal(row,'edit');};item.onkeydown=event=>{if(event.target===item&&['Enter',' '].includes(event.key)){event.preventDefault();startProposal(row,'edit');}};item.append(copy,edit);host.append(item);
     }
     get('entry-match-all').hidden=result.total<=result.rows.length;
@@ -105,7 +105,7 @@ export function mountDictionary(baseWords,onChange) {
     for(const row of rows.slice(page*pageSize,(page+1)*pageSize)){
       const box=document.createElement('tr');box.tabIndex=0;box.className='editable-entry';box.setAttribute('aria-label',`Góp ý ${row.trigger}: ${row.expansion}`);box.onclick=event=>{if(!event.target.closest('button,input,a,select,textarea')&&!window.getSelection()?.toString())startProposal(row,'edit');};box.onkeydown=event=>{if(event.target===box&&['Enter',' '].includes(event.key)){event.preventDefault();startProposal(row,'edit');}};
       for (const value of [row.trigger,row.expansion,names[row.category]||row.category]) {const cell=document.createElement('td');cell.textContent=value;box.append(cell);}
-      const stateCell=document.createElement('td'),badge=document.createElement('span');badge.className='catalogue-badge approved';badge.textContent=row.sample?'Đã duyệt · Bộ có sẵn':'Đã duyệt · Cộng đồng';stateCell.append(badge);box.append(stateCell);
+      const stateCell=document.createElement('td'),badge=document.createElement('span');badge.className='catalogue-badge approved';badge.textContent=isBundledEntry(row)?'Đã duyệt · Bộ có sẵn':'Đã duyệt · Cộng đồng';stateCell.append(badge);box.append(stateCell);
       const autoCell=document.createElement('td'),autoButton=document.createElement('button');autoButton.type='button';autoButton.className='auto-fill-state '+(row.auto_replace?'enabled':'disabled');autoButton.textContent=(row.auto_replace?'Bật':'Tắt')+' · Sửa';autoButton.setAttribute('aria-label',`Đề xuất sửa tự động điền ${row.trigger}: ${row.expansion}, hiện ${row.auto_replace?'bật':'tắt'}`);autoButton.onclick=()=>editAutoFill(row);autoCell.append(autoButton);box.append(autoCell);
       const actions=document.createElement('td');actions.className='catalogue-actions';
       const add=document.createElement('button');add.textContent='＋ Nghĩa';add.setAttribute('aria-label',`Bổ sung nghĩa cho ${row.trigger}`);add.onclick=()=>startProposal(row,'add_meaning');
