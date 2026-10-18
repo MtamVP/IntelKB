@@ -49,7 +49,11 @@ function renderStyles(){
    if(!pool.length){label.append(node('small','Không có nghĩa phù hợp'));box.append(label);continue;}
    const select=node('select');select.setAttribute('aria-label',`${mode==='direct'?'Ưu tiên nhắn tục':'Ưu tiên nhắn nhẹ'} cho ${key}`);
    const auto=node('option',pool.length===1?'Tự chọn: '+pool[0].expansion:'Chọn một nghĩa ưu tiên / giữ bản đã chọn');auto.value='';select.append(auto);
-   for(const row of pool){const option=node('option',row.expansion+(row.kind==='approved'?' · Đã duyệt':' · Chờ duyệt'));option.value=row.kind+':'+row.id;select.append(option);}
+   for(const row of pool){
+    const bundled=row.source==='bootstrap'&&['seeds','approved'].includes(row.kind);
+    const label=bundled?'Đã duyệt · Bộ có sẵn':row.kind==='approved'?'Đã duyệt':'Chờ duyệt';
+    const option=node('option',row.expansion+' · '+label);option.value=row.kind+':'+row.id;select.append(option);
+   }
    const chosen=styleChoices.get(key+':'+mode)||group.find(row=>row[mode==='direct'?'auto_direct':'auto_gentle']);
    if(chosen&&pool.some(row=>row.kind===chosen.kind&&row.id===chosen.id))select.value=chosen.kind+':'+chosen.id;else styleChoices.delete(key+':'+mode);
    select.onchange=()=>{const row=pool.find(row=>row.kind+':'+row.id===select.value);if(row){styleChoices.set(key+':'+mode,{trigger:key,mode,kind:row.kind,id:row.id});if(row.kind!=='approved')selected.set(row.id,rows.find(item=>item.id===row.id));}else styleChoices.delete(key+':'+mode);selection();};
@@ -58,7 +62,7 @@ function renderStyles(){
   const save=node('button','Lưu ưu tiên cho nghĩa đã công bố');save.type='button';save.disabled=!group.some(row=>row.kind==='approved');
   save.onclick=async()=>{
    const chosen=mode=>group.find(row=>row.kind+':'+row.id===selects[mode]?.value);
-   const d=chosen('direct'),g=chosen('gentle');if([d,g].some(row=>row&&row.kind!=='approved')){status('Nghĩa chờ duyệt sẽ được đặt ưu tiên khi bạn duyệt những dòng đã chọn.',true);return;}
+   const d=chosen('direct'),g=chosen('gentle');if([d,g].some(row=>row&&row.kind!=='approved')){status([d,g].some(row=>row&&row.kind==='proposals')?'Nghĩa chờ duyệt sẽ được đặt ưu tiên khi bạn duyệt những dòng đã chọn.':'Đã chọn nghĩa từ bộ có sẵn. Bấm Duyệt trên dòng đã chọn để lưu ưu tiên và đồng bộ trạng thái với Supabase.',true);return;}
    if(busy)return;busy=true;selection();try{const report=await store.setStyleDefaults(key,d?.id,g?.id);if(!allowed)return;lastUndo=report;el('review-results').hidden=false;el('review-summary').textContent='Đã lưu nghĩa ưu tiên theo chế độ.';await loadQueue();}catch(error){status(error.message,true);}finally{busy=false;selection();}
   };box.append(save);host.append(box);
  }
