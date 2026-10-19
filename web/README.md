@@ -76,3 +76,13 @@ Trong trang quản trị, mở mục đã chấp nhận, sửa nghĩa/nhóm/tự
 Bản rà soát phát hành: bản sửa trong trang quản trị được giữ khi lọc/chuyển trang/tải lại; nếu phiên bản máy chủ thay đổi thì chặn ghi đè và cho bỏ bản sửa cũ để đối chiếu bản mới. Đóng tab khi có bản sửa chưa lưu sẽ được trình duyệt cảnh báo. Các yêu cầu quản trị dùng chung một lần refresh token để tránh xung đột phiên.
 
 Thống kê công khai chia theo nguồn: bộ có sẵn (`bootstrap` hoặc mẫu ngoại tuyến) và cộng đồng (`community`), kèm tổng nghĩa và số viết tắt riêng biệt sau gộp trùng. Ba lối tắt trên trang quản trị mở đóng góp chờ duyệt, nhóm thiếu nghĩa ưu tiên trong từ điển đã công bố, và bản sửa chưa lưu trong phiên hiện tại; không yêu cầu SQL mới.
+
+## Hộp công cụ không AI
+
+Bấm **Công cụ** cạnh ô nhập, hoặc **Alt+K** khi đang nhập. Chọn một đoạn trước khi mở để xử lý riêng đoạn đó; không có vùng chọn thì các công cụ văn bản áp dụng cho cả ô nhập. Chọn thao tác để xem trước rồi bấm **Áp dụng vào ô nhập**. Dùng Hoàn tác/Làm lại của bàn phím để phục hồi. Có 12 thao tác: hoa/thường, viết hoa đầu từ/câu, bỏ dấu Latin/Việt, chuẩn hóa NFC, gọn khoảng trắng, xén dòng, bỏ dòng trống/trùng, sắp xếp và đánh số dòng. Bỏ dòng trùng vẫn phân biệt hoa/thường và dấu.
+
+Tab **Kho cá nhân** lưu câu thường dùng hoặc đoạn văn, có thêm/sửa/ghim/tìm kiếm/lọc và chèn nguyên văn tại con trỏ hoặc thay vùng chọn. Nội dung chèn được bảo vệ khỏi tự động điền lại. Kho chưa có phím tắt tự điền cá nhân. Nút lấy nội dung chỉ điền vào form; cần bấm Lưu mới lưu. Nút Bỏ có thể hoàn tác mục vừa bỏ trong phiên hiện tại. Tab **Ký hiệu** giúp chèn nhanh dấu, tiền tệ, toán và emoji.
+
+Kho dùng localStorage trên đúng trình duyệt và địa chỉ web hiện tại, tối đa 300 mục, mỗi nội dung tối đa 10.000 đơn vị UTF-16. Không tự đọc/lưu clipboard, không đồng bộ Supabase và không dùng API AI. Xóa dữ liệu trình duyệt hoặc chuyển sang domain khác không giữ kho: dùng **Xuất sao lưu JSON** và **Nhập bản sao lưu** (tối đa 10 MB) để chuyển. Nhập chỉ gộp thêm, bỏ trùng tên + nội dung + loại, không ghi đè các mục cũ. Lỗi lưu hoặc thay đổi từ tab khác được báo để tránh mất dữ liệu. TXT tải phần văn bản gốc đang chọn, còn JSON chỉ chứa kho cá nhân, không phải database cộng đồng.
+
+Đợt nâng cấp này không cần SQL mới. Lộ trình hiện hành ở `PLAN.md`: ổn định công cụ web và dữ liệu trước, PWA/thư viện engine sau, rồi mới bàn phím hệ thống Android/iOS.

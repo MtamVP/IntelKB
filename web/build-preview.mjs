@@ -20,7 +20,9 @@ html = html.replace('<link rel="stylesheet" href="style.css">', () => '<style>' 
 html = html.replace('<link rel="stylesheet" href="dictionary.css">', () => '<style>' + read('dictionary.css') + '</style>');
 html = html.replace('<link rel="stylesheet" href="community.css">', () => '<style>' + read('community.css') + '</style>');
 html = html.replace('<link rel="stylesheet" href="catalogue.css">', () => '<style>' + read('catalogue.css') + '</style>');
-const inlineScript = (engine + '\n' + stripModule(read('editor-model.mjs')) + '\n' + cloud + '\n' + app).replace(/<\/script/gi, '<\\/script');
+html = html.replace('<link rel="stylesheet" href="toolbox.css">', () => '<style>' + read('toolbox.css') + '</style>');
+const toolboxCode=stripModule(read('text-tools.mjs'))+'\n'+stripModule(read('personal-library.mjs'))+'\n'+stripModule(read('toolbox-ui.mjs'));
+const inlineScript = (engine + '\n' + stripModule(read('editor-model.mjs')) + '\n' + cloud + '\n'+toolboxCode+'\n' + app).replace(/<\/script/gi, '<\\/script');
 html = html.replace('<script type="module" src="app.js"></script>', () => '<script type="module">\n' + inlineScript + '\n</script>');
 fs.writeFileSync(new URL('./preview.html', import.meta.url), html);
 const migration=fs.readFileSync(new URL('../supabase/migrations/20261017_community_moderation.sql',import.meta.url),'utf8');

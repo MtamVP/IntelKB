@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="dictionary.css">
   <link rel="stylesheet" href="community.css">
   <link rel="stylesheet" href="catalogue.css">
+  <link rel="stylesheet" href="toolbox.css">
 </head>
 <body>
   <header class="nav"><a href="#playground" class="brand" aria-label="IntelKB trang chủ"><span class="brand-icon">iK<span>↗</span></span> IntelKB<span class="beta">LAB / 01</span></a><nav class="site-tabs" role="tablist" aria-label="Khám phá IntelKB"><a id="tab-playground" role="tab" href="#playground" aria-controls="playground" aria-selected="true">Thử bàn phím</a><a id="tab-dictionary" role="tab" href="#dictionary" aria-controls="dictionary-page" aria-selected="false" tabindex="-1">Từ điển & đóng góp <span id="custom-count">0 nghĩa</span></a></nav></header>
@@ -30,7 +31,7 @@
         <div class="chat-header"><span class="back-arrow" aria-hidden="true">‹</span><div class="avatar">:)</div><div><strong>Hội bạn thân</strong><span>Cuộc trò chuyện mô phỏng</span></div><span class="chat-more" aria-hidden="true">···</span></div>
         <div class="messages" id="messages" aria-label="Tin nhắn thử" aria-live="polite"><div class="date-tag">HÔM NAY, 9:41</div><div class="bubble incoming">Ê, bàn phím mới hả? 👀</div><div class="bubble incoming">Gõ thử một câu xem nào.</div><div class="system-note">Tin nhắn chỉ xuất hiện trong bản thử này.</div></div>
         <div class="typing-feedback" id="feedback" aria-live="polite">Gõ ngắn thôi. Để IntelKB lo phần còn lại.</div>
-        <div class="editor-actions"><button id="paste-text">Dán văn bản</button><button id="copy-result" disabled>Sao chép</button><button id="clear-text" disabled>Xóa</button><span id="text-count">0 ký tự</span></div>
+        <div class="editor-actions"><button id="paste-text">Dán văn bản</button><button id="copy-result" disabled>Sao chép</button><button id="clear-text" disabled>Xóa</button><button id="open-tools" type="button" title="Alt+K" aria-haspopup="dialog" aria-controls="keyboard-tools">Công cụ</button><span id="text-count">0 ký tự</span></div>
         <div class="composer"><textarea id="editor" rows="2" aria-label="Nhập tin nhắn thử" placeholder="Gõ hoặc dán: hnay dc k" autocomplete="off" spellcheck="false"></textarea><button id="send" aria-label="Gửi tin nhắn thử">↑</button></div>
         <div class="keyboard">
           <div class="kb-toolbar"><span class="kb-wordmark">iK<span>↗</span></span><span id="mode-label">Tự động điền đang bật</span><div class="history-actions"><button id="undo" aria-label="Hoàn tác" title="Ctrl+Z" disabled>↶ Hoàn tác</button><button id="redo" aria-label="Làm lại" title="Ctrl+Shift+Z" disabled>↷</button></div></div>
@@ -48,7 +49,7 @@
     </section>
     <aside class="controls" aria-label="Tùy chỉnh bàn phím">
       <div class="control-title">BẠN CẦM LÁI.</div><h2>Bàn phím<br>theo ý bạn.</h2>
-      <div class="setting"><div><strong>Tự động điền khi gõ</strong><p>Nhấn cách hoặc dấu câu.<br>Dán và câu mẫu luôn được điền đầy đủ.</p></div><button class="switch" id="auto" role="switch" aria-checked="true" aria-label="Tự động điền từ"><span></span></button></div>
+      <div class="setting"><div><strong>Tự động điền khi gõ</strong><p>Nhấn cách hoặc dấu câu.<br>Bật để điền cả khi dán hoặc chọn câu mẫu.</p></div><button class="switch" id="auto" role="switch" aria-checked="true" aria-label="Tự động điền từ"><span></span></button></div>
       <div class="setting-block"><strong>Cách nói</strong><div class="segmented" aria-label="Cách nói"><button id="direct" aria-pressed="true">Nhắn tục ↗</button><button id="gentle" aria-pressed="false">Nhắn nhẹ ☁</button></div><p id="style-help">Hiện nguyên nghĩa, kể cả từ tục.</p></div>
       <div class="word-demo"><span>VÍ DỤ VỚI “VCL”</span><div><small>vcl</small><span>↓</span><strong id="vcl-demo">vãi cả lồn</strong></div></div>
       <p class="ambiguity-note">Mỗi chế độ dùng một nghĩa ưu tiên. Nhiều nghĩa cùng chế độ cần được chủ trang chọn trước.</p>
@@ -70,6 +71,16 @@
     <p class="contribution-note">Không cần đăng nhập. Chỉ nội dung bạn bấm gửi ở biểu mẫu này được gửi lên hệ thống.</p></aside></div>
   </section>
   <footer><span>IntelKB <span class="footer-slash">/</span> Ít ký tự hơn. Đủ ý hơn.</span><span>Đang thử nghiệm <span class="tiny-dot"></span> Made for tiếng Việt.</span></footer>
+  <dialog id="keyboard-tools" aria-labelledby="tool-heading">
+    <header class="tool-heading"><div><h2 id="tool-heading">Hộp công cụ</h2><p>Chạy trên máy bạn · không dùng AI · không gửi nội dung lên server</p></div><button id="tool-close" type="button" aria-label="Đóng công cụ">×</button></header>
+    <p id="tool-scope" class="tool-scope"></p>
+    <label class="tool-search-label">Tìm nhanh<input id="tool-search" type="search" placeholder="Tên công cụ hoặc nội dung đã lưu…" autocomplete="off"></label>
+    <nav class="tool-tabs" role="tablist" aria-label="Nhóm công cụ"><button id="tool-tab-text" type="button" role="tab" aria-controls="tool-panel-text" aria-selected="true">Văn bản</button><button id="tool-tab-library" type="button" role="tab" aria-controls="tool-panel-library" aria-selected="false" tabindex="-1">Kho cá nhân</button><button id="tool-tab-symbols" type="button" role="tab" aria-controls="tool-panel-symbols" aria-selected="false" tabindex="-1">Ký hiệu</button></nav>
+    <section id="tool-panel-text" role="tabpanel" aria-labelledby="tool-tab-text"><div class="tool-text-layout"><div id="tool-command-list" class="tool-command-list"></div><div class="tool-preview"><label id="tool-preview-label" for="tool-preview">Nội dung ban đầu</label><textarea id="tool-preview" rows="10" readonly spellcheck="false"></textarea><div class="tool-actions"><button id="tool-apply" class="primary" type="button" disabled>Áp dụng vào ô nhập</button><button id="tool-download-text" type="button">Tải bản gốc .txt</button></div><p>Chỉ thay đổi khi bấm Áp dụng. Dùng Hoàn tác trên bàn phím để trở lại.</p></div></div></section>
+    <section id="tool-panel-library" role="tabpanel" aria-labelledby="tool-tab-library" hidden><div class="tool-library-layout"><div><div class="tool-library-filter"><label>Loại mục<select id="tool-library-kind"><option value="">Tất cả</option><option value="phrase">Câu thường dùng</option><option value="clip">Đoạn đã lưu</option></select></label><button id="tool-save-selection" type="button">Lấy nội dung ô nhập</button></div><p id="tool-library-count"></p><div id="tool-library-list"></div></div><form id="tool-library-form"><h3>Thêm / sửa mục cá nhân</h3><label>Tên dễ nhớ<input id="tool-title" maxlength="80" required placeholder="Ví dụ: Lời chào khách hàng"></label><label>Loại<select id="tool-item-kind"><option value="phrase">Câu thường dùng</option><option value="clip">Đoạn đã lưu</option></select></label><label>Nội dung<textarea id="tool-content" rows="6" maxlength="10000" required placeholder="Nội dung sẽ được chèn nguyên văn…"></textarea></label><button id="tool-save-item" type="submit" class="primary">Lưu trên thiết bị</button><button id="tool-cancel-edit" type="button" hidden>Hủy sửa</button><p>Chỉ lưu khi bạn bấm nút. Không tự đọc clipboard. Xóa dữ liệu trình duyệt sẽ mất kho này nếu chưa sao lưu.</p></form></div><div class="tool-backup"><button id="tool-export" type="button">Xuất sao lưu JSON</button><label class="tool-import-label" for="tool-import">Nhập bản sao lưu<input id="tool-import" type="file" accept=".json,application/json"></label><button id="tool-undo-delete" type="button" hidden>Hoàn tác mục vừa bỏ</button></div></section>
+    <section id="tool-panel-symbols" role="tabpanel" aria-labelledby="tool-tab-symbols" hidden><p>Bấm để chèn tại con trỏ hoặc thay phần đang chọn.</p><div id="tool-symbol-list" class="tool-symbol-list"></div></section>
+    <p id="tool-status" role="status" aria-live="polite"></p>
+  </dialog>
   <script type="module" src="app.js"></script>
 </body>
 </html>

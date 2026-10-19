@@ -1,12 +1,14 @@
 import { makeIndex, suggestionsFor, pendingWords, expandText, telexWord, applyTone } from './engine.mjs';
 import { mountDictionary } from './community-ui.mjs';
 import { EditorModel } from './editor-model.mjs';
+import { mountToolbox } from './toolbox-ui.mjs';
 const $ = selector => document.querySelector(selector);
 const editor = $('#editor');
 const baseWords = await (await fetch(new URL('./words.json', import.meta.url))).json();
 let index = makeIndex(baseWords);
 const model = new EditorModel(index);
 const state = { auto: true, style: 'direct', shift: false, symbols: false, composing: false, completeInput:false, keyTimer: new Map(), suggestions: [] };
+let toolbox;
 const hint = 'Gõ ngắn thôi. Để IntelKB lo phần còn lại.';
 let feedbackTimer;
 function feedback(text) { $('#feedback').textContent = text; clearTimeout(feedbackTimer); feedbackTimer = setTimeout(() => { $('#feedback').textContent = hint; }, 4500); }
@@ -165,6 +167,7 @@ for (const name of ['click','select','keyup']) editor.addEventListener(name,()=>
 });
 editor.addEventListener('keydown', event => {
   if (event.isComposing || state.composing || event.keyCode===229) return;
+  if(event.altKey&&!event.ctrlKey&&!event.metaKey&&event.key.toLowerCase()==='k'){event.preventDefault();toolbox.open();return;}
   flash(event.key);
   if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); send(); }
   if (event.ctrlKey || event.metaKey) {
@@ -225,5 +228,10 @@ mountDictionary(baseWords, entries=>{
   const demo=entries.filter(row=>row.demo).length,approved=entries.length-demo;
   $('#keyboard-source').textContent=`${demo} nghĩa mẫu thử · ${approved} nghĩa đã duyệt`;
   refresh();
+});
+toolbox=mountToolbox({
+ read:()=>{if(state.composing)throw new Error('Hãy hoàn tất từ đang gõ trước khi mở Công cụ.');syncSelection();return {text:model.text,start:model.current.start,end:model.current.end};},
+ replace:(start,end,text,options={})=>{model.replace(start,end,text,options);state.completeInput=true;draw();},
+ focus:()=>draw(true),notify:feedback,
 });
 renderKeys(); refresh();

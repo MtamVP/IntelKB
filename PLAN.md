@@ -2,6 +2,47 @@
 
 Cập nhật sau mỗi giai đoạn. Commit riêng cho từng milestone.
 
+## Ưu tiên hiện hành — 19/10/2026: web trước, không AI
+
+Nguồn lực có hạn: tập trung công cụ nhập liệu chạy trên thiết bị, không cần mô hình AI hay API trả phí. Giữ theme tối hiện tại. Các mục bên dưới là lộ trình mới; những danh sách cũ phía sau giữ lại làm backlog, không phải cam kết đã hoàn thành.
+
+### Đợt 1 — Hộp công cụ cục bộ
+
+- [x] Nút Công cụ và phím Alt+K trên trang thử bàn phím.
+- [x] 12 thao tác văn bản: hoa/thường, viết hoa đầu từ/câu, bỏ dấu, NFC, khoảng trắng, xử lý dòng và đánh số.
+- [x] Áp dụng cho vùng chọn hoặc cả ô nhập; xem trước, xác nhận áp dụng và dùng chung hoàn tác/làm lại.
+- [x] Kho câu thường dùng/đoạn đã lưu: thêm, sửa, ghim, tìm kiếm không dấu, lọc, chèn nguyên văn, bỏ và khôi phục mục vừa bỏ.
+- [x] Bảng ký hiệu, thống kê văn bản và tải phần văn bản gốc TXT.
+- [x] Sao lưu/nhập JSON kho cá nhân, gộp trùng, kiểm tra giới hạn và lỗi lưu; chặn ghi đè từ tab cũ.
+
+Kho này chỉ nằm trong trình duyệt, tối đa 300 mục; chưa đồng bộ tài khoản và chưa phải phím tắt tự điền cá nhân. Không tự thu thập clipboard. Không thay đổi quyền duyệt từ điển cộng đồng.
+
+### Đợt 2 — Nhập liệu đáng tin cậy
+
+- [ ] Mở rộng kiểm thử Telex, thêm VNI và chế độ không bộ gõ; tách rõ bộ gõ hệ điều hành với bộ gõ ảo.
+- [ ] Phím tắt cá nhân có tiền tố rõ ràng (ví dụ /diachi), kiểm tra xung đột và cho hoàn tác tức thì.
+- [ ] Bảo vệ URL, email, số, mã nguồn; tránh thay nhầm trong văn bản nhiều ngôn ngữ.
+- [ ] Điều hướng con trỏ/vùng chọn, xóa theo từ, giữ phím để lặp; thao tác touch và bàn phím vật lý nhất quán.
+- [ ] Lựa chọn cách viết hoa theo ngữ cảnh, ngoại lệ cá nhân, giải thích lý do một từ chưa được tự điền.
+- [ ] Bộ kiểm thử hồi quy gõ/dán/IME/vùng chọn/undo/redo; đo độ trễ trên máy yếu và dữ liệu lớn trước khi phát hành.
+
+### Đợt 3 — Dữ liệu là lợi thế cốt lõi
+
+- [ ] Nhập CSV/JSON/JSONL có ánh xạ cột, xem trước, tiếp tục sau lỗi và báo cáo từng dòng.
+- [ ] Lịch sử, nguồn, ví dụ dùng, thu hồi công bố, khôi phục và đồng bộ từ bị thu hồi về client.
+- [ ] Hàng chờ ưu tiên theo lỗi/trùng/đa nghĩa; thao tác theo cụm với kiểm tra xung đột, nhật ký và hoàn tác.
+- [ ] Gói từ điển theo nhu cầu: công việc, học tập, game; tải theo gói, vẫn giữ một nghĩa ưu tiên cho mỗi chế độ.
+- [ ] Chống spam đóng góp và kiểm soát tần suất trước khi mở quy mô lớn; không bắt người góp đăng nhập.
+
+### Đợt 4 — Web hoàn chỉnh rồi mới mobile
+
+- [ ] PWA cài từ trình duyệt, tài nguyên ngoại tuyến có phiên bản, cập nhật an toàn và chỉ báo trạng thái đồng bộ.
+- [ ] Cấu hình kích thước/phím, một tay, tương phản, cỡ chữ và hỗ trợ trình đọc màn hình.
+- [ ] Tách engine nhập liệu thành thư viện độc lập; dùng lại cùng dữ liệu và test giữa web với mobile.
+- [ ] Chỉ bắt đầu Android IME sau khi web ổn định; tiếp theo mới đánh giá iOS Keyboard Extension và giới hạn nền tảng.
+
+AI, dịch tự do, sinh câu và nhận dạng giọng nói qua API chưa thuộc các đợt ưu tiên này. Web chỉ thao tác trong ô nhập của IntelKB; muốn gõ xuyên ứng dụng cần bàn phím hệ thống hoặc tích hợp riêng về sau.
+
 ---
 
 ## Trạng thái tổng quan

@@ -78,6 +78,13 @@ export class EditorModel {
     if (changes.length) this.commit(next);
     return changes;
   }
+  replace(start,end,replacement,{selectResult=false,protect=true}={}) {
+    if(!Number.isInteger(start)||!Number.isInteger(end)||start<0||end<start||end>this.text.length)throw new Error('Vùng chọn không hợp lệ.');
+    const value=String(replacement),text=this.text.slice(0,start)+value+this.text.slice(end),caret=start+value.length;
+    const ranges=moveRanges(this.ranges,start,end,value.length);
+    if(protect&&value.length)ranges.push({start,end:caret});
+    this.commit({text,start:selectResult?start:caret,end:caret,ranges,report:null});
+  }
   choose(item, autoFill = true) {
     const before = this.current;
     const out = replaceSuggestion(before.text,item);

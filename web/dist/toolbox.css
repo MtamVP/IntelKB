@@ -1,0 +1,54 @@
+#keyboard-tools{width:min(900px,calc(100% - 28px));max-height:88dvh;padding:24px;border-radius:14px;overscroll-behavior:contain}
+#keyboard-tools .tool-heading{display:flex;gap:20px;align-items:flex-start;justify-content:space-between}
+#keyboard-tools h2{margin:0 0 6px;font-size:24px;font-weight:600}
+#keyboard-tools h3{margin:0 0 15px;font-size:14px;font-weight:600}
+#keyboard-tools p{font-size:11px;line-height:1.8;color:#acb99e}
+#keyboard-tools .tool-heading p{margin:0;font-size:11px}
+#keyboard-tools button,#keyboard-tools .tool-import-label{font:11px 'Be Vietnam Pro',system-ui,sans-serif;background:#303e26;color:#d8e7c5;border:1px solid #526843;border-radius:6px;padding:9px 12px;min-height:36px}
+#keyboard-tools button:hover:not(:disabled){border-color:var(--lime);background:#3a4e2d}
+#keyboard-tools button:disabled{opacity:.4;cursor:default}
+#keyboard-tools .primary{background:var(--lime);color:#25351b;border-color:var(--lime);font-weight:600}
+#keyboard-tools .primary:hover:not(:disabled){background:#c4e86b}
+#keyboard-tools #tool-close{padding:3px;font-size:23px;line-height:1;width:36px;flex-shrink:0;background:transparent}
+#keyboard-tools .tool-scope{margin:17px 0 14px;padding:10px 13px;background:#262f20;border:1px solid #3c4d30;border-radius:6px;color:#c4d8ad}
+#keyboard-tools label{display:flex;flex-direction:column;gap:7px;font-size:11px;color:#becfae}
+#keyboard-tools input:not([type=file]),#keyboard-tools select,#keyboard-tools textarea{font:12px/1.7 'Be Vietnam Pro',system-ui,sans-serif;color:#e1ead6;border:1px solid #526843;background:#161d11;border-radius:6px;padding:9px 11px;width:100%;min-width:0}
+#keyboard-tools textarea{resize:vertical;white-space:pre-wrap;overflow-wrap:anywhere}
+#keyboard-tools input:focus,#keyboard-tools textarea:focus,#keyboard-tools select:focus{outline:2px solid #a6c66a;outline-offset:2px}
+#keyboard-tools .tool-search-label{margin-bottom:15px}
+#keyboard-tools .tool-tabs{display:flex;gap:6px;border-bottom:1px solid #3d4e30;padding-bottom:12px;margin-bottom:18px}
+#keyboard-tools .tool-tabs button[aria-selected=true]{border-color:#a9c66c;color:#e0f2c7;background:#405630}
+#keyboard-tools .tool-text-layout,#keyboard-tools .tool-library-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:22px;align-items:start}
+#keyboard-tools .tool-command-list{display:grid;gap:7px;max-height:440px;overflow:auto;padding:2px 6px 3px 2px;scrollbar-width:thin}
+#keyboard-tools .tool-command{text-align:left;width:100%;padding:11px 12px}
+#keyboard-tools .tool-command strong{display:block;font-size:12px;font-weight:500}
+#keyboard-tools .tool-command small{display:block;font-size:10px;line-height:1.7;color:#b3c39f;margin-top:4px}
+#keyboard-tools .tool-command[aria-pressed=true]{border-color:#b8d47c;background:#40532f}
+#keyboard-tools #tool-preview{margin-top:8px;min-height:210px;max-height:400px}
+#keyboard-tools .tool-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#keyboard-tools #tool-status{margin:18px 0 0;white-space:pre-line;color:#d4eab8;min-height:20px;border-top:1px solid #3c4d30;padding-top:13px}
+#keyboard-tools #tool-status.error{color:#f2bca3}
+#keyboard-tools .tool-empty{padding:12px;border:1px dashed #536443;border-radius:6px}
+#keyboard-tools .tool-library-filter{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+#keyboard-tools .tool-library-filter label{flex:1;min-width:120px}
+#keyboard-tools #tool-library-count{font-size:10px}
+#keyboard-tools #tool-library-list{display:grid;gap:9px;max-height:440px;overflow:auto;padding-right:5px;scrollbar-width:thin}
+#keyboard-tools .tool-saved{border:1px solid #425536;background:#242e1d;border-radius:7px;padding:12px;min-width:0}
+#keyboard-tools .tool-saved>strong{font-size:12px;color:#d9e8c8;overflow-wrap:anywhere}
+#keyboard-tools .tool-saved>small{display:block;color:#9fb58b;font-size:9px;margin-top:5px}
+#keyboard-tools .tool-saved>p{white-space:pre-wrap;overflow-wrap:anywhere;max-height:100px;overflow:auto;font-size:11px;margin:8px 0 12px}
+#keyboard-tools .tool-saved>div{display:flex;gap:6px;flex-wrap:wrap}
+#keyboard-tools .tool-saved button{font-size:10px;padding:6px 9px;min-height:32px}
+#keyboard-tools #tool-library-form{padding:15px;background:#252f1e;border:1px solid #455a36;border-radius:8px;min-width:0}
+#keyboard-tools #tool-library-form label{margin-bottom:12px}
+#keyboard-tools #tool-library-form>button{margin:4px 4px 0 0}
+#keyboard-tools #tool-library-form>p{font-size:10px;margin-bottom:0}
+#keyboard-tools .tool-backup{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:17px;padding-top:14px;border-top:1px solid #3c4d30}
+#keyboard-tools .tool-import-label{cursor:pointer;display:block;position:relative}
+#keyboard-tools .tool-import-label:focus-within{outline:2px solid var(--lime);outline-offset:2px}
+#keyboard-tools #tool-import{width:1px;height:1px;opacity:0;position:absolute;overflow:hidden}
+#keyboard-tools .tool-symbol-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px}
+#keyboard-tools .tool-symbol-list button{font:23px/1.2 system-ui,sans-serif;min-height:48px;padding:10px}
+#keyboard-tools .tool-symbol-list .tool-empty{grid-column:1/-1}
+.editor-actions #open-tools{background:#d4e9ad;color:#314226;border-color:#b8cd96;font-weight:600}
+@media(max-width:650px){#keyboard-tools{padding:18px;width:calc(100% - 18px);max-height:92dvh}#keyboard-tools h2{font-size:21px}#keyboard-tools .tool-text-layout,#keyboard-tools .tool-library-layout{grid-template-columns:1fr;gap:16px}#keyboard-tools .tool-command-list{max-height:210px;grid-template-columns:1fr 1fr}#keyboard-tools .tool-command{padding:9px}#keyboard-tools .tool-command strong{font-size:11px}#keyboard-tools .tool-command small{font-size:9px}#keyboard-tools #tool-preview{min-height:140px}#keyboard-tools #tool-library-list{max-height:280px}#keyboard-tools input:not([type=file]),#keyboard-tools select,#keyboard-tools textarea{font-size:16px}#keyboard-tools .tool-tabs{gap:4px}#keyboard-tools .tool-tabs button{padding:8px;font-size:10px}}
